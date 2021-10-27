@@ -39,7 +39,7 @@
         <div id="contextMenu" class="dropdown clearfix">
             <ul class="dropdown-menu dropNewEvent" role="menu" aria-labelledby="dropdownMenu"
                 style="display:block;position:static;margin-bottom:5px;">
-                <li><a tabindex="-1" href="#">대회의실</a></li>
+                <li><a tabindex="-1" href="#">대회의실?</a></li>
                 <li><a tabindex="-1" href="#">소회의실1</a></li>
                 <li><a tabindex="-1" href="#">소회의실2</a></li>
                 <li><a tabindex="-1" href="#">소회의실3</a></li>

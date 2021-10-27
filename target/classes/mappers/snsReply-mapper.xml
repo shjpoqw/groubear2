@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="snsReplyMapper">
+
+	<resultMap id="SnsReplyResultSet" type="Reply">
+		
+		<id property="ReplyNo" column="SNS_RPY_NO"/>
+		<result property="ReplyContent" column="SNS_RPY_CONTENT"/>
+		<result property="ReplyDate" column="SNS_RPY_DATE"/>
+		<result property="SnsNo" column="SNS_NO"/>
+		<result property="ReplyWriter" column="SNS_RPY_WRITER"/>
+	</resultMap>
+	
+	<select id="selectReplyList" parameterType="_int" resultMap="SnsReplyResultSet">
+		SELECT SNS_RPY_NO, SNS_RPY_CONTENT, SNS_RPY_DATE
+		FROM SNS_RPY
+		WHERE SNS_NO=#{sno} 
+		ORDER BY SNS_RPY_NO DESC
+		
+	</select>
+	
+	<insert id="insertReply" parameterType="Reply">
+		INSERT INTO SNS_RPY
+		values(SEQ_SNS_RPY_NO.NEXTVAL, #{replyContent}, sysdate, default, #{SnsNo}, #{replyWriter})
+	</insert>
+	
+	
+</mapper>
+

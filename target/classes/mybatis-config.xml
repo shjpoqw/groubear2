@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+
+	<settings><!-- value 에 NULL 은 무조건 대문자로  -->
+		<setting name="jdbcTypeForNull" value="NULL"/>
+	</settings>
+
+	<typeAliases>
+		<typeAlias type="com.kh.groubear.member.model.vo.MemberView" alias="MemberView"/>
+		<typeAlias type="com.kh.groubear.member.model.vo.Member" alias="Member"/>
+		<typeAlias type="com.kh.groubear.member.model.vo.Job" alias="Job"/>
+		<typeAlias type="com.kh.groubear.member.model.vo.Department" alias="Dept"/>
+
+
+		<typeAlias type="com.kh.groubear.lmj.sns.model.vo.Sns" alias="Sns"/>
+		<typeAlias type="com.kh.groubear.lmj.sns.model.vo.Attechment" alias="Attechment"/>
+
+		<typeAlias type="com.kh.groubear.lyj.approval.model.vo.Approval" alias="Approval"/>
+		<typeAlias type="com.kh.groubear.lyj.approval.model.vo.ApprovalForm" alias="ApprovalForm"/>
+		<typeAlias type="com.kh.groubear.jsh.contact.model.vo.Contact" alias="Contact"/>
+		
+		<typeAlias type="com.kh.groubear.jsh.Messenger.model.vo.Messenger" alias="Messenger"/>
+		<typeAlias type="com.kh.groubear.jsh.Messenger.model.vo.Chat" alias="Chat"/>
+		<typeAlias type="com.kh.groubear.jsh.Messenger.model.vo.MemberMsg" alias="MemberMsg"/>
+		<typeAlias type="com.kh.groubear.jsh.Messenger.model.vo.StateMessage" alias="StateMessage"/>
+		<typeAlias type="com.kh.groubear.kms.room.model.vo.ReserveRoom" alias="ReserveRoom"/>
+	</typeAliases>
+
+
+	<mappers>
+		<mapper resource="/mappers/member-mapper.xml"/>
+
+
+		<mapper resource="/mappers/sns-mapper.xml"/>
+		<mapper resource="/mappers/snsAttechment-mapper.xml"/>
+
+
+		<mapper resource="/mappers/approval-mapper.xml"/>
+		<mapper resource="/mappers/contact-mapper.xml"/>
+		<mapper resource="/mappers/messenger-mapper.xml"/>
+		<mapper resource="/mappers/room-mapper.xml"/>
+	</mappers>
+	
+	
+</configuration>

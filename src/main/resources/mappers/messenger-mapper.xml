@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="messengerMapper">
+	<resultMap id="empMsgResultSet" type="MemberMsg">
+		<id property="empNO" column="EMP_NO" />
+		<result property="empName" column="EMP_NAME" />
+		<result property="stateMessageNo" column="STATE_MESSAGE_NO" />
+		<result property="message" column="MESSAGE" />
+	</resultMap>
+	<resultMap id="stateMessageResultSet" type="StateMessage">
+		<id property="stateMessageNo" column="STATE_MESSAGE_NO" />
+		<result property="message" column="MESSAGE" />
+		<result property="empNO" column="EMP_NO" />
+	</resultMap>
+	<resultMap id="messengerResultSet" type="Messenger">
+		<id property="messengerNo" column="MESSENGER_NO" />
+		<result property="title" column="TITLE" />
+		<result property="pwd" column="PWD" />
+		<result property="status" column="STATUS" />
+		<result property="empNO" column="EMP_NO" />
+		<result property="lastDate" column="LAST_DATE" />
+	</resultMap>
+
+	<select id="memberList" parameterType="hashmap"
+		resultMap="empMsgResultSet">
+		SELECT *
+		FROM EMPLOYEE_MSG
+		WHERE EMP_NAME LIKE '${query1}'
+		ORDER BY EMP_NAME
+	</select>
+	<select id="loginMember" parameterType="_int"
+		resultMap="empMsgResultSet">
+		SELECT *
+		FROM EMPLOYEE_MSG
+		WHERE EMP_NO = ${empNO}
+	</select>
+	<update id="updateStateMessage" parameterType="StateMessage">
+		UPDATE STATE_MESSAGE
+		SET MESSAGE = '${message}'
+		WHERE EMP_NO = ${empNO}
+	</update>
+	
+	<select id="msgList" parameterType="hashmap"
+		resultMap="messengerResultSet">
+		SELECT *
+		FROM MESSENGER
+		WHERE TITLE LIKE '${query3}'
+		AND STATUS = 'Y'
+		ORDER BY TITLE
+	</select>
+	
+	<insert id="insertMsg" parameterType="Messenger">
+		INSERT INTO MESSENGER
+		VALUES(MESSENGER_SEQ.NEXTVAL, #{title}, #{pwd}, DEFAULT, #{empNO} , DEFAULT)
+	</insert>
+</mapper>
+

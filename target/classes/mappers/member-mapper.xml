@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="memberMapper">
+
+
+	<resultMap id="memberResultSet" type="Member">
+		<id property="empNO" column="EMP_NO"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="empId" column="EMP_ID"/>
+		<result property="empNum" column="EMP_NUM"/>
+		<result property="empPwd" column="EMP_PWD"/>
+		<result property="email" column="EMAIL"/>
+		<result property="phone" column="PHONE"/>
+		<result property="salary" column="SALARY"/>
+		<result property="hireDate" column="HIRE_DATE"/>
+		<result property="address" column="ADDRESS"/>
+		<result property="empYN" column="EMP_YN"/>
+		<result property="jobCode" column="JOB_CODE"/>
+		<result property="deptCode" column="DEPT_CODE"/>
+	</resultMap>
+
+	<resultMap id = "jobResultSet" type="Job">
+		<id property="jobCode" column="job_code"/>
+		<result property="jobName" column="job_name"/>
+	</resultMap>
+	
+	<resultMap id = "deptResultSet" type="Dept">
+		<id property="deptCode" column="dept_code"/>
+		<result property="deptName" column="dept_name"/>
+	</resultMap>
+	
+	<resultMap id="memberViewResultSet" type="MemberView">
+		<id property="empNO" column="EMP_NO" />
+		<result property="empName" column="EMP_NAME" />
+		<result property="empId" column="EMP_ID" />
+		<result property="empNum" column="EMP_NUM" />
+		<result property="empPwd" column="EMP_PWD" />
+		<result property="email" column="EMAIL" />
+		<result property="phone" column="PHONE" />
+		<result property="salary" column="SALARY" />
+		<result property="hireDate" column="HIRE_DATE" />
+		<result property="address" column="ADDRESS" />
+		<result property="empYN" column="EMP_YN" />
+		<result property="jobCode" column="JOB_CODE" />
+		<result property="deptCode" column="DEPT_CODE" />
+		<result property="deptName" column="DEPT_NAME" />
+		<result property="jobName" column="JOB_NAME" />
+	</resultMap>
+	
+	
+	<select id="loginMember" parameterType="Member" resultMap="memberResultSet">
+		
+		select * from employee
+		where emp_id=#{empId} and emp_yn='N'
+		
+	</select>
+	
+	<insert id="insertMember" parameterType="Member">
+		insert into employee
+		values(seq_emp_no.nextval,#{empName}, #{empId}, #{empNum}, #{empPwd}, #{email}, #{phone},
+		#{salary}, SYSDATE,#{address},default,#{jobCode},#{deptCode})
+	</insert>
+	
+	
+	<update id="updateMember" parameterType="Member">
+		update employee
+		set email=#{email},  phone=#{phone}, address=#{address}, modify_date=SYSDATE
+		where   emp_id=#{empId}
+	</update>
+	
+	<delete id="deleteMember" parameterType="string">
+		update employee
+		set emp_yn='Y'
+		where emp_id=#{empId}
+	</delete>
+	
+	<select id="selectJob" resultMap="jobResultSet">
+		select *
+		from job
+	</select>
+	
+	<select id="selectDept" resultMap="deptResultSet">
+		select *
+		from department
+	</select>
+	
+
+	<select id="contactSelectList" parameterType="hashmap"
+		resultMap="memberViewResultSet">
+		SELECT *
+		FROM (
+		SELECT ROWNUM NUM, A.*
+		FROM (SELECT *
+		FROM EMPLOYEE_VIEW
+		WHERE EMP_NAME LIKE #{query}
+		AND DEPT_CODE LIKE #{department}
+		AND EMP_YN='N'
+		ORDER BY DEPT_CODE) A
+		)
+		WHERE NUM BETWEEN 1 + (#{page} - 1 ) * 10 AND #{page} * 10
+
+	</select>
+
+	<select id="countMember" resultType="_int">
+		SELECT COUNT(*)
+		FROM EMPLOYEE
+		WHERE EMP_YN='N'
+	</select>
+	<select id="selectName" parameterType="string" resultType="_int">
+		select emp_id
+		from employee
+		where emp_name=#{empName}
+  	</select>
+	
+</mapper>
+

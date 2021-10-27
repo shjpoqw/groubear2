@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="snsAttechmentMapper">
+
+	
+	
+	<resultMap id="AttechmentResultSet" type="Attechment">
+		
+		<id property="snsFileNo" column = "SNS_FILE_NO"/>
+		<result property="originFile" column="SNS_ORIGIN_NAME"/>
+		<result property="changeFile" column="SNS_CHANGE_NAME"/>
+		<result property="snsNo" column="SNS_NO"/>
+		
+	</resultMap>
+	
+	
+	
+	
+	<insert id="insertFile" parameterType="Attechment">
+		INSERT INTO SNS_ATTECHMENT
+		VALUES(SEQ_SNS_FILE_NO.NEXTVAL,#{originFile},#{changeFile},SEQ_SNS_NO.NEXTVAL -1)
+	</insert>
+	
+	<select id="selectSnsFile" parameterType="_int" resultMap="AttechmentResultSet">
+		SELECT *
+		FROM SNS_ATTECHMENT
+		WHERE SNS_NO=#{sno}
+	</select>
+	
+	<update id="updateFile" parameterType="Attechment">
+		UPDATE SNS_ATTECHMENT
+		SET SNS_ORIGIN_NAME=#{originFile}, SNS_CHANGE_NAME=#{changeFile}
+		WHERE SNS_NO=#{snsNo}
+	</update>
+	
+	
+</mapper>
+

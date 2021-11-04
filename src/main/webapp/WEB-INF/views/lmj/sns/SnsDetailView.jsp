@@ -9,6 +9,7 @@
 <style>
 	#contentArea{width:100%}
 	#contentArea *{margin:5px}
+	#imageArea{width:50%}
 </style>
 </head>
 <body>
@@ -37,10 +38,16 @@
                     <td colspan="3">
                     	<c:if test="${ !empty a.originFile }">
                         	<a href="${ pageContext.servletContext.contextPath }/resources/upload_files/${a.changeFile}" download="${ a.originFile }">${ a.originFile }</a>
+                        	
                         </c:if>
                         <c:if test="${ empty a.originFile }">
                         	첨부파일이 없습니다.
                         </c:if>
+                        
+                        <br>
+                        <div id="imageArea">
+                        	<img src="${ pageContext.servletContext.contextPath }/resources/upload_files/${a.changeFile}">
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -57,6 +64,7 @@
 	            <div align="center">
 	                <button class="btn btn-primary" onclick="postFormSubmit(1);">수정하기</button>
 	                <button class="btn btn-danger" onclick="postFormSubmit(2);">삭제하기</button>
+	                <button class="btn btn-primary" onclick="like()">좋아요</button>
 	            </div>
 	            
 	            <form id="postForm" action="" method="post">
@@ -74,6 +82,8 @@
 						}
 						postForm.submit();
 					}
+					
+					
 					
 				</script>
             </c:if>
@@ -120,7 +130,7 @@
 					url:"rinsert.sns",
 					type:"post",
 					data:{replyContent:$("#replyContent").val(),
-						  refSnsNo:sno,
+						  SnsNo:sno,
 						  replyWriter:"${loginUser.empName}"},
 					success:function(result){
 						if(result > 0){
@@ -160,8 +170,8 @@
 						value += "<tr>";
 					}
 					
-					value += "<th>" + obj.replyWriter + "</th>" + 
-								 "<td>" + obj.replyContent + "</td>" + 
+					value += "<th>" + obj.ReplyWriter + "</th>" + 
+								 "<td>" + obj.ReplyContent + "</td>" + 
 								 "<td>" + obj.ReplyDate + "</td>" +
 						 "</tr>";
 				});
@@ -172,7 +182,7 @@
 		});
 	}
 	
-     	
+	
     </script>
     
 

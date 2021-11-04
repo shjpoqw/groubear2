@@ -30,7 +30,6 @@ public class ContactController {
 			@RequestParam(value = "q", required = false, defaultValue = "") String q, Model model) {
 
 		ArrayList<Department> dept = memberService.selectDept();
-		System.out.println("dept : " + dept);
 		String department = "%" + d + "%";
 		int page = p;
 		String query = "%" + q + "%";

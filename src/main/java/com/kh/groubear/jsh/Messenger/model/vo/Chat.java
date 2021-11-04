@@ -19,7 +19,10 @@ public class Chat {
 	private int chatNo;
 	private String message;
 	private Date createDate;
-	private int messengerNo;
 	private int empNO;
+	private int toEmpNo;
 	
+	public Chat() {
+		// TODO Auto-generated constructor stub
+	}
 }

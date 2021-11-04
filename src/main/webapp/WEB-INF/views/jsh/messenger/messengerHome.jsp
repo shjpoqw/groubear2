@@ -1,3 +1,4 @@
+<%@page import="org.springframework.ui.Model"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -7,159 +8,197 @@
 <head>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/jsh/tab.css" />
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/jsh/msg_emp.css" />
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/jsh/chat.css" />
+<link
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
+	rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+	integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+	crossorigin="anonymous"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
+
+
+
 	<jsp:include page="/WEB-INF/views/common/menubar.jsp" />
 
-	<div class="tab_messenger">
-		<input type="radio" id="tab01" name="temMenu" checked> 
-		 <input type="radio" id="tab02" name="temMenu">
-		 <input type="radio" id="tab03" name="temMenu">
-		<div class="btn">
-			<label for="tab01">1</label><br> 
-			<label for="tab02">2</label><br>
-			<label for="tab03">3</label>
-		</div>
-
-		<!-- ================ 1. 회원 목록 =============== -->
-		<div class="conbox con1">
-			<div></div>
-			<div>
-				<label>${me.empName}</label><br> <label>${me.message}</label> <a
-					type="button" class="" data-toggle="modal"
-					data-target="#stateModal"
-					onclick="stateUpdate('${me.empNO}', '${me.message}', ${me.stateMessageNo});">수정</a>
-				<br>
-				<hr>
-				<br>
-
-				<table>
 
 
-					<tbody>
-						<tr>
-							<form>
-								<input type="text" name="q1" value="${param.q}"
-									placeholder="이름을 입력하세요" /> <input class="btn-search"
-									type="submit" value="검색" />
+
+	<!-- =============================== -->
+	<div class="container bootstrap snippets bootdey">
+		<div class="tile tile-alt" id="messages-main">
+			<div class="ms-menu">
+				<div class="ms-user clearfix">
+					<c:if test="${!empty sessionScope.profile.originName }">
+						<img class="img-avatar pull-left"
+							src="${ pageContext.servletContext.contextPath }/resources/profile_files/${sessionScope.profile.changeName}" />
+					</c:if>
+					<c:if test="${empty sessionScope.profile.originName}">
+						<img class="img-avatar"
+							src="${pageContext.request.contextPath}/resources/images/common/member.png">
+					</c:if>
+
+					<div>
+						${me.empName} <br> ${me.message}
+					</div>
+					<a type="button" class="" data-toggle="modal"
+						data-target="#stateModal"
+						onclick="stateUpdate('${me.empNO}', '${me.message}', ${me.stateMessageNo});">수정</a>
+				</div>
+
+				<div class="p-15">
+					<form method="post">
+						<input type="text" name="q1" value="${param.q}"
+							placeholder="이름을 입력하세요" /> <input class="btn-search"
+							type="submit" value="검색" />
+					</form>
+				</div>
+
+				<!-- 회원 리스트 -->
+				<div class="list-group lg-alt">
+					<c:forEach var="e" items="${emp}">
+						<c:if test="${e.empNO != sessionScope.loginUser.empNO}">
+							<form method="post">
+								<input type="hidden" name="toEmpNo" value="${e.empNO}">
+								<button class="list-group-item media" type="submit">
+									<div class="pull-left">
+										<c:if test="${!empty e.originName }">
+											<img class="img-avatar"
+												src="${ pageContext.servletContext.contextPath }/resources/profile_files/${e.changeName}" />
+										</c:if>
+										<c:if test="${empty e.originName}">
+											<img class="img-avatar"
+												src="${pageContext.request.contextPath}/resources/images/common/member.png">
+										</c:if>
+									</div>
+									<div class="media-body">
+										<small class="list-group-item-heading">${e.empName}</small><br>
+										<small class="list-group-item-text c-gray">${e.message}</small>
+									</div>
+								</button>
 							</form>
-						</tr>
-						<c:forEach var="e" items="${emp}">
-							<c:if test="${e.empNO != sessionScope.loginUser.empNO}">
-								<tr>
-									<td>${e.empName}<br></td>
-									<td>${e.message}</td>
-								</tr>
-
-
-							</c:if>
-						</c:forEach>
-					</tbody>
-				</table>
-			</div>
-			<div></div>
-		</div>
-		
-		<!-- 상태 메시지 수정 모달  -->
-		<div class="modal fade" id="stateModal">
-
-			<div class="modal-dialog modal-sm">
-				<div class="modal-content">
-					<!-- Modal Header -->
-					<div class="modal-header">
-						<h4 class="modal-title">상태 메시지</h4>
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<form action="updateStateMessage.msg" method="post">
-						<!-- Modal Body -->
-						<div class="modal-body">
-							<input type="text" id="stateUpdateMessege" name="message" /> <input
-								type="hidden" id="stateUpdateNo" name="empNO" /> <input
-								type="hidden" id="stateUpdateSMNO" name="stateMessageNo" />
-
-						</div>
-
-						<div class="modal-footer">
-							<button type="submit" class="btn btn-primary">변경</button>
-							<button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-
-
-		<!-- ================ 2. 대화목록 =============== -->
-		<div class="conbox con2">
-			<form>
-				<input type="text" name="q2" value="${param.q}" placeholder="채팅방을 입력하세요" />
-				<input class="btn-search" type="submit" value="검색" />
-			</form>
-			<hr>
-			 <a type="button" class="" data-toggle="modal"
-				data-target="#insertMsgModal"
-				onclick="msgInsert('${me.empNO}');">수정</a>
-		</div>
-		
-		
-		
-		
-		<!-- 대화방 생성 모달 -->
-		<div class="modal fade" id="insertMsgModal">
-
-			<div class="modal-dialog modal-sm">
-				<div class="modal-content">
-					<!-- Modal Header -->
-					<div class="modal-header">
-						<h4 class="modal-title">대화방 생성</h4>
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<form action="insertMsg.msg" method="post">
-						<!-- Modal Body -->
-						<div class="modal-body">
-							<input type="text" id="titleInsertMessege" name="title" /> 
-							<input type="password" id="pwdInsertMessege" name="pwd" /> 
-							<input type="hidden" id="msgInsertNo" name="empNO" /> 
-
-						</div>
-
-						<div class="modal-footer">
-							<button type="submit" class="btn btn-primary">생성</button>
-							<button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-		
-		
-		
-		
-
-		<!-- ================ 3. 대화방 리스트 =============== -->
-		<div class="conbox con3">
-			<form>
-				<input type="text" name="q3" value="${param.q}" placeholder="채팅방을 입력하세요" />
-				<input class="btn-search" type="submit" value="검색" />
-			</form>
-			<hr>
-			<table>
-				<tbody>
-					<c:forEach var="m" items="${msgList}">
-					<tr>
-						<th>${m.title}</th>
-					</tr>
+						</c:if>
 					</c:forEach>
-				</tbody>
-			</table>
+				</div>
+			</div>
+
+			<!-- 상대방 클릭하기 전 -->
+			<c:if test="${empty toEmp}">
+				<div class="ms-body">
+					<div class="action-header clearfix">
+						<div class="visible-xs" id="ms-menu-trigger">
+							<i class="fa fa-bars"></i>
+						</div>
+					</div>
+
+					<div class="msb-reply">
+						<textarea placeholder="메시지를 입력하세요" id="message" name="message"
+							disabled></textarea>
+						<input type="hidden" name="toEmpNo" id="toEmpNo">
+						<button type="button" disabled>
+							<i class="fa fa-paper-plane-o"></i>
+						</button>
+					</div>
+				</div>
+			</c:if>
+
+
+
+
+
+
+			<!-- 상대방을 클릭할 경우 -->
+			<c:if test="${!empty toEmp}">
+				<div class="ms-body">
+					<div class="action-header clearfix">
+
+
+						<div class="pull-left hidden-xs">
+							<c:if test="${!empty toEmp.originName }">
+								<img class="img-avatar pull-left"
+									src="${ pageContext.servletContext.contextPath }/resources/profile_files/${sessionScope.profile.changeName}" />
+							</c:if>
+							<c:if test="${empty toEmp.originName}">
+								<img class="img-avatar"
+									src="${pageContext.request.contextPath}/resources/images/common/member.png">
+							</c:if>
+							<div class="lv-avatar pull-left"></div>
+							<span>${toEmp.empName}</span>
+						</div>
+
+						<ul class="ah-actions actions">
+
+							<li class="dropdown"><a href="" data-toggle="dropdown"
+								aria-expanded="true"> <i class="fa fa-bars"></i>
+							</a>
+
+								<ul class="dropdown-menu dropdown-menu-right">
+									<li><a href="">대화내용 삭제</a></li>
+								</ul></li>
+						</ul>
+					</div>
+
+
+
+					<div class="message-feed media">
+						<div class="pull-left">
+							<img src="https://bootdey.com/img/Content/avatar/avatar1.png"
+								alt="" class="img-avatar">
+						</div>
+						<div class="media-body">
+							<div class="mf-content">Quisque consequat arcu eget odio
+
+								pulvinar lobortis.</div>
+							<small class="mf-date"><i class="fa fa-clock-o"></i>
+								20/02/2015 at 09:00</small>
+						</div>
+					</div>
+
+					<div class="message-feed right">
+						<div class="pull-right">
+							<img src="https://bootdey.com/img/Content/avatar/avatar2.png"
+								alt="" class="img-avatar">
+						</div>
+						<div class="media-body">
+							<div class="mf-content">Mauris volutpat magna nibh, et
+								condimentum est rutrum a. Nunc sed turpis mi. In eu massa a sem
+								pulvinar lobortis.</div>
+							<small class="mf-date"><i class="fa fa-clock-o"></i>
+								20/02/2015 at 09:30</small>
+						</div>
+					</div>
+
+
+					<div class="msb-reply">
+						<textarea placeholder="메시지를 입력하세요" id="message" name="message"></textarea>
+						<input type="hidden" value="${toEmp.empNO}" name="toEmpNo"
+							id="toEmpNo">
+						<button type="button" onclick="submitFunction();">
+							<i class="fa fa-paper-plane-o"></i>
+						</button>
+					</div>
+				</div>
+			</c:if>
+
+
 		</div>
-
-
-		
 	</div>
+
+	<!-- =============================== -->
+
+
+
 	<script
 		src="${pageContext.request.contextPath}/resources/js/jsh/messenger/messenger.js"></script>
+
+	<script>
+		
+	</script>
 </body>
 </html>

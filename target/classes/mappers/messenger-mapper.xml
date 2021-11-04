@@ -9,11 +9,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="stateMessageNo" column="STATE_MESSAGE_NO" />
 		<result property="message" column="MESSAGE" />
 	</resultMap>
+	
 	<resultMap id="stateMessageResultSet" type="StateMessage">
 		<id property="stateMessageNo" column="STATE_MESSAGE_NO" />
 		<result property="message" column="MESSAGE" />
 		<result property="empNO" column="EMP_NO" />
+		<result property="originName" column="ORIGIN_NAME" />
+		<result property="changeName" column="CHANGE_NAME" />
 	</resultMap>
+	
 	<resultMap id="messengerResultSet" type="Messenger">
 		<id property="messengerNo" column="MESSENGER_NO" />
 		<result property="title" column="TITLE" />
@@ -22,12 +26,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="empNO" column="EMP_NO" />
 		<result property="lastDate" column="LAST_DATE" />
 	</resultMap>
-
+	
+	<resultMap id="chatResultSet" type="Chat">
+		<id property="chatNo" column="CHAT_NO" />
+		<result property="message" column="MESSAGE" />
+		<result property="createDate" column="CREATE_DATE" />
+		<result property="empNO" column="EMP_NO" />
+		<result property="toEmpNo" column="TO_EMP_NO" />
+	</resultMap>
+	
+	
+	
 	<select id="memberList" parameterType="hashmap"
 		resultMap="empMsgResultSet">
 		SELECT *
 		FROM EMPLOYEE_MSG
-		WHERE EMP_NAME LIKE '${query1}'
+		WHERE EMP_NAME LIKE '${query}'
 		ORDER BY EMP_NAME
 	</select>
 	<select id="loginMember" parameterType="_int"
@@ -42,6 +56,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE EMP_NO = ${empNO}
 	</update>
 	
+	<select id="selectMsgList" parameterType="hashmap"
+		resultMap="messengerResultSet">
+		SELECT *
+		FROM MESSENGER
+		WHERE TITLE LIKE '${query2}'
+		AND STATUS = 'Y'
+		AND EMP_NO = ${empNO}
+		ORDER BY TITLE
+	</select>
+	
 	<select id="msgList" parameterType="hashmap"
 		resultMap="messengerResultSet">
 		SELECT *
@@ -55,5 +79,42 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO MESSENGER
 		VALUES(MESSENGER_SEQ.NEXTVAL, #{title}, #{pwd}, DEFAULT, #{empNO} , DEFAULT)
 	</insert>
+	
+	<insert id="insertStateMessage" parameterType="StateMessage">
+		INSERT INTO STATE_MESSAGE
+		VALUES(STATE_MESSAGE_SEQ.NEXTVAL, #{message},#{empNO})
+	</insert>
+	
+	<select id="chatList" parameterType="hashmap"
+		resultMap="chatResultSet">
+		SELECT *
+		FROM CHAT 
+		WHERE ((EMP_NO = #{empNO}) AND TO_EMP_NO = #{toEmpNo} 
+		OR (EMP_NO =#{toEmpNo} AND = #{emp_NO}))
+		AND CHAT_NO > #{chatNo}
+		ORDER BY CREATE_DATE
+	</select>
+	
+	<select id="chatListRecent" parameterType="hashmap"
+		resultMap="chatResultSet">
+		SELECT *
+		FROM CHAT 
+		WHERE ((EMP_NO = #{emp_NO}) AND TO_EMP_NO = #{toEmpNo} 
+		OR (EMP_NO =#{toEmpNo} AND = #{empNO}))
+		AND CHAT_NO > (SELECT MAX(CHAT_NO) - #{number} FROM CHAT )
+		ORDER BY CREATE_DATE
+	</select>
+	
+	<insert id="transmit" parameterType="hashmap">
+		INSERT INTO CHAT
+		VALUES(CHAT_SEQ.NEXTVAL, #{message}, DEFAULT, #{empNO}, #{toEmpNo})
+	</insert>
+	
+	<select id="selectEmp" parameterType="_int"
+		resultMap="empMsgResultSet">
+		SELECT *
+		FROM EMPLOYEE_MSG
+		WHERE EMP_NO = #{toEmpNo}
+	</select>
 </mapper>
 

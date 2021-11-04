@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="carMapper">
+	
+	
+	<resultMap id ="CarResultSet" type="ReserveCar">
+		<id property="_id" column="reserve_no"/>
+		<result property="start" column="start_date"/>
+		<result property="end" column="end_date"/>
+		<result property="description" column="car_content"/>
+		<result property="username" column="emp_Name"/>
+		<result property="type" column="car_kind"/>
+		<result property="title" column="title"/>
+		<result property="status" column="status"/>
+
+	</resultMap>
+	
+	
+		
+	
+	
+	<insert id="insertCar" parameterType="ReserveCar">
+		insert into reserve_car
+		values(SEQ_RESERVE_NO_CAR.nextval,to_date(#{start},'YYYY-MM-DD HH24:MI'),to_date(#{end},'YYYY-MM-DD HH24:MI'),
+		#{description},#{empNo},#{type},#{title},default)
+		
+	</insert>
+	
+	<select id="selectCar" parameterType="ReserveCar" resultMap="CarResultSet" >
+		select reserve_no,start_date,end_date,car_content,car_kind,title,c1.status,e.emp_Name
+		from reserve_car c1
+		left outer join employee e on(c1.emp_no=e.emp_no)
+		left outer join car c2 on(c1.car_no=c2.car_no)
+		where  (START_DATE between to_date(#{start},'YYYY-MM-DD') and to_date(#{end},'YYYY-MM-DD')
+		OR  END_DATE between to_date(#{start},'YYYY-MM-DD') and to_date(#{end},'YYYY-MM-DD'))
+		AND c1.status='Y'
+		
+	
+	</select>
+
+	
+	<update id="updateCar" parameterType="ReserveCar">
+		update reserve_car 
+		set title=${title}, start_date=to_date(#{start},'YYYY-MM-DD HH24:MI')
+		,end_date=to_date(#{end},'YYYY-MM-DD HH24:MI'),car_content=${description},car_no=${type}
+		where reserve_no = ${_id}
+	</update>
+	
+	
+	<update id="deleteCar" parameterType="ReserveCar">
+		update reserve_car 
+		set status='N'
+		where reserve_no = ${_id}
+	</update>
+</mapper>

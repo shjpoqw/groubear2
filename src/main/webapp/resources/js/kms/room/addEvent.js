@@ -6,9 +6,8 @@ var editTitle = $('#title');
 var editStart = $('#edit-start');
 var editEnd = $('#edit-end');
 var editType = $('#edit-type');
-var editColor = $('#edit-color');
-var editContent = $('#content');
-var editNo = $('empNo');
+
+var editDesc = $('#edit-desc');
 var addBtnContainer = $('.modalBtnContainer-addEvent');
 var modifyBtnContainer = $('.modalBtnContainer-modifyEvent');
 
@@ -25,14 +24,14 @@ var newEvent = function (start, end, eventType) {
     editTitle.val('');
     editStart.val(start);
     editEnd.val(end);
-    editContent.val('');
-    editNo.val('');
+    editDesc.val('');
+
     
     addBtnContainer.show();
     modifyBtnContainer.hide();
     eventModal.modal('show');
 
-   
+   var eventId;
 
     //새로운 일정 저장버튼 클릭
     $('#save-event').unbind();
@@ -40,14 +39,12 @@ var newEvent = function (start, end, eventType) {
 
         var eventData = {
             
-        	empNo : editNo.val(),
+        	_id: 0,
             title: editTitle.val(),
             start: editStart.val(),
             end: editEnd.val(),
-            content: editContent.val(),
-            roomNo: editType.val(),
-            backgroundColor: editColor.val(),
-            textColor: '#ffffff',
+            description: editDesc.val(),
+            type: editType.val(),
             beam: "N"
         };
 
@@ -56,11 +53,14 @@ var newEvent = function (start, end, eventType) {
             return false;
         }
 
-        if (eventData.title === '') {
-            alert('대여자명은 필수입니다.');
+        if (eventData.일정명 === '') {
+            alert('일정명은 필수입니다.');
             return false;
         }
-        
+        if (eventData.구분 ===''){
+        	alert('회의실을 선택해주세요');
+        	return false;
+        }
 
         
 
@@ -79,25 +79,24 @@ var newEvent = function (start, end, eventType) {
             type: "post",
             url: "reserveRoom.re",
             data: {
-            	"empNo" : eventData.empNo,
-            	"title" : eventData.title,
-            	"startDate" : eventData.start,
-            	"endDate" : eventData.end,
-                "roomContent" : eventData.content,
-                "roomNo": eventData.roomNo ,
-                "beamCode" : eventData.beam
+
+            	title : eventData.title,
+            	start : eventData.start,
+            	end : eventData.end,
+            	description : eventData.description,
+                type: eventData.type ,
+                beamCode : eventData.beam
                 
             },
             success: function () {
             	
             	console.log("성공");
             	
-                //DB연동시 중복이벤트 방지를 위한
-               // $('#calendar').fullCalendar('removeEvents');
-               // $('#calendar').fullCalendar('refetchEvents');
+                
+              
             },
             error:function(request,status,error){
-            	console.log("실패 : ",error);
+            	console.log("실패 : "+"error : "+error);
                }
              
 

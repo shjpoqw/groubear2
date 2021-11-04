@@ -555,114 +555,103 @@ button, input, optgroup, select, textarea {
                 </nav>
                 <!-- End of Topbar -->
 	<!-- 여기에 넣어라 -->
-			<div class="container">
-
-			<!-- 일자 클릭시 메뉴오픈 -->
-			<div id="contextMenu" class="dropdown clearfix">
-				<ul class="dropdown-menu dropNewEvent" role="menu"
-					aria-labelledby="dropdownMenu"
-					style="display: block; position: static; margin-bottom: 5px;">
-					<li><a tabindex="-1" href="#">대회의실</a></li>
-					<li><a tabindex="-1" href="#">소회의실1</a></li>
-					<li><a tabindex="-1" href="#">소회의실2</a></li>
-					<li><a tabindex="-1" href="#">소회의실3</a></li>
-					<li class="divider"></li>
-					<li><a tabindex="-1" href="#" data-role="close">Close</a></li>
-				</ul>
-			</div>
-
-			<div id="wrapper">
-				<div id="loading"></div>
-				<div id="calendar"></div>
-			</div>
-
-
-			<!-- 일정 추가 MODAL -->
-			<div class="modal fade" tabindex="-1" role="dialog" id="eventModal">
-				<div class="modal-dialog" role="document">
-
-
-					<div class="modal-content">
-						<div class="modal-header">
-							<h4 class="modal-title" align="left"></h4>
-							<button type="button" class="close" data-dismiss="modal"
-								aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-
-						</div>
-						<div class="modal-body">
-
-
-
-							<div class="row">
-								<div class="col-xs-12">
-									<label class="col-xs-4" for="title">일정명</label> <input
-										class="inputModal" type="text" name="title" id="title"
-										required="required" />
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-xs-12">
-									<label class="col-xs-4" for="edit-start">시작</label> <input
-										class="inputModal" type="text" name="edit-start"
-										id="edit-start" />
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-xs-12">
-									<label class="col-xs-4" for="edit-end">끝</label> <input
-										class="inputModal" type="text" name="edit-end" id="edit-end" />
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-xs-12">
-									<label class="col-xs-4" for="edit-type">구분</label> <select
-										class="inputModal" type="text" name="edit-type" id="edit-type">
-										<option value="01">대회의실</option>
-										<option value="02">소회의실1</option>
-										<option value="03">소회의실2</option>
-										<option value="04">소회의실3</option>
-									</select>
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-xs-12">
-									<label class="col-xs-4" for="edit-desc">목적</label>
-									<textarea rows="4" cols="50" class="inputModal"
-										name="edit-desc" id="edit-desc"></textarea>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-xs-12">
-									<label class="col-xs-4" for="beamCode">빔 대여 여부</label> <input
-										class='beamNewEvent' id="beamCode" type="checkbox">
-								</div>
-							</div>
-
-						</div>
-						<div class="modal-footer modalBtnContainer-addEvent">
-							<button type="button" class="btn btn-default"
-								data-dismiss="modal">취소</button>
-							<button type="button" class="btn btn-primary" id="save-event">저장</button>
-						</div>
-						<div class="modal-footer modalBtnContainer-modifyEvent">
-							<button type="button" class="btn btn-default"
-								data-dismiss="modal">닫기</button>
-							<button type="button" class="btn btn-danger" id="deleteEvent">삭제</button>
-							<button type="button" class="btn btn-primary" id="updateEvent">저장</button>
-						</div>
-					</div>
-					<!-- /.modal-content -->
-				</div>
-				<!-- /.modal-dialog -->
-			</div>
-			<!-- /.modal -->
-
-
+		<div class="container">
+		
+		<!-- 일자 클릭시 메뉴오픈 -->
+		<div id="contextMenu" class="dropdown clearfix">
+			<ul class="dropdown-menu dropNewEvent" role="menu"
+				aria-labelledby="dropdownMenu"
+				style="display: block; position: static; margin-bottom: 5px;">
+				<li><a tabindex="-1" href="#">소나타</a></li>
+				<li><a tabindex="-1" href="#">스타렉스</a></li>
+				<li><a tabindex="-1" href="#">미니버스</a></li>
+				<li><a tabindex="-1" href="#">트럭</a></li>
+				<li class="divider"></li>
+				<li><a tabindex="-1" href="#" data-role="close">Close</a></li>
+			</ul>
 		</div>
-		<!-- /.container -->
+
+		<div id="wrapper">
+			<div id="loading"></div>
+			<div id="calendar"></div>
+		</div>
+
+
+		<!-- 일정 추가 MODAL -->
+		<div class="modal fade" tabindex="-1" role="dialog" id="eventModal">
+			<div class="modal-dialog" role="document">
+
+
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" align="left"></h4>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+
+					</div>
+					<div class="modal-body">
+
+
+
+						<div class="row">
+							<div class="col-xs-12">
+								<label class="col-xs-4" for="title">일정명</label> <input
+									class="inputModal" type="text" name="title" id="title"
+									required="required" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12">
+								<label class="col-xs-4" for="edit-start">시작</label> <input
+									class="inputModal" type="text" name="edit-start"
+									id="edit-start" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12">
+								<label class="col-xs-4" for="edit-end">끝</label> <input
+									class="inputModal" type="text" name="edit-end" id="edit-end" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12">
+								<label class="col-xs-4" for="edit-type">구분</label> <select
+									class="inputModal" type="text" name="edit-type" id="edit-type">
+									<option value="01">소나타</option>
+									<option value="02">스타렉스</option>
+									<option value="03">미니버스</option>
+									<option value="04">트럭</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-xs-12">
+								<label class="col-xs-4" for="edit-desc">목적</label>
+								<textarea rows="4" cols="50" class="inputModal" name="edit-desc"
+									id="edit-desc"></textarea>
+							</div>
+						</div>
+
+
+					</div>
+					<div class="modal-footer modalBtnContainer-addEvent">
+						<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+						<button type="button" class="btn btn-primary" id="save-event">저장</button>
+					</div>
+					<div class="modal-footer modalBtnContainer-modifyEvent">
+						<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+						<button type="button" class="btn btn-danger" id="deleteEvent">삭제</button>
+						<button type="button" class="btn btn-primary" id="updateEvent">저장</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+		</div>
+		<!-- /.modal -->
 
 <div id="footer">
         <div id="footer-1">

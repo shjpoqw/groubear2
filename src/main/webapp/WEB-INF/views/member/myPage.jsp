@@ -7,6 +7,24 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	#btn{
+		text-align:center;
+	}
+	#img_box{
+		margin:0 auto;
+		height: 250px;
+		width: 250px;
+		border-radius: 70%;
+		text-align: center;
+		overflow: hidden;
+	}
+	#show_profile{
+	width: 100%;
+	height: 100%;
+	object-fit:cover;
+	}
+</style>
 </head>
 <body>
 	
@@ -17,24 +35,49 @@
             <h2>마이페이지</h2>
             <br>
 
-            <form action="update.me" method="post" onsubmit="">
+            <form action="update.me" method="post" onsubmit="" enctype="multipart/form-data">
                 <div class="form-group">
+                	<c:if test="${!empty sessionScope.profile.originName}">
+                		<div id="img_box">
+	                		<img id="show_profile" height="240px" 
+	                		src="${ pageContext.servletContext.contextPath }/resources/profile_files/${sessionScope.profile.changeName}"/>
+                		</div>
+                		<div>
+                			<label for="profile" style="align-content:center;" >프로필 사진</label>
+                			<input id="profile" type="file" name="profile" class="form-control"
+                			  accept=".jpg,.jpeg,.png,.gif">
+                		</div>
+                	</c:if>
+                	
+                	<c:if test="${empty sessionScope.profile.originName}">
+	                	<div id="img_box">
+		                	<img id="show_profile" height="240px" 
+		                	src="${pageContext.request.contextPath}/resources/images/common/member.png"/>
+	                	</div>
+	                	<div>
+	                		<label for="profile" style="align-content:center;" >프로필 사진</label>
+	                		<input id="profile" type="file" name="profile" class="form-control" accept=".jpg,.jpeg,.png,.gif">
+	                	</div>
+                	</c:if>
+                	
+                    <input type="hidden" name="empNO" value="${loginUser.empNO}">
+                    
                     <label> 아이디 :</label>
                     <input type="text" class="form-control" name="empId" value="${ loginUser.empId }" readonly><br>
                     
-                    <label for="userName"> 이름 :</label>
+                    <label for="empName"> 이름 :</label>
                     <input type="text" class="form-control" id="empName" name="empName" value="${ loginUser.empName }" readonly><br>
                      
-                    <label for="userName"> 부서 :</label>
+                    <label for="deptCode"> 부서 :</label>
                     <input type="text" class="form-control" id="deptCode" name="deptCode" value="${ loginUser.deptCode }" readonly><br>
                     
-                    <label for="userName"> 직책 :</label>
+                    <label for="jobCode"> 직책 :</label>
                     <input type="text" class="form-control" id="jobCode" name="jobCode" value="${ loginUser.jobCode }" readonly><br>
                     
-                    <label for="userName"> 입사일 :</label>
+                    <label for="hireDate"> 입사일 :</label>
                     <input type="text" class="form-control" id="hireDate" name="hireDate" value="${ loginUser.hireDate }" readonly><br>
                     
-                    <label for="userName"> 급여 :</label>
+                    <label for="salary"> 급여 :</label>
                     <input type="text" class="form-control" id="salary" name="salary" value="${ loginUser.salary }" readonly><br>
                     
                     <label for="email"> &nbsp; 이메일 :</label>
@@ -42,7 +85,6 @@
               
                     <label for="phone"> &nbsp; 전화번호 :</label>
                     <input type="tel" class="form-control" id="phone" name="phone" value="${ loginUser.phone }"><br>
-                    
                     <label for="address"> &nbsp; 주소 :</label><br>
                     
 
@@ -124,10 +166,37 @@
     </div>
     
     <form action="delete.me" method="post" id="postForm">
-    	<input type="hidden" name="userId" value="${ loginUser.userId }">
+    	<input type="hidden" name="empId" value="${sessionScope.loginUser.empId}">
     </form>
     
     <script>
+    
+    function loadProfile() {
+    	var $file = $("#profile")[0].files[0];
+    	var maxSize = 1024*1024*5;	
+    	if($file.size>maxSize){
+    		Swal.fire({
+    			icon: 'error',
+    			title : "프로필 크기 오류",
+    			text : '프로필 사진은 5MB를 넘을 수 없습니다.'
+    		})
+    		$("#profile").val("");
+    		$("#show_profile").removeAttr("src");
+    		return false;
+    	}
+    	var $file = $("#profile")[0].files[0];
+    	var reader = new FileReader();
+    	
+    	reader.onload = function () {
+			$("#show_profile").attr("src", reader.result);
+		}
+    	reader.readAsDataURL($file);
+    }
+    
+	$(document).ready(function () {
+		$("#profile").on("change", loadProfile);
+	})		
+    
 	$(document).ready(function(){
 	    $("#myBtn").click(function(){
 	        $("#myModal").modal();

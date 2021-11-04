@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.kh.groubear.member.model.vo.Department;
+import com.kh.groubear.member.model.vo.EmpAttachment;
 import com.kh.groubear.member.model.vo.Job;
 import com.kh.groubear.member.model.vo.Member;
 import com.kh.groubear.member.model.vo.MemberView;
@@ -31,7 +32,11 @@ public interface MemberService {
 
 	int countMember();
 
+	EmpAttachment selectProfile(int empNO);
 
+	void insertProfile(EmpAttachment file);
+
+	void updateProfile(EmpAttachment file);
 
 	
 

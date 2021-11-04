@@ -27,6 +27,8 @@ public interface SnsService {
 
 	int insertReply(Reply r);
 
+	void deleteReply(int rno);
+
 	
 	
 	

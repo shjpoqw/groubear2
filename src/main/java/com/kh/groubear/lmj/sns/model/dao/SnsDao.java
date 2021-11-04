@@ -81,6 +81,12 @@ public class SnsDao {
 
 
 
+	public int deleteReply(SqlSessionTemplate sqlSession, int rno) {
+		return sqlSession.update("snsReplyMapper.deleteReply", rno);
+	}
+
+
+
 	
 
 }

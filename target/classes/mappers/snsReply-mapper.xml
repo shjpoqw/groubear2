@@ -14,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 	
 	<select id="selectReplyList" parameterType="_int" resultMap="SnsReplyResultSet">
-		SELECT SNS_RPY_NO, SNS_RPY_CONTENT, SNS_RPY_DATE
+		SELECT SNS_RPY_NO, SNS_RPY_CONTENT,SNS_RPY_WRITER, SNS_RPY_DATE
 		FROM SNS_RPY
 		WHERE SNS_NO=#{sno} 
 		ORDER BY SNS_RPY_NO DESC
@@ -23,8 +23,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="insertReply" parameterType="Reply">
 		INSERT INTO SNS_RPY
-		values(SEQ_SNS_RPY_NO.NEXTVAL, #{replyContent}, sysdate, default, #{SnsNo}, #{replyWriter})
+		values(SEQ_SNS_RPY_NO.NEXTVAL, #{ReplyContent}, sysdate, default, #{SnsNo}, #{ReplyWriter})
 	</insert>
+	
+	<update id="deleteReply" parameterType="_int">
+		UPDATE SNS_REPLY
+		SET SNS_RPY_STATUS='N'
+		WHERE SNS_RPY_NO =#{sno} AND SNS_RPY_STATUS='Y'
+	</update>
 	
 	
 </mapper>

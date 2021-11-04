@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,9 +21,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.GsonBuilder;
 import com.kh.groubear.lmj.sns.model.service.SnsService;
 import com.kh.groubear.lmj.sns.model.vo.Attechment;
+import com.kh.groubear.lmj.sns.model.vo.Like;
 import com.kh.groubear.lmj.sns.model.vo.Reply;
 import com.kh.groubear.lmj.sns.model.vo.Sns;
-
 
 
 
@@ -81,7 +82,7 @@ public class SnsController {
 	private String saveFile(MultipartFile file, HttpServletRequest request) {
 		
 		String resources = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = resources + "\\upload_files\\";
+		String savePath = resources + "/upload_files/";
 		
 		String originFile = file.getOriginalFilename();
 		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
@@ -214,6 +215,18 @@ public class SnsController {
 		int result = snsService.insertReply(r);
 		return String.valueOf(result);
 	}
+	
+	
+	@RequestMapping("rdelete.sns")
+	public String deleteReply(int rno, HttpServletRequest request) {
+		
+		snsService.deleteReply(rno);
+		
+		
+		return "redirect:detail.sns";
+
+	}
+	
 	
 	
 	

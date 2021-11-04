@@ -131,6 +131,13 @@ public class SnsServiceImpl implements SnsService{
 	}
 
 
+	@Override
+	public void deleteReply(int rno) {
+		
+		int result = snsDao.deleteReply(sqlSession,rno);
+	}
+
+
 	
 
 

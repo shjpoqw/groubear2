@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>문서 작성</title>
+<title>결재 문서함</title>
 <style>
 	#receivedListTb{text-align: center;}
     #receivedListTb>tbody>tr:hover{cursor:pointer;}
@@ -40,7 +40,8 @@
                   <tr>
                   	<th>No</th>
                     <th>분류</th>
-                    <th>기안자</th>
+                    <th>제목</th>
+                    <th>작성자</th>
                     <th>기안일</th>
                     <th>마감일</th>
                     <th>상태</th>
@@ -50,9 +51,11 @@
                 	<c:forEach items="${ receivedList }" var="rl">
 	                    <tr>
 	                        <td>${ rl.approvalNo }</td>
+	                        <td>${ rl.approvalFormName }</td>
+	                        <td>${ rl.approvalTitle }</td>
 	                        <td>${ rl.writerName }</td>
+	                        <td>${ rl.writtenDate }</td>
 	                        <td>${ rl.dueDate }</td>
-	                        <td>${ rl.endDate }</td>
 	                        <td>
 	                        	<c:choose>
 	                        		<c:when test="${ rl.status == 1 }">미결</c:when>
@@ -72,6 +75,13 @@
                 </tbody>
             </table>
             <br>
+            
+            <c:if test="${ loginUser.empNO eq rl.writerNo }">
+	            <form id="postForm" action="" method="post">
+					<input type="hidden" name="eno" value="${ rl.writerNo }">
+				</form>
+            </c:if>
+            <br><br>
 
             <div id="pagingArea">
                 <ul class="pagination">
@@ -114,6 +124,14 @@
         </div>
         <br><br>
     </div>
+    
+    <script>
+    	$(function(){
+    		$("#receivedListTb tbody tr").click(function(){
+    			location.href="receivedDetail.ep?ano=" + $(this).children().eq(0).text();
+    		});
+    	});
+    </script>
     
     <jsp:include page="../../common/footer.jsp"/>
 	

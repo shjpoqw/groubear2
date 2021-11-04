@@ -3,27 +3,84 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="approvalMapper">
-
+	
 	<resultMap id="approvalResultMap" type="Approval">
 		<id property="approvalNo" column="APPROVAL_NO"/>
 		<result property="approvalTitle" column="APPROVAL_TITLE"/>
-		<result property="approvalMNo" column="APPROVAL_DATE"/>
-		<result property="approvalFNo" column="APPROVER_M_NO"/>
-		<result property="inputFirst" column="INPUT_FIRST"/>
-		<result property="inputSecond" column="INPUT_SECOND"/>
-		<result property="inputThird" column="INPUT_THIRD"/>
-		<result property="inputFourth" column="INPUT_FOURTH"/>
-		<result property="inputFifth" column="INPUT_FIFTH"/>
-		<result property="approvalFormNo" column="APPROVAL_FORM_CODE"/>
+		<result property="approvalContent" column="APPROVAL_CONTENT"/>
+		<result property="writtenDate" column="WRITTEN_DATE"/>
+		<result property="dueDate" column="DUE_DATE"/>
+		<result property="preservedYears" column="PRESERVED_YEARS"/>
+		<result property="approvalFormName" column="APPROVAL_FORM_NAME"/>
+		<result property="approvalMNo" column="APPROVER_M_NO"/>
+		<result property="approvalFNo" column="APPROVER_F_NO"/>
 		<result property="writerNo" column="WRITER_NO"/>
+		<result property="writerName" column="WRITER_NAME"/>
+		<result property="status" column="STATUS"/>
 	</resultMap>
 	
 	<resultMap id="approvalFormResultMap" type="ApprovalForm">
 		<id property="approvalFormNo" column="APPROVAL_FORM_NO"/>
 		<result property="approvalFormName" column="APPROVAL_FORM_NAME"/>
+		<result property="approvalFormContent" column="APPROVAL_FORM_CONTENT"/>
 		<result property="approvalCatCode" column="APPROVAL_CAT_CODE"/>
 		<result property="approvalCatName" column="APPROVAL_CAT_NAME"/>
 	</resultMap>
+	
+	<resultMap id="replyResultMap" type="ApprovalReply">
+		<id property="replyNo" column="REPLY_NO"/>
+		<result property="replyContent" column="REPLY_CONTENT"/>
+		<result property="refApprovalNo" column="REF_ANO"/>
+		<result property="replyWriterName" column="REPLY_WRITER_NAME"/>
+		<result property="createDate" column="CREATE_DATE"/>
+		<result property="status" column="STATUS"/>
+	</resultMap>
+	
+	<!-- Member Start -->
+	<resultMap id="memberResultSet" type="Member">
+		<id property="empNO" column="EMP_NO"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="empId" column="EMP_ID"/>
+		<result property="empNum" column="EMP_NUM"/>
+		<result property="empPwd" column="EMP_PWD"/>
+		<result property="email" column="EMAIL"/>
+		<result property="phone" column="PHONE"/>
+		<result property="salary" column="SALARY"/>
+		<result property="hireDate" column="HIRE_DATE"/>
+		<result property="address" column="ADDRESS"/>
+		<result property="empYN" column="EMP_YN"/>
+		<result property="jobCode" column="JOB_CODE"/>
+		<result property="deptCode" column="DEPT_CODE"/>
+	</resultMap>
+
+	<resultMap id = "jobResultSet" type="Job">
+		<id property="jobCode" column="job_code"/>
+		<result property="jobName" column="job_name"/>
+	</resultMap>
+	
+	<resultMap id = "deptResultSet" type="Dept">
+		<id property="deptCode" column="dept_code"/>
+		<result property="deptName" column="dept_name"/>
+	</resultMap>
+	
+	<resultMap id="memberViewResultSet" type="MemberView">
+		<id property="empNO" column="EMP_NO" />
+		<result property="empName" column="EMP_NAME" />
+		<result property="empId" column="EMP_ID" />
+		<result property="empNum" column="EMP_NUM" />
+		<result property="empPwd" column="EMP_PWD" />
+		<result property="email" column="EMAIL" />
+		<result property="phone" column="PHONE" />
+		<result property="salary" column="SALARY" />
+		<result property="hireDate" column="HIRE_DATE" />
+		<result property="address" column="ADDRESS" />
+		<result property="empYN" column="EMP_YN" />
+		<result property="jobCode" column="JOB_CODE" />
+		<result property="deptCode" column="DEPT_CODE" />
+		<result property="deptName" column="DEPT_NAME" />
+		<result property="jobName" column="JOB_NAME" />
+	</resultMap>
+	<!-- Member End -->
 	
 	
 	<select id="selectFormListCount" resultType="_int">
@@ -37,5 +94,138 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		JOIN APPROVAL_CAT B ON A.APPROVAL_CAT_CODE = B.APPROVAL_CAT_CODE
 	</select>
 	
+	<select id="selectForm" parameterType="_int" resultMap="approvalFormResultMap">
+		SELECT *
+		FROM APPROVAL_FORM A
+		JOIN APPROVAL_CAT B ON A.APPROVAL_CAT_CODE = B.APPROVAL_CAT_CODE
+		WHERE A.APPROVAL_FORM_NO = #{ano}
+	</select>
+	
+	<insert id="insertApproval" parameterType="Approval">
+		INSERT INTO APPROVAL
+		VALUES (SEQ_APPROVAL_NO.NEXTVAL, #{approvalTitle}, #{approvalContent}, SYSDATE, #{dueDate}, #{preservedYears}, #{approvalFormNo}, #{approvalMNo}, #{approvalFNo}, #{writerNo}, DEFAULT, #{TempSent})
+	</insert>
+	
+	<select id="selectSentListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM APPROVAL
+		WHERE WRITER_NO = #{eno}
+		AND TEMP_SAVE = 'N'
+	</select>
+	
+	<select id="selectSentList" parameterType="_int" resultMap="approvalResultMap">
+		SELECT APPROVAL_NO, APPROVAL_TITLE, APPROVAL_CONTENT, WRITTEN_DATE, DUE_DATE, PRESERVED_YEARS, APPROVAL_FORM_NAME, APPROVER_M_NO, APPROVER_F_NO, WRITER_NO, C.EMP_NAME AS WRITER_NAME, DEPT_NAME, STATUS
+		FROM APPROVAL A
+		JOIN APPROVAL_FORM B ON A.APPROVAL_FORM_NO = B.APPROVAL_FORM_NO
+		JOIN EMPLOYEE C ON A.WRITER_NO = C.EMP_NO
+		JOIN DEPARTMENT D ON C.DEPT_CODE = D.DEPT_CODE
+		WHERE WRITER_NO = #{eno}
+		AND TEMP_SAVE = 'N'
+	</select>
+	
+	<select id="selectApproval" parameterType="_int" resultMap="approvalResultMap">
+		SELECT APPROVAL_NO, APPROVAL_TITLE, APPROVAL_CONTENT, WRITTEN_DATE, DUE_DATE, PRESERVED_YEARS, APPROVAL_FORM_NAME, APPROVER_M_NO, APPROVER_F_NO, WRITER_NO, C.EMP_NAME AS WRITER_NAME, DEPT_NAME, STATUS
+		FROM APPROVAL A
+		JOIN APPROVAL_FORM B ON A.APPROVAL_FORM_NO = B.APPROVAL_FORM_NO
+		JOIN EMPLOYEE C ON A.WRITER_NO = C.EMP_NO
+		JOIN DEPARTMENT D ON C.DEPT_CODE = D.DEPT_CODE
+		WHERE APPROVAL_NO = #{ano}
+	</select>
+	
+	<select id="selectReplyList" parameterType="_int" resultMap="replyResultMap">
+		SELECT REPLY_NO, REPLY_CONTENT, EMP_NAME AS REPLY_WRITER_NAME, CREATE_DATE, STATUS
+		FROM APPROVAL_REPLY A
+		JOIN EMPLOYEE E ON A.REPLY_WRITER_NO = E.EMP_NO
+		WHERE REF_ANO=#{ano}
+		ORDER BY REPLY_NO DESC
+	</select>
+		
+	<insert id="insertReply" parameterType="Reply">
+		INSERT INTO APPROVAL_REPLY
+		VALUES(SEQ_RNO.NEXTVAL, #{replyContent}, #{refApprovalNo}, #{replyWriterNo}, SYSDATE, #{status})
+	</insert>
+	
+	<select id="selectReceivedListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM APPROVAL
+		WHERE APPROVER_M_NO = #{eno} OR APPROVER_F_NO = #{eno}
+		AND TEMP_SAVE = 'N'
+	</select>
+	
+	<select id="selectReceivedList" parameterType="_int" resultMap="approvalResultMap">
+		SELECT APPROVAL_NO, APPROVAL_TITLE, APPROVAL_CONTENT, WRITTEN_DATE, DUE_DATE, PRESERVED_YEARS, APPROVAL_FORM_NAME, APPROVER_M_NO, APPROVER_F_NO, WRITER_NO, C.EMP_NAME AS WRITER_NAME, DEPT_NAME, STATUS
+		FROM APPROVAL A
+		JOIN APPROVAL_FORM B ON A.APPROVAL_FORM_NO = B.APPROVAL_FORM_NO
+		JOIN EMPLOYEE C ON A.WRITER_NO = C.EMP_NO
+		JOIN DEPARTMENT D ON C.DEPT_CODE = D.DEPT_CODE
+		WHERE APPROVER_M_NO = #{eno} OR APPROVER_F_NO = #{eno}
+		AND TEMP_SAVE = 'N'
+	</select>
+	
+	<select id="selectTempSentListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM APPROVAL
+		WHERE WRITER_NO = #{eno}
+		AND TEMP_SAVE = 'Y'
+	</select>
+	
+	<select id="selectTempSentList" parameterType="_int" resultMap="approvalResultMap">
+		SELECT APPROVAL_NO, APPROVAL_TITLE, APPROVAL_CONTENT, WRITTEN_DATE, DUE_DATE, PRESERVED_YEARS, APPROVAL_FORM_NAME, APPROVER_M_NO, APPROVER_F_NO, WRITER_NO, C.EMP_NAME AS WRITER_NAME, DEPT_NAME, STATUS
+		FROM APPROVAL A
+		JOIN APPROVAL_FORM B ON A.APPROVAL_FORM_NO = B.APPROVAL_FORM_NO
+		JOIN EMPLOYEE C ON A.WRITER_NO = C.EMP_NO
+		JOIN DEPARTMENT D ON C.DEPT_CODE = D.DEPT_CODE
+		WHERE WRITER_NO = #{eno}
+		AND TEMP_SAVE = 'Y'
+	</select>
+	
+	<update id="updateApproval" parameterType="Approval">
+		UPDATE APPROVAL
+		SET APPROVAL_TITLE=#{approvalTitle}, APPROVAL_CONTENT=#{approvalContent},
+			WRITTEN_DATE=SYSDATE, DUE_DATE=#{dueDate}, PRESERVED_YEARS=#{preservedYears},
+			APPROVAL_FORM_NO=#{approvalFormNo}, APPROVER_M_NO=#{approvalMNo}, APPROVER_F_NO=#{approvalFNo},
+			TEMP_SAVE=#{tempSave}
+		WHERE APPROVAL_NO=#{approvalNo}
+	</update>
+	
+	<!-- Member 관련 -->
+	<select id="selectMemberList" resultMap="memberViewResultSet">
+		SELECT *
+		FROM EMPLOYEE E
+		JOIN DEPARTMENT D ON E.DEPT_CODE = D.DEPT_CODE
+		JOIN JOB J ON E.JOB_CODE = J.JOB_CODE
+		WHERE EMP_YN = 'N'
+	</select>
+	
+	<select id="selectMEmp" parameterType="hashmap" resultMap="memberViewResultSet">
+		SELECT *
+		FROM EMPLOYEE E
+		JOIN JOB J ON E.JOB_CODE = J.JOB_CODE
+		JOIN DEPARTMENT D ON E.DEPT_CODE = D.DEPT_CODE
+		JOIN APPROVAL A ON E.EMP_NO = A.APPROVER_M_NO
+		WHERE A.APPROVAL_NO = #{ano}
+		AND A.APPROVER_M_NO = #{mno}
+	</select>
+	
+	<select id="selectFEmp" parameterType="hashmap" resultMap="memberViewResultSet">
+		SELECT *
+		FROM EMPLOYEE E
+		JOIN JOB J ON E.JOB_CODE = J.JOB_CODE
+		JOIN DEPARTMENT D ON E.DEPT_CODE = D.DEPT_CODE
+		JOIN APPROVAL A ON E.EMP_NO = A.APPROVER_F_NO
+		WHERE A.APPROVAL_NO = #{ano}
+		AND A.APPROVER_F_NO = #{fno}
+	</select>
+	
+	<select id="selectWEmp" parameterType="hashmap" resultMap="memberViewResultSet">
+		SELECT *
+		FROM EMPLOYEE E
+		JOIN JOB J ON E.JOB_CODE = J.JOB_CODE
+		JOIN DEPARTMENT D ON E.DEPT_CODE = D.DEPT_CODE
+		JOIN APPROVAL A ON E.EMP_NO = A.WRITER_NO
+		WHERE A.APPROVAL_NO = #{ano}
+		AND A.WRITER_NO = #{wno}
+	</select>
+
 </mapper>
 

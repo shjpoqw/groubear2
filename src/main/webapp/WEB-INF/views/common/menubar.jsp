@@ -154,7 +154,7 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                        
-                        <a class="collapse-item" href="#">개인 일정</a>
+                        <a class="collapse-item" href="calendarList.cal">개인 일정</a>
                         <a class="collapse-item" href="#">그룹 일정</a>
                         
                     </div>
@@ -201,7 +201,7 @@
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="list.sns">
                     <span style="display:inline-block; width:20px; height:20px;">
                   		<img  src="${pageContext.request.contextPath}/resources/images/common/undraw_profile_1.svg">                 
                 	</span>
@@ -390,28 +390,27 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"> ${sessionScope.loginUser.empName}</span>
+                                <c:if test="${!empty sessionScope.profile.originName }">
                                 <img class="img-profile rounded-circle"
-                                    src="${pageContext.request.contextPath}/resources/images/common/undraw_profile.svg">
+                                	src="${ pageContext.servletContext.contextPath }/resources/profile_files/${sessionScope.profile.changeName}"/>
+                                </c:if>
+                                <c:if test="${empty sessionScope.profile.originName}">
+                                <img class="img-profile rounded-circle"
+                                    src="${pageContext.request.contextPath}/resources/images/common/member.png">
+                                </c:if>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="myPage.me">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
+                                  	  마이페이지
                                 </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
-                                </a>
+                                
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                             	       로그아웃
                                 </a>
                             </div>
                         </li>

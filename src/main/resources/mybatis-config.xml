@@ -15,6 +15,7 @@
 
 		<typeAlias type="com.kh.groubear.lmj.sns.model.vo.Sns" alias="Sns"/>
 		<typeAlias type="com.kh.groubear.lmj.sns.model.vo.Attechment" alias="Attechment"/>
+		<typeAlias type="com.kh.groubear.lmj.sns.model.vo.Reply" alias="Reply"/>
 
 		<typeAlias type="com.kh.groubear.lyj.approval.model.vo.Approval" alias="Approval"/>
 		<typeAlias type="com.kh.groubear.lyj.approval.model.vo.ApprovalForm" alias="ApprovalForm"/>
@@ -35,7 +36,7 @@
 
 		<mapper resource="/mappers/sns-mapper.xml"/>
 		<mapper resource="/mappers/snsAttechment-mapper.xml"/>
-
+		<mapper resource="/mappers/snsReply-mapper.xml"/>
 
 		<mapper resource="/mappers/approval-mapper.xml"/>
 		<mapper resource="/mappers/contact-mapper.xml"/>

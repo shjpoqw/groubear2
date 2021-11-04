@@ -17,13 +17,22 @@ public class RoomDao {
 
 	public int insertReserve(SqlSessionTemplate sqlSession, ReserveRoom rr) {
 		int result=sqlSession.insert("roomMapper.insertReserve",rr);
-		System.out.println("result : "+result);
 		return result;
 	}
 
 	public ArrayList<ReserveRoom> selectDate(SqlSessionTemplate sqlSession, ReserveRoom date) {
 
 		return (ArrayList)sqlSession.selectList("roomMapper.selectDate", date);
+	}
+
+	public int updateReserve(SqlSessionTemplate sqlSession, ReserveRoom rr) {
+		int result=sqlSession.update("roomMapper.updateReserve",rr);
+		return result;
+	}
+
+	public int deleteReserve(SqlSessionTemplate sqlSession, ReserveRoom rr) {
+		int result=sqlSession.update("roomMapper.deleteReserve",rr);
+		return result;
 	}
 
 }

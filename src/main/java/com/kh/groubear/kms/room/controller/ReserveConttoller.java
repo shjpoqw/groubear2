@@ -1,7 +1,9 @@
-package com.kh.groubear.kms.room.controller;
+ 	package com.kh.groubear.kms.room.controller;
 
 
 import java.util.ArrayList;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.kh.groubear.kms.room.model.service.RoomService;
 import com.kh.groubear.kms.room.model.vo.ReserveRoom;
+import com.kh.groubear.member.model.vo.Member;
 
 @SessionAttributes("loginUser") 
 @Controller
@@ -27,36 +30,31 @@ public class ReserveConttoller {
 		}
 		
 		@RequestMapping("reserveRoom.re")
-		public String reserveRoom(@RequestParam("empNo") String empNo,
+		public String reserveRoom(
 									@RequestParam("title") String title,
-									@RequestParam("startDate") String startDate,
-									@RequestParam("endDate") String endDate,
-									@RequestParam("roomContent") String roomContent,
-									@RequestParam("roomNo") String roomNo,
-									@RequestParam("beamCode") String beamCode) {
+									@RequestParam("start") String start,
+									@RequestParam("end") String end,
+									@RequestParam("description") String description,
+									@RequestParam("type") String type,
+									@RequestParam("beamCode") String beamCode,
+									HttpSession session) {
+	        
+			Member m = (Member)session.getAttribute("loginUser");
+	        
 			
-	        
-	        
-	        System.out.println("title : "+title);
-	        System.out.println("startDate : "+ startDate);
-	        System.out.println("endDate : "+endDate);
-	        System.out.println("roomContent : "+ roomContent);
-	        System.out.println("roomNo : "+ roomNo);
-	        System.out.println("beamCode : "+beamCode);
 	        
 			ReserveRoom rr = new ReserveRoom() ;
-			rr.setRoomTitle((title));
-			rr.setEndDate(endDate);
-			rr.setStartDate(startDate);
-			rr.setRoomContent(roomContent);
-			rr.setRoomNo(Integer.parseInt(roomNo));
-			rr.setEmpNo(102);
-			//rr.setEmpNo(Integer.parseInt(empNo));
+			rr.setTitle((title));
+			rr.setEnd(end);
+			rr.setStart(start);
+			rr.setDescription(description);
+			rr.setType(type);
+			rr.setEmpNo(m.getEmpNO());
+			rr.setUsername(m.getEmpName());
 			
-			
-			
+				
 			if (beamCode=="Y") {
-				switch(roomNo) {
+				switch(type) {
 				case "01":
 					rr.setBeamCode(01);
 					System.out.println("beamCode : 1");
@@ -76,7 +74,7 @@ public class ReserveConttoller {
 				}
 			}
 			
-//			rr.setEmpNo(roomService.selectName(empName));
+
 			
 			
 			roomService.insertReserve(rr);
@@ -90,20 +88,58 @@ public class ReserveConttoller {
 		
 		@RequestMapping("changeCal.re")
 		@ResponseBody
-		public ArrayList<ReserveRoom> changeCal(@RequestParam("startDate") String startDate,
-				@RequestParam("endDate") String endDate) {
+		public ArrayList<ReserveRoom> changeCal(@RequestParam("start") String start,
+				@RequestParam("end") String end) {
 			
-			System.out.println("changeCal : 성공?");
 			ReserveRoom date = new ReserveRoom();
 			
-			date.setStartDate(startDate);
-			date.setEndDate(endDate);
+			date.setStart(start);
+			date.setEnd(end);
 			ArrayList<ReserveRoom> rr = new ArrayList<ReserveRoom>(); 
 			rr=roomService.selectDate(date);
 			
+			System.out.println("이름 : "+rr.get(0).getUsername()+"회의실 : 	"+rr.get(0).getType());
 			
+			
+		
 			
 			return rr;
+		}
+		
+		@RequestMapping("update.re")
+		public String updateReserve(
+										@RequestParam("_id") int _id,
+										@RequestParam("title") String title,
+										@RequestParam("start") String start,
+										@RequestParam("end") String end,
+										@RequestParam("description") String description,
+										@RequestParam("type") String type) {
+			ReserveRoom rr = new ReserveRoom() ;
+			rr.set_id(_id);
+			rr.setTitle((title));
+			rr.setEnd(end);
+			rr.setStart(start);
+			rr.setDescription(description);
+			rr.setType(type);
+//			rr.setEmpNo(102);
+			rr.setUsername("명선");
+			//rr.setUserName("로그인유저이름");
+			
+			roomService.updateReserve(rr);
+			
+			return "kms/reserveRoomView";	
+		}
+		
+		@RequestMapping("delete.re")
+		public String deleteReserve(@RequestParam("_id") int _id) {
+										
+			ReserveRoom rr = new ReserveRoom() ;
+			
+			rr.set_id(_id);
+			
+			roomService.deleteReserve(rr);
+			
+			return "kms/reserveRoomView";	
 		}
 		
 		

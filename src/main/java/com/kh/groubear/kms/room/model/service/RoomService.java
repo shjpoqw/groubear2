@@ -13,4 +13,8 @@ public interface RoomService {
 	
 	ArrayList<ReserveRoom> selectDate(ReserveRoom date);
 
+	void updateReserve(ReserveRoom rr);
+
+	void deleteReserve(ReserveRoom rr);
+
 }

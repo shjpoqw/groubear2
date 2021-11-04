@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.groubear.member.model.vo.Department;
+import com.kh.groubear.member.model.vo.EmpAttachment;
 import com.kh.groubear.member.model.vo.Job;
 import com.kh.groubear.member.model.vo.Member;
 import com.kh.groubear.member.model.vo.MemberView;
@@ -54,6 +55,21 @@ public class MemberDao {
 		return sqlSession.selectOne("memberMapper.countMember");
 	}
 
-	
+
+	public EmpAttachment selectProfile(SqlSessionTemplate sqlSession, int empNO) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.selectProfile", empNO);
+	}
+
+	public int insertProfile(SqlSessionTemplate sqlSession, EmpAttachment file) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("memberMapper.insertProfile", file);
+	}
+
+	public int updateProfile(SqlSessionTemplate sqlSession, EmpAttachment file) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("memberMapper.updateProfile", file);
+	}
+
 	
 }

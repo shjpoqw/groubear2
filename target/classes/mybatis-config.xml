@@ -20,7 +20,7 @@
 
 		<typeAlias type="com.kh.groubear.lyj.approval.model.vo.Approval" alias="Approval"/>
 		<typeAlias type="com.kh.groubear.lyj.approval.model.vo.ApprovalForm" alias="ApprovalForm"/>
-		<typeAlias type="com.kh.groubear.lyj.approval.model.vo.Reply" alias="Reply"/>
+		<typeAlias type="com.kh.groubear.lyj.approval.model.vo.Reply" alias="ApprovalReply"/>
 		<typeAlias type="com.kh.groubear.jsh.contact.model.vo.Contact" alias="Contact"/>
 		
 		<typeAlias type="com.kh.groubear.jsh.Messenger.model.vo.Messenger" alias="Messenger"/>

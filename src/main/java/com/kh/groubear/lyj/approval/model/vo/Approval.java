@@ -18,16 +18,18 @@ public class Approval {
 	int approvalNo;
 	String approvalTitle;
 	String approvalContent;
-	Date dueDate;
-	Date endDate;
-//	int approvalMNo;
-//	int approvalFNo;
-	String approvalMName;
-	String approvalFName;
-//	int approvalFormNo;
+	String writtenDate;
+	String dueDate;
+	int preservedYears;
+	int approvalFormNo;
 	String approvalFormName;
+	int approvalMNo;
+	int approvalFNo;
+//	String approvalMName;
+//	String approvalFName;
 	int writerNo;
 	String writerName;
 	int status;
-
+	String tempSave;
+	
 }

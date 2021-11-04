@@ -40,7 +40,7 @@
         	<h2>문서 작성</h2>
             <br>
             
-            <form id="insertForm" action="insert.ep" method="post">
+            <form id="updateForm" action="update.ep" method="post">
 	            <h3>기본 설정</h3><br>
             	<table id="formBasic" align="center">
             		<tr>
@@ -49,7 +49,7 @@
             		</tr>
             		<tr>
             			<th><label for="title">제목</label></th>
-                        <td><input type="text" id="title" class="form-control" name="approvalTitle" required></td>
+                        <td><input type="text" id="title" class="form-control" name="approvalTitle" value="${ a.approvalTitle }" required></td>
             		</tr>
             	</table>
             	
@@ -69,18 +69,18 @@
 	                <tbody>
 	                	<tr>
 	                		<th>이름</th>
-	                		<td><input type="text" id="mName" class="form-control" name="approvalMName" readonly></td>
-	                		<td><input type="text" id="fName" class="form-control" name="approvalFName" readonly required></td>
+	                		<td><input type="text" id="mName" class="form-control" name="approvalMName" value="${ mEmp.empName }" readonly></td>
+	                		<td><input type="text" id="fName" class="form-control" name="approvalFName" value="${ fEmp.empName }" readonly required></td>
 	                	</tr>
 	                	<tr>
 	                		<th>부서</th>
-	                		<td><input type="text" id="mDept" class="form-control" name="approvalMDept" readonly></td>
-	                		<td><input type="text" id="fDept" class="form-control" name="approvalFDept" readonly required></td>
+	                		<td><input type="text" id="mDept" class="form-control" name="approvalMDept" value="${ mEmp.deptName }" readonly></td>
+	                		<td><input type="text" id="fDept" class="form-control" name="approvalFDept" value="${ fEmp.deptName }" readonly required></td>
 	                	</tr>
 	                	<tr>
 	                		<th>직급</th>
-	                		<td><input type="text" id="mJob" class="form-control" name="approvalMJob" readonly></td>
-	                		<td><input type="text" id="fJob" class="form-control" name="approvalFJob" readonly required></td>
+	                		<td><input type="text" id="mJob" class="form-control" name="approvalMJob" value="${ mEmp.jobName }" readonly></td>
+	                		<td><input type="text" id="fJob" class="form-control" name="approvalFJob" value="${ mEmp.jobName }" readonly required></td>
 	                	</tr>
 	                </tbody>
             	</table>            	
@@ -103,15 +103,15 @@
             		 -->
             		<tr>
             			<th><label for="dueDate">마감일</label></th>
-            			<td><input type="date" name="dueDate" id="dueDate"></td>
+            			<td><input type="date" name="dueDate" id="dueDate" value=${ a.dueDate } ></td>
             		</tr>
             		<tr>
             			<th><label for="preservedYears">보존년한</label></th>
-            			<td><input type="text" name="preservedYears" id="preservedYears">년</td>
+            			<td><input type="text" name="preservedYears" id="preservedYears" value="${ a.preservedYears }">년</td>
             		</tr>
             		<tr>
             			<th><label for="content">내용</label></th>
-                        <td><textarea id="content" class="form-control" name="approvalContent" cols="30" rows="5" placeholder="${ af.approvalFormContent }" required></textarea></td></tr>
+                        <td><textarea id="content" class="form-control" name="approvalContent" cols="30" rows="5" placeholder="${ af.approvalFormContent }" required>${ a.approvalContent }</textarea></td></tr>
             	</table>
             	
             	<!-- hidden -->
@@ -184,7 +184,7 @@
 			
 			//$("#insertForm").attr("action", "insert.ep");
 			
-			$("#insertForm").submit();
+			$("#updateForm").submit();
 		}
 	</script>
     

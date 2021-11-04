@@ -5,10 +5,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>상신 문서함</title>
+<title>임시 저장함</title>
 <style>
-	#sentListTb{text-align: center;}
-    #sentListTb>tbody>tr:hover{cursor:pointer;}
+	#tempSentListTb{text-align: center;}
+    #tempSentListTb>tbody>tr:hover{cursor:pointer;}
 
     #pagingArea{width:fit-content;margin:auto;}
     /* #pagingArea a{color:black} */
@@ -33,9 +33,9 @@
 	<div class="content">
         <br><br>
         <div class="innerOuter" style="padding:5% 10%;">
-        	<h2>상신 문서함</h2>
+        	<h2>임시 저장함</h2>
             <br>
-            <table id="sentListTb" class="table table-hover" align="center">
+            <table id="tempSentListTb" class="table table-hover" align="center">
                 <thead>
                   <tr>
                   	<th>No</th>
@@ -47,36 +47,23 @@
                   </tr>
                 </thead>
                 <tbody>
-                	<c:forEach items="${ sentList }" var="sl">
+                	<c:forEach items="${ tempSentList }" var="tsl">
 	                    <tr>
-	                        <td>${ sl.approvalNo }</td>
-	                        <td>${ sl.approvalFormName }</td>
-	                        <td>${ sl.approvalTitle }</td>
-	                        <td>${ sl.writtenDate }</td>
-	                        <td>${ sl.dueDate }</td>
-	                        <td>
-	                        	<c:choose>
-	                        		<c:when test="${ sl.status == 1 }">미결</c:when>
-	                        	</c:choose>
-	                        	<c:choose>
-	                        		<c:when test="${ sl.status == 2 }">진행중</c:when>
-	                        	</c:choose>
-	                        	<c:choose>
-	                        		<c:when test="${ sl.status == 3 }">완료</c:when>
-	                        	</c:choose>
-	                        	<c:choose>
-	                        		<c:when test="${ sl.status == 4 }">반려</c:when>
-	                        	</c:choose>
-	                        </td>
+	                        <td>${ tsl.approvalNo }</td>
+	                        <td>${ tsl.approvalFormName }</td>
+	                        <td>${ tsl.approvalTitle }</td>
+	                        <td>${ tsl.writtenDate }</td>
+	                        <td>${ tsl.dueDate }</td>
+	                        <td>임시저장</td>
 	                    </tr>
                     </c:forEach>
                 </tbody>
             </table>
             <br>
             
-            <c:if test="${ loginUser.empNO eq sl.writerNo }">
+            <c:if test="${ loginUser.empNO eq tsl.writerNo }">
 	            <form id="postForm" action="" method="post">
-					<input type="hidden" name="eno" value="${ sl.writerNo }">
+					<input type="hidden" name="eno" value="${ tsl.writerNo }">
 				</form>
             </c:if>
             <br><br>
@@ -85,7 +72,7 @@
                 <ul class="pagination">
                 	<c:choose>
                 		<c:when test="${ pi.currentPage ne 1 }">
-                			<li class="page-item"><a class="page-link" href="sentList.ep?currentPage=${ pi.currentPage-1 }">Previous</a></li>
+                			<li class="page-item"><a class="page-link" href="tempSentList.ep?currentPage=${ pi.currentPage-1 }">Previous</a></li>
                 		</c:when>
                 		<c:otherwise>
                 			<li class="page-item disabled"><a class="page-link" href="">Previous</a></li>
@@ -95,7 +82,7 @@
                     <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
                     	<c:choose>
 	                		<c:when test="${ pi.currentPage ne p }">
-                    			<li class="page-item"><a class="page-link" href="sentList.ep?currentPage=${ p }">${ p }</a></li>
+                    			<li class="page-item"><a class="page-link" href="tempSentList.ep?currentPage=${ p }">${ p }</a></li>
 	                		</c:when>
 	                		<c:otherwise>
 	                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
@@ -106,10 +93,10 @@
                     
                     <c:choose>
                 		<c:when test="${ pi.currentPage ne pi.maxPage }">
-                			<li class="page-item"><a class="page-link" href="sentList.ep?currentPage=${ pi.currentPage+1 }">Next</a></li>
+                			<li class="page-item"><a class="page-link" href="tempSentList.ep?currentPage=${ pi.currentPage+1 }">Next</a></li>
                 		</c:when>
                 		<c:otherwise>
-                			<li class="page-item disabled"><a class="page-link" href="sentList.ep?currentPage=${ pi.currentPage+1 }">Next</a></li>
+                			<li class="page-item disabled"><a class="page-link" href="tempSentList.ep?currentPage=${ pi.currentPage+1 }">Next</a></li>
                 		</c:otherwise>
                 	</c:choose>
                 </ul>
@@ -125,8 +112,8 @@
     
     <script>
     	$(function(){
-    		$("#sentListTb tbody tr").click(function(){
-    			location.href="sentDetail.ep?ano=" + $(this).children().eq(0).text();
+    		$("#tempSentListTb tbody tr").click(function(){
+    			location.href="tempWrite.ep?ano=" + $(this).children().eq(0).text();
     		});
     	});
     </script>

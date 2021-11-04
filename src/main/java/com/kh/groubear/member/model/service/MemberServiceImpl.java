@@ -3,7 +3,6 @@ package com.kh.groubear.member.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.kh.groubear.common.exception.CommException;
 import com.kh.groubear.member.model.dao.MemberDao;
 import com.kh.groubear.member.model.vo.Department;
+import com.kh.groubear.member.model.vo.EmpAttachment;
 import com.kh.groubear.member.model.vo.Job;
 import com.kh.groubear.member.model.vo.Member;
 import com.kh.groubear.member.model.vo.MemberView;
@@ -121,7 +121,34 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	
+	@Override
+	public EmpAttachment selectProfile(int empNO) {
+		EmpAttachment profile = memberDao.selectProfile(sqlSession, empNO);
+		if(profile == null) {
+			profile = new EmpAttachment();
+		}
+		return profile;
+	}
 
+	@Override
+	public void insertProfile(EmpAttachment file) {
+		int result = memberDao.insertProfile(sqlSession, file);
+
+		if (result < 0) {
+			throw new CommException("파일등록 실패."); 
+		}
+
+	}
+
+	@Override
+	public void updateProfile(EmpAttachment file) {
+		int result = memberDao.updateProfile(sqlSession, file);
+
+		if (result < 0) {
+			throw new CommException("파일등록 실패."); 
+		}
+		
+	}
 
 
 }

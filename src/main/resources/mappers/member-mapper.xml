@@ -49,6 +49,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="jobName" column="JOB_NAME" />
 	</resultMap>
 	
+	<resultMap id="empAttachmentResultSet" type="EmpAttachment">
+		<id property="fileNo" column="FILE_NO" />
+		<result property="originName" column="ORIGIN_NAME" />
+		<result property="changeName" column="CHANGE_NAME" />
+		<result property="empNO" column="EMP_NO" />
+	</resultMap>
 	
 	<select id="loginMember" parameterType="Member" resultMap="memberResultSet">
 		
@@ -114,5 +120,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where emp_name=#{empName}
   	</select>
 	
+	 <insert id="insertProfile" parameterType="EmpAttachment">
+		INSERT INTO EMP_ATTACHMENT
+		VALUES(EMP_ATTACHMENT_SEQ.NEXTVAL,#{originName}, #{changeName}, #{empNO})
+	</insert>
+	
+	<update id="updateProfile" parameterType="EmpAttachment">
+		UPDATE EMP_ATTACHMENT
+		SET ORIGIN_NAME=#{originName}, CHANGE_NAME=#{changeName}
+		WHERE EMP_NO=#{empNO}
+	</update>
 </mapper>
 

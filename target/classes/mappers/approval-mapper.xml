@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="approvalCatName" column="APPROVAL_CAT_NAME"/>
 	</resultMap>
 	
-	<resultMap id="replyResultMap" type="Reply">
+	<resultMap id="replyResultMap" type="ApprovalReply">
 		<id property="replyNo" column="REPLY_NO"/>
 		<result property="replyContent" column="REPLY_CONTENT"/>
 		<result property="refApprovalNo" column="REF_ANO"/>

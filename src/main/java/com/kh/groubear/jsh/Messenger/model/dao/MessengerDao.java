@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.groubear.jsh.Messenger.model.vo.Chat;
 import com.kh.groubear.jsh.Messenger.model.vo.MemberMsg;
 import com.kh.groubear.jsh.Messenger.model.vo.Messenger;
 import com.kh.groubear.jsh.Messenger.model.vo.StateMessage;
@@ -38,6 +39,33 @@ public class MessengerDao {
 
 	public int insertMsg(SqlSessionTemplate sqlSession, Messenger insertMsg) {
 		return sqlSession.insert("messengerMapper.insertMsg", insertMsg);
+	}
+
+	public int insertStateMessage(SqlSessionTemplate sqlSession, StateMessage stateMessage) {
+		return sqlSession.insert("messengerMapper.insertStateMessage", stateMessage);
+	}
+
+	public ArrayList<Messenger> selectMsgList(SqlSessionTemplate sqlSession, HashMap<String, Object> map2) {
+		return (ArrayList) sqlSession.selectList("messengerMapper.selectMsgList", map2);
+	}
+
+	public ArrayList<Chat> chatList(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		return (ArrayList) sqlSession.selectList("messengerMapper.chatList", map);
+	}
+
+	public ArrayList<Chat> chatListRecent(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return (ArrayList) sqlSession.selectList("messengerMapper.chatListRecent", map);
+	}
+
+	public int transmit(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("messengerMapper.transmit", map);
+	}
+
+	public MemberMsg selectEmp(SqlSessionTemplate sqlSession, int toEmpNo) {
+		// TODO Auto-generated method stub
+		return (MemberMsg)sqlSession.selectOne("messengerMapper.selectEmp", toEmpNo);
 	}
 
 	

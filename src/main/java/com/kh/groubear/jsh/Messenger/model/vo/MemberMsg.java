@@ -16,6 +16,9 @@ public class MemberMsg {
 	private String empName;
 	private int stateMessageNo;
 	private String message;
+	private String originName;
+	private String changeName;
+	
 	
 	public MemberMsg() {
 		// TODO Auto-generated constructor stub

@@ -154,7 +154,7 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                        
-                        <a class="collapse-item" href="#">개인 일정</a>
+                        <a class="collapse-item" href="calendarList.cal">개인 일정</a>
                         <a class="collapse-item" href="#">그룹 일정</a>
                         
                     </div>
@@ -201,7 +201,7 @@
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="list.sns">
                     <span style="display:inline-block; width:20px; height:20px;">
                   		<img  src="${pageContext.request.contextPath}/resources/images/common/undraw_profile_1.svg">                 
                 	</span>

@@ -1,6 +1,4 @@
-package com.kh.groubear.lyj;
-
-import com.kh.groubear.lyj.approval.model.vo.PageInfo;
+package com.kh.groubear.lyj.approval.model.vo;
 
 public class Pagination {
 	

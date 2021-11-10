@@ -15,12 +15,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.GsonBuilder;
-import com.kh.groubear.lyj.Pagination;
 import com.kh.groubear.lyj.approval.model.service.ApprovalService;
 import com.kh.groubear.lyj.approval.model.vo.Approval;
 import com.kh.groubear.lyj.approval.model.vo.ApprovalForm;
 import com.kh.groubear.lyj.approval.model.vo.PageInfo;
+import com.kh.groubear.lyj.approval.model.vo.Pagination;
 import com.kh.groubear.lyj.approval.model.vo.Reply;
+import com.kh.groubear.member.model.service.MemberService;
 import com.kh.groubear.member.model.vo.Member;
 import com.kh.groubear.member.model.vo.MemberView;
 
@@ -29,6 +30,9 @@ public class ApprovalController {
 		
 	@Autowired
 	private ApprovalService approvalService;
+	
+	@Autowired
+	private MemberService memberService;
 	
 	// 문서 작성
 	@RequestMapping("formList.ep")
@@ -62,7 +66,7 @@ public class ApprovalController {
 	@RequestMapping(value = "modalView.ep", method = RequestMethod.GET)
 	public String modelPopUp(Model model) {
 
-		ArrayList<Member> mList = approvalService.selectMemberList();
+		ArrayList<Member> mList = memberService.selectMemberList();
 		System.out.println("write.ep mList : " + mList);
 		
 	    model.addAttribute("mList", mList);
@@ -72,7 +76,8 @@ public class ApprovalController {
 	
 	@RequestMapping("insert.ep")
 	public String insertApproval(Approval a, HttpServletRequest request, Model model) {
-		
+
+		a.setApprovalContent(a.getApprovalContent().replaceAll("\r\n","<br>"));
 		System.out.println(a);
 		
 		approvalService.insertApproval(a);
@@ -111,9 +116,9 @@ public class ApprovalController {
 		int fno = a.getApprovalFNo();
 		int wno = a.getWriterNo();
 		
-		MemberView mEmp = approvalService.selectMEmp(ano, mno);
-		MemberView fEmp = approvalService.selectFEmp(ano, fno);
-		MemberView wEmp = approvalService.selectWEmp(ano, wno);
+		MemberView mEmp = memberService.selectMEmp(ano, mno);
+		MemberView fEmp = memberService.selectFEmp(ano, fno);
+		MemberView wEmp = memberService.selectWEmp(ano, wno);
 		
 		mv.addObject("a", a);
 		mv.addObject("mEmp", mEmp);
@@ -130,7 +135,11 @@ public class ApprovalController {
 	@RequestMapping(value="rlist.ep", produces="application/json; charset=utf-8")
 	public String selectReplyList(int ano) {
 		
+		System.out.println("rlist.ep 실행됨!!");
+		
 		ArrayList<Reply> list = approvalService.selectReplyList(ano);
+		
+		System.out.println(list);
 		
 //		System.out.println(list.get(0).getCreateDate().toString());
 		
@@ -140,7 +149,25 @@ public class ApprovalController {
 	
 	@ResponseBody
 	@RequestMapping("rinsert.ep")
-	public String insertReply(Reply r) {
+	public String insertReply(Reply r, int mno, int fno) {
+		
+		int ano = r.getRefApprovalNo();
+		int status = 1;
+		
+		if (r.getStatus().equals("Y")) {
+			
+			if (r.getReplyWriterNo() == mno) { // 중간 결재자가 승인했을 경우
+				status = 2; // status = 2 (진행 중)
+			} else if (r.getReplyWriterNo() == fno) { // 최종 결재자가 승인했을 경우
+				status = 3; // status = 3 (완료)
+			}
+			
+		} else if (r.getStatus().equals("N")) { // 중간 결재자나 최종 결재자가 반려했을 경우
+			status = 4; // status = 4 (반려)
+		}
+		
+		approvalService.updateStatus(ano, status);
+		
 		int result = approvalService.insertReply(r);
 		
 		return String.valueOf(result);
@@ -177,9 +204,9 @@ public class ApprovalController {
 		int fno = a.getApprovalFNo();
 		int wno = a.getWriterNo();
 		
-		MemberView mEmp = approvalService.selectMEmp(ano, mno);
-		MemberView fEmp = approvalService.selectFEmp(ano, fno);
-		MemberView wEmp = approvalService.selectWEmp(ano, wno);
+		MemberView mEmp = memberService.selectMEmp(ano, mno);
+		MemberView fEmp = memberService.selectFEmp(ano, fno);
+		MemberView wEmp = memberService.selectWEmp(ano, wno);
 		
 		mv.addObject("a", a);
 		mv.addObject("mEmp", mEmp);
@@ -218,14 +245,17 @@ public class ApprovalController {
 		
 		Approval a = approvalService.selectApproval(ano);
 		
+		int afno = a.getApprovalFormNo();
 		int mno = a.getApprovalMNo();
 		int fno = a.getApprovalFNo();
 		int wno = a.getWriterNo();
 		
-		MemberView mEmp = approvalService.selectMEmp(ano, mno);
-		MemberView fEmp = approvalService.selectFEmp(ano, fno);
-		MemberView wEmp = approvalService.selectWEmp(ano, wno);
+		ApprovalForm af = approvalService.selectForm(afno);
+		MemberView mEmp = memberService.selectMEmp(ano, mno);
+		MemberView fEmp = memberService.selectFEmp(ano, fno);
+		MemberView wEmp = memberService.selectWEmp(ano, wno);
 		
+		mv.addObject("af", af);
 		mv.addObject("a", a);
 		mv.addObject("mEmp", mEmp);
 		mv.addObject("fEmp", fEmp);
@@ -238,15 +268,14 @@ public class ApprovalController {
 	}
 	
 	@RequestMapping("update.ep")
-	public ModelAndView updateApproval(Approval a, ModelAndView mv, HttpServletRequest request) {
+	public String updateApproval(Approval a, HttpServletRequest request, Model model) {
+		
+		a.setApprovalContent(a.getApprovalContent().replaceAll("\r\n","<br>"));
+		System.out.println("update.ep : " + a);
 		
 		approvalService.updateApproval(a);
 		
-		mv.setViewName("lyj/approval/approvalSentList");
-		
-//		mv.addObject("ano", a.getApprovalNo()).setViewName("redirect:sentDetail.ep");
-		return mv;
-		
+		return "redirect:sentList.ep";
 	}
 	
 

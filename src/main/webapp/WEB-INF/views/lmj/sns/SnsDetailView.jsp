@@ -64,7 +64,7 @@
 	            <div align="center">
 	                <button class="btn btn-primary" onclick="postFormSubmit(1);">수정하기</button>
 	                <button class="btn btn-danger" onclick="postFormSubmit(2);">삭제하기</button>
-	                <button class="btn btn-primary" onclick="like()">좋아요</button>
+	                
 	            </div>
 	            
 	            <form id="postForm" action="" method="post">

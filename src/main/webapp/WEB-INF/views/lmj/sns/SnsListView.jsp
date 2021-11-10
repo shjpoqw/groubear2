@@ -46,7 +46,6 @@
                     <th>글번호</th>
                     <th>제목</th>
                     <th>작성자</th>
-                    <th>좋아요</th>
                     <th>작성일</th>
                     <th>내용</th>
                     <th>추천수</th>
@@ -58,7 +57,6 @@
 	                        <td>${ s.snsNo }</td>
 	                        <td>${ s.snsTitle }</td>
 	                        <td>${ sessionScope.loginUser.empName }</td>
-	                        <td>${ s.LCount }</td>
 	                        <td>${ s.snsDate }</td>
 	                        <td>${ s.snsContent }</td>
 	                       

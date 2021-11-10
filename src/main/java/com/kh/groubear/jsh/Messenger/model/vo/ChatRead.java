@@ -13,15 +13,12 @@ import lombok.ToString;
 @Getter
 @AllArgsConstructor
 @ToString
-public class Messenger {
-	private int messengerNo;
-	private String title;
-	private String pwd;
-	private String status;
+public class ChatRead {
 	private int empNO;
-	private Date lastDate;
+	private int toEmpNo;
+	private int count;
 	
-	public Messenger() {
+	public ChatRead() {
 		// TODO Auto-generated constructor stub
 	}
 }

@@ -3,9 +3,9 @@ package com.kh.groubear.jsh.Messenger.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.kh.groubear.jsh.Messenger.model.vo.Chat;
+import com.kh.groubear.jsh.Messenger.model.vo.ChatRead;
+import com.kh.groubear.jsh.Messenger.model.vo.ChatView;
 import com.kh.groubear.jsh.Messenger.model.vo.MemberMsg;
-import com.kh.groubear.jsh.Messenger.model.vo.Messenger;
 import com.kh.groubear.jsh.Messenger.model.vo.StateMessage;
 import com.kh.groubear.member.model.vo.Member;
 
@@ -17,22 +17,22 @@ public interface MessengerService {
 
 	void updateStateMessage(StateMessage stateMessage);
 
-	ArrayList<Messenger> msgList(HashMap<String, Object> map3);
-
-	void insertMsg(Messenger insertMsg);
-
 	void insertStateMessage(StateMessage stateMessage);
-
-	ArrayList<Messenger> selectMsgList(HashMap<String, Object> map2);
-
-	ArrayList<Chat> chatList(HashMap<String, Object> map);
-
-	ArrayList<Chat> chatListRecent(HashMap<String, Object> map);
-
-	void transmit(HashMap<String, Object> map);
 
 	MemberMsg selectEmp(int toEmpNo);
 
-	int sendMessage(Chat chat);
+	
+
+	ArrayList<ChatView> getChatListById(HashMap<String, Object> map);
+
+	ArrayList<ChatView> getChatListByRecent(HashMap<String, Object> map);
+
+	int submit(HashMap<String, Object> map);
+
+	int readChat(HashMap<String, Object> map);
+
+
+	ArrayList<ChatRead> getUnreadChat(int empNO);
+
 
 }

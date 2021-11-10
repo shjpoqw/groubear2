@@ -1,9 +1,5 @@
 package com.kh.groubear.jsh.Messenger.model.vo;
 
-import java.util.Date;
-
-import com.kh.groubear.jsh.contact.model.vo.Contact;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -15,14 +11,16 @@ import lombok.ToString;
 @Getter
 @AllArgsConstructor
 @ToString
-public class Chat {
+public class ChatView {
 	private int chatNo;
 	private String message;
-	private Date createDate;
+	private String createDate;
 	private int empNO;
 	private int toEmpNo;
 	private int chatread;
-	public Chat() {
+	private String empName;
+	private String toEmpName;
+	public ChatView() {
 		// TODO Auto-generated constructor stub
 	}
 }

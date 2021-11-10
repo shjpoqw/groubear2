@@ -17,18 +17,26 @@
 		<typeAlias type="com.kh.groubear.lmj.sns.model.vo.Sns" alias="Sns"/>
 		<typeAlias type="com.kh.groubear.lmj.sns.model.vo.Attechment" alias="Attechment"/>
 		<typeAlias type="com.kh.groubear.lmj.sns.model.vo.Reply" alias="Reply"/>
-
+		<typeAlias type="com.kh.groubear.lmj.calendar.model.vo.Calendar" alias="Calendar"/>
+		
 		<typeAlias type="com.kh.groubear.lyj.approval.model.vo.Approval" alias="Approval"/>
 		<typeAlias type="com.kh.groubear.lyj.approval.model.vo.ApprovalForm" alias="ApprovalForm"/>
 		<typeAlias type="com.kh.groubear.lyj.approval.model.vo.Reply" alias="ApprovalReply"/>
+		<typeAlias type="com.kh.groubear.lyj.commute.model.vo.Commute" alias="Commute"/>
+        <typeAlias type="com.kh.groubear.lyj.commute.model.vo.Leave" alias="Leave"/>
+		
+		<typeAlias type="com.kh.groubear.jsh.Messenger.model.vo.Chat" alias="Chat"/>
+	    <typeAlias type="com.kh.groubear.jsh.Messenger.model.vo.ChatView" alias="ChatView"/>
+	    <typeAlias type="com.kh.groubear.jsh.Messenger.model.vo.MemberMsg" alias="MemberMsg"/>
+	    <typeAlias type="com.kh.groubear.jsh.Messenger.model.vo.StateMessage" alias="StateMessage"/>
+	    <typeAlias type="com.kh.groubear.jsh.Messenger.model.vo.ChatRead" alias="ChatRead"/>
 		<typeAlias type="com.kh.groubear.jsh.contact.model.vo.Contact" alias="Contact"/>
 		
-		<typeAlias type="com.kh.groubear.jsh.Messenger.model.vo.Messenger" alias="Messenger"/>
-		<typeAlias type="com.kh.groubear.jsh.Messenger.model.vo.Chat" alias="Chat"/>
-		<typeAlias type="com.kh.groubear.jsh.Messenger.model.vo.MemberMsg" alias="MemberMsg"/>
-		<typeAlias type="com.kh.groubear.jsh.Messenger.model.vo.StateMessage" alias="StateMessage"/>
 		<typeAlias type="com.kh.groubear.kms.room.model.vo.ReserveRoom" alias="ReserveRoom"/>
 		<typeAlias type="com.kh.groubear.kms.car.model.vo.ReserveCar" alias="ReserveCar"/>
+		
+		
+		
 	</typeAliases>
 
 
@@ -45,6 +53,8 @@
 		<mapper resource="/mappers/messenger-mapper.xml"/>
 		<mapper resource="/mappers/room-mapper.xml"/>
 		<mapper resource="/mappers/car-mapper.xml"/>
+		<mapper resource="/mappers/calendar-mapper.xml"/>
+		<mapper resource="/mappers/commute-mapper.xml"/>
 	</mappers>
 	
 	

@@ -35,7 +35,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="main.p">
                 <div class="sidebar-brand-icon rotate-n-15" style="width:50px; height:50px;">
                   	<img  src="${pageContext.request.contextPath}/resources/images/common/undraw_profile_1.svg">
                                            
@@ -48,7 +48,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="main.p">
                    
                     <span>Home</span></a>
             </li>
@@ -74,10 +74,10 @@
                 <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         
-                        <a class="collapse-item" href="#">문서 작성</a>
-                        <a class="collapse-item" href="#">임시 저장함</a>
-						<a class="collapse-item" href="#">상신 문서함</a>
-						<a class="collapse-item" href="#">결재 문서함</a>
+                        <a class="collapse-item" href="formList.ep">문서 작성</a>
+                        <a class="collapse-item" href="tempSentList.ep">임시 저장함</a>
+						<a class="collapse-item" href="sentList.ep">상신 문서함</a>
+						<a class="collapse-item" href="sentList.ep">결재 문서함</a>
                     </div>
                 </div>
             </li>
@@ -94,10 +94,10 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="#">출/퇴근 기록</a>
-                        <a class="collapse-item" href="#">나의 근태현황</a>
-                        <a class="collapse-item" href="#">연차 내역</a>
-                        <a class="collapse-item" href="#">전사 근태현황</a>
+                        <a class="collapse-item" href="recordForm.cm">출/퇴근 기록</a>
+                        <a class="collapse-item" href="myRecord.cm">나의 근태현황</a>
+                        <a class="collapse-item" href="leaveMyRecord.lv">연차 내역</a>
+                        <a class="collapse-item" href="allRecord.cm">전사 근태현황</a>
                     </div>
                 </div>
             </li>
@@ -114,10 +114,8 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         
-                        <a class="collapse-item" href="#">출/퇴근 기록</a>
-                        <a class="collapse-item" href="#">나의 근태현황</a>
-                        <a class="collapse-item" href="#">연차 내역</a>
-                        <a class="collapse-item" href="#">전사 근태현황</a>
+                        <a class="collapse-item" href="list.mem">직원 조회</a>
+                       
                     </div>
                 </div>
             </li>
@@ -136,7 +134,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                     
                         <a class="collapse-item" href="roomView.re">회의실 예약</a>
-                        <a class="collapse-item" href="#">차량 예약</a>
+                        <a class="collapse-item" href="carView.re">차량 예약</a>
                     </div>
                 </div>
             </li>
@@ -182,8 +180,8 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="#">사원 조회</a>
-                        <a class="collapse-item" href="#">개인 주소록</a>
+                        <a class="collapse-item" href="publicList.ct">사원 조회</a>
+                        <a class="collapse-item" href="contactList.ct">개인 주소록</a>
                     
                     </div>
                 </div>
@@ -192,7 +190,7 @@
 
  	<!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="messengerHome.msg">
                     <span style="display:inline-block; width:20px; height:20px;">
                   		<img  src="${pageContext.request.contextPath}/resources/images/common/undraw_profile_1.svg">                 
                 	</span>

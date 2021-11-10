@@ -23,12 +23,15 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kh.groubear.common.Pagination;
 import com.kh.groubear.common.exception.CommException;
 import com.kh.groubear.member.model.service.MemberService;
 import com.kh.groubear.member.model.vo.Department;
 import com.kh.groubear.member.model.vo.EmpAttachment;
 import com.kh.groubear.member.model.vo.Job;
 import com.kh.groubear.member.model.vo.Member;
+import com.kh.groubear.member.model.vo.MemberView;
+import com.kh.groubear.member.model.vo.PageInfo;
 
 @SessionAttributes("loginUser") // Model에 loginUser 라는 키값으로 객체가 추가되면 자동으로 세션에 추가되는 어노테이션 (응답 페이지에 응답할 데이터가 있는 경우 3번)
 @Controller
@@ -47,13 +50,15 @@ public class MemberController {
 
 	
 	
-	//로그아웃 변경(@SessionAttributes)	
-	@RequestMapping("logout.me")
-	public String logoutMember(SessionStatus status) {
-		status.setComplete(); // 현재 컨트롤러에 @SessionAttributes 에 의해 저장된 오브젝트를 제거
-		return "redirect:/";
-	}
+
 	
+	@RequestMapping("logout.me")
+   public String logoutMember(HttpSession session ,SessionStatus status) {
+      Member user = (Member)session.getAttribute("loginUser");
+      
+      status.setComplete(); // 현재 컨트롤러에 @SessionAttributes 에 의해 저장된 오브젝트를 제거
+      return "redirect:/";
+   }
 	
 	@RequestMapping("enrollForm.me")
 	public String enrollForm(HttpServletRequest request) {
@@ -89,54 +94,63 @@ public class MemberController {
 	}
 	
 	
-	//암호화처리 로그인
 	@RequestMapping("login.me")
-	public String loginMember(Member m, Model model) throws Exception{
-		
-		Member loginUser = memberService.loginMember(bCryptPasswordEncoder, m);
+	   public String loginMember(Member m, HttpServletRequest request, Model model) throws Exception {
 
-		model.addAttribute("loginUser", loginUser);
-		return "common/menubar"; //redirect:index.jsp
-	}
+	      Member loginUser = memberService.loginMember(bCryptPasswordEncoder, m);
+	      EmpAttachment profile = memberService.selectProfile(loginUser.getEmpNO());
+	      HttpSession session = request.getSession();
+	      session.setAttribute("profile", profile);
+	      model.addAttribute("loginUser", loginUser);
+	      return "common/menubar"; // redirect:index.jsp
+	   }
+	
+	// 마이페이지
+   @RequestMapping("myPage.me")
+   public String myPage(HttpSession session, Model model) {
+      Member user = (Member) session.getAttribute("loginUser");
+      EmpAttachment profile = memberService.selectProfile(user.getEmpNO());
+
+      model.addAttribute("profile", profile);
+
+      return "member/myPage";
+   }
 
 	
-	//마이페이지
-	@RequestMapping("myPage.me")
-	public String myPage() {
-		
-		
-		return "member/myPage";
-	}
+   @RequestMapping("update.me")
+   public String updateMember(@ModelAttribute Member m, HttpServletRequest request, @RequestParam("post") String post,
+         @RequestParam("address1") String address1, @RequestParam("address2") String address2,
+         @RequestParam(value = "profile", required = false) MultipartFile profile, Model model) throws Exception {
+      
+	   System.out.println("======= profile " + profile);
+      if (!profile.equals("") || profile != null) {
 
-	
-	@RequestMapping("update.me")
-	public String updateMember(@ModelAttribute Member m, HttpServletRequest request,
-							   @RequestParam("post") String post,
-							   @RequestParam("address1") String address1,
-						       @RequestParam("address2") String address2,
-							   @RequestParam(value="profile", required = false) MultipartFile profile,
-							 Model model) throws Exception {
-		EmpAttachment file = memberService.selectProfile(m.getEmpNO());
-		if(file.getFileNo() != 0 && !file.getOriginName().equals("")) {
-			deleteFile(file.getOriginName(), request);
-		}
-		String changeName = saveFile(profile, request);
-		file.setOriginName(profile.getOriginalFilename());
-		file.setChangeName(changeName);
-		file.setEmpNO(m.getEmpNO());
-		if(file.getFileNo() == 0) {
-			memberService.insertProfile(file);
-		} else {
-			memberService.updateProfile(file);
-		}
-		
-		
-		m.setAddress(post+"/"+address1+"/"+address2);
-		Member userInfo = memberService.updateMember(m);
-		
-		model.addAttribute("loginUser", userInfo);
-		return "member/myPage";
-	}
+         EmpAttachment file = memberService.selectProfile(m.getEmpNO());
+         if (file.getFileNo() != 0 && !file.getOriginName().equals("")) {
+            deleteFile(file.getOriginName(), request);
+         }
+         String changeName = saveFile(profile, request);
+         file.setOriginName(profile.getOriginalFilename());
+         file.setChangeName(changeName);
+         file.setEmpNO(m.getEmpNO());
+         if (file.getFileNo() == 0) {
+            memberService.insertProfile(file);
+         } else {
+            memberService.updateProfile(file);
+         }
+         
+         EmpAttachment updateProfile = memberService.selectProfile(m.getEmpNO());
+         HttpSession session = request.getSession();
+         session.setAttribute("profile", updateProfile);
+      }
+
+      m.setAddress(post + "/" + address1 + "/" + address2);
+      
+      Member userInfo = memberService.updateMember(m);
+
+      model.addAttribute("loginUser", userInfo);
+      return "member/myPage";
+   }
 	
 	private void deleteFile(String fileName, HttpServletRequest request) {
 		String resources = request.getSession().getServletContext().getRealPath("resources");
@@ -195,4 +209,13 @@ public class MemberController {
 		return changeName;
 	}
 	
+	@RequestMapping("main.p")
+	public String mainPage() {
+		
+		
+		
+		return "common/menubar";
+	}
+	
+
 }

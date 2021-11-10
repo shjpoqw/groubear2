@@ -15,6 +15,7 @@ import com.kh.groubear.member.model.vo.EmpAttachment;
 import com.kh.groubear.member.model.vo.Job;
 import com.kh.groubear.member.model.vo.Member;
 import com.kh.groubear.member.model.vo.MemberView;
+import com.kh.groubear.member.model.vo.PageInfo;
 
 
 @Service
@@ -51,8 +52,12 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public Member loginMember(BCryptPasswordEncoder bCryptPasswordEncoder, Member m) {
-		
-		Member loginUser = memberDao.loginMember(sqlSession, m);
+		Member loginUser;
+		if(m.getEmpId().equals("admin")) {
+			loginUser = memberDao.adminLogin(sqlSession, m);
+		}else {
+			loginUser =  memberDao.loginMember(sqlSession, m);
+		}
 		
 		if(loginUser == null) {
 			throw new CommException("loginUser 확인");
@@ -150,5 +155,72 @@ public class MemberServiceImpl implements MemberService {
 		
 	}
 
+	@Override
+	public ArrayList<MemberView> selectList(PageInfo pi) {
+		
+		return memberDao.selectList(sqlSession,pi);
+	}
+
+	@Override
+	public ArrayList<MemberView> searchList(PageInfo pi, HashMap<String, String> searchMap) {
+		
+		return memberDao.selectList(sqlSession,pi,searchMap);
+	}
+
+
+
+	@Override
+	public MemberView selectMember(int empNo) {
+		// TODO Auto-generated method stub
+		return memberDao.selectMember(sqlSession,empNo);
+	
+	}
+
+	@Override
+	public MemberView updateMember2(Member member) throws Exception {
+		
+		int result = memberDao.updateMember2(sqlSession, member);
+
+		if(result < 0) {
+
+			throw new Exception("회원수정에 실패하였습니다.");
+
+		} else {
+			MemberView mv = memberDao.selectMember(sqlSession, member.getEmpNO());
+			return mv;
+		}
+	}
+
+	@Override
+	public void deleteMember2(String empId) {
+		
+	int result = memberDao.deleteMember2(sqlSession, empId);
+		
+		if(result < 0) {
+			throw new CommException("회원탈퇴에 실패하였습니다.");
+		}
+		
+	}
+
+	// approval commute 관련
+	   @Override
+	   public ArrayList<Member> selectMemberList() {
+	      return memberDao.selectMemberList(sqlSession);
+	   }
+
+	   @Override
+	   public MemberView selectMEmp(int ano, int mno) {
+	      return memberDao.selectMEmp(sqlSession, ano, mno);
+	   }
+
+	   @Override
+	   public MemberView selectFEmp(int ano, int fno) {
+	      return memberDao.selectFEmp(sqlSession, ano, fno);
+	   }
+
+	   @Override
+	   public MemberView selectWEmp(int ano, int wno) {
+	      return memberDao.selectWEmp(sqlSession, ano, wno);
+	   }
 
 }

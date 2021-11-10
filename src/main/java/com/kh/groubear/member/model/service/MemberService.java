@@ -10,6 +10,7 @@ import com.kh.groubear.member.model.vo.EmpAttachment;
 import com.kh.groubear.member.model.vo.Job;
 import com.kh.groubear.member.model.vo.Member;
 import com.kh.groubear.member.model.vo.MemberView;
+import com.kh.groubear.member.model.vo.PageInfo;
 
 public interface MemberService {
 
@@ -37,6 +38,30 @@ public interface MemberService {
 	void insertProfile(EmpAttachment file);
 
 	void updateProfile(EmpAttachment file);
+
+	ArrayList<MemberView> selectList(PageInfo pi);
+
+	ArrayList<MemberView> searchList(PageInfo pi, HashMap<String, String> searchMap);
+
+	MemberView selectMember(int empNo);
+
+	MemberView updateMember2(Member member) throws Exception;
+
+	void deleteMember2(String empId);
+
+	// approval commute 관련
+   ArrayList<Member> selectMemberList();
+
+   MemberView selectMEmp(int ano, int mNo);
+
+   MemberView selectFEmp(int ano, int fno);
+
+   MemberView selectWEmp(int ano, int wno);
+
+	
+
+
+
 
 	
 

@@ -54,4 +54,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		set status='N'
 		where reserve_no = ${_id}
 	</update>
+	
+	<select id="statusCheck" parameterType="string" resultType="string">
+		select status
+		from room
+		where room_no = #{type}
+	</select>
 </mapper>

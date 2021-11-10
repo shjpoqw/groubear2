@@ -21,12 +21,13 @@ var newEvent = function (start, end, eventType) {
 
     modalTitle.html('새로운 일정');
     editType.val(eventType).prop('selected', true);
-    editTitle.val('');
+    editTitle.val('');	
     editStart.val(start);
     editEnd.val(end);
     editDesc.val('');
-
+    $("edit-type").val("01").prop('selected',true);
     
+   
     addBtnContainer.show();
     modifyBtnContainer.hide();
     eventModal.modal('show');
@@ -47,17 +48,20 @@ var newEvent = function (start, end, eventType) {
             type: editType.val(),
             beam: "N"
         };
+        
+        alert(eventData.type);
+        
 
         if (eventData.start > eventData.end) {
             alert('끝나는 날짜가 앞설 수 없습니다.');
             return false;
         }
 
-        if (eventData.일정명 === '') {
+        if (eventData.title == '') {
             alert('일정명은 필수입니다.');
             return false;
         }
-        if (eventData.구분 ===''){
+        if (eventData.type ==null){
         	alert('회의실을 선택해주세요');
         	return false;
         }
@@ -90,13 +94,13 @@ var newEvent = function (start, end, eventType) {
             },
             success: function () {
             	
-            	console.log("성공");
+            	alert('일정 추가되었습니다.');
             	
                 
               
             },
             error:function(request,status,error){
-            	console.log("실패 : "+"error : "+error);
+            	alert("일정 추가에 실패하였습니다. : 모든 항목을 기재 해주시길 바랍니다. ");
                }
              
 

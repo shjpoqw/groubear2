@@ -29,4 +29,9 @@ public class CarDao {
 		return result;
 	}
 
+	public static String statusCheck(SqlSessionTemplate sqlSession, String type) {
+		
+		return sqlSession.selectOne("carMapper.statusCheck",type);
+	}
+
 }

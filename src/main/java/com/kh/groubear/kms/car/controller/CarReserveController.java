@@ -20,6 +20,9 @@ import com.kh.groubear.member.model.vo.Member;
 public class CarReserveController {
 
 	
+	
+	Member m ;
+	
 	@Autowired
 	CarService carService;
 	
@@ -36,21 +39,25 @@ public class CarReserveController {
 			@RequestParam("start") String start,
 			@RequestParam("end") String end,
 			@RequestParam("description") String description,
-			@RequestParam("type") String type) {
+			@RequestParam("type") String type,
+			HttpSession session) {
 		
+		m = (Member)session.getAttribute("loginUser");
 		
 		ReserveCar rc = new ReserveCar();
+		
+		String status = carService.statusCheck(type);
+		
 		
 		rc.setType(type);
 		rc.setDescription(description);
 		rc.setEnd(end);
 		rc.setStart(start);
 		rc.setTitle(title);
-		rc.setUsername("명선");
-		rc.setEmpNo(102);
+		rc.setUsername(m.getEmpName());
+		rc.setEmpNo(m.getEmpNO());
 		
 		carService.insertReserve(rc);
-		System.out.println("성공1? ");
 		
 		return "kms/reserveCarView";
 	}
@@ -84,7 +91,7 @@ public class CarReserveController {
 									HttpSession session) {
 		
 		 
-		Member m = (Member)session.getAttribute("loginUser");
+		m = (Member)session.getAttribute("loginUser");
         
 		ReserveCar rc = new ReserveCar() ;
 		

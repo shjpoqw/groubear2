@@ -113,7 +113,10 @@ public class ReserveConttoller {
 										@RequestParam("start") String start,
 										@RequestParam("end") String end,
 										@RequestParam("description") String description,
-										@RequestParam("type") String type) {
+										@RequestParam("type") String type,
+										HttpSession session) {
+
+			Member m = (Member)session.getAttribute("loginUser");
 			ReserveRoom rr = new ReserveRoom() ;
 			rr.set_id(_id);
 			rr.setTitle((title));
@@ -121,8 +124,8 @@ public class ReserveConttoller {
 			rr.setStart(start);
 			rr.setDescription(description);
 			rr.setType(type);
-//			rr.setEmpNo(102);
-			rr.setUsername("명선");
+			rr.setEmpNo(m.getEmpNO());
+			rr.setUsername(m.getEmpName());
 			//rr.setUserName("로그인유저이름");
 			
 			roomService.updateReserve(rr);

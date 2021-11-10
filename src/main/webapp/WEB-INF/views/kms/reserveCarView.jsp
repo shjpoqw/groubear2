@@ -619,7 +619,7 @@ button, input, optgroup, select, textarea {
 							<div class="col-xs-12">
 								<label class="col-xs-4" for="edit-type">구분</label> <select
 									class="inputModal" type="text" name="edit-type" id="edit-type">
-									<option value="01">소나타</option>
+									<option value="01" selected>소나타</option>
 									<option value="02">스타렉스</option>
 									<option value="03">미니버스</option>
 									<option value="04">트럭</option>
@@ -724,24 +724,24 @@ button, input, optgroup, select, textarea {
 
 	<!-- js -->
 	<script
-		src="<%=request.getContextPath()%>/resources/js/kms/room/jquery.min.js"></script>
+		src="<%=request.getContextPath()%>/resources/js/kms/car/jquery.min.js"></script>
 
 	<script
-		src="<%=request.getContextPath()%>/resources/js/kms/room/moment.min.js"></script>
+		src="<%=request.getContextPath()%>/resources/js/kms/car/moment.min.js"></script>
 	<script
-		src="<%=request.getContextPath()%>/resources/js/kms/room/fullcalendar.min.js"></script>
-	<script src="<%=request.getContextPath()%>/resources/js/kms/room/ko.js"></script>
+		src="<%=request.getContextPath()%>/resources/js/kms/car/fullcalendar.min.js"></script>
+	<script src="<%=request.getContextPath()%>/resources/js/kms/car/ko.js"></script>
 	<script
-		src="<%=request.getContextPath()%>/resources/js/kms/room/select2.min.js"></script>
+		src="<%=request.getContextPath()%>/resources/js/kms/car/select2.min.js"></script>
 
 	<script
-		src="<%=request.getContextPath()%>/resources/js/kms/room/main.js"></script>
+		src="<%=request.getContextPath()%>/resources/js/kms/car/main.js"></script>
 	<script
-		src="<%=request.getContextPath()%>/resources/js/kms/room/addEvent.js"></script>
+		src="<%=request.getContextPath()%>/resources/js/kms/car/addEvent.js"></script>
 	<script
-		src="<%=request.getContextPath()%>/resources/js/kms/room/editEvent.js"></script>
+		src="<%=request.getContextPath()%>/resources/js/kms/car/editEvent.js"></script>
 	<script
-		src="<%=request.getContextPath()%>/resources/js/kms/room/etcSetting.js"></script>
+		src="<%=request.getContextPath()%>/resources/js/kms/car/etcSetting.js"></script>
 	<script
 		src="<%=request.getContextPath()%>/resources/js/common/bootstrap.bundle.min.js"></script>
 	<script type="text/javascript">

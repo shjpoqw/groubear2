@@ -617,9 +617,9 @@ button, input, optgroup, select, textarea {
 							</div>
 							<div class="row">
 								<div class="col-xs-12">
-									<label class="col-xs-4" for="edit-type">구분</label> <select
-										class="inputModal" type="text" name="edit-type" id="edit-type">
-										<option value="01">대회의실</option>
+									<label class="col-xs-4" for="edit-type">구분</label> 
+									<select class="inputModal" type="text" name="edit-type" id="edit-type">
+										<option value="01" selected >대회의실</option>
 										<option value="02">소회의실1</option>
 										<option value="03">소회의실2</option>
 										<option value="04">소회의실3</option>

@@ -57,4 +57,11 @@ public class CarServiceImpl implements CarService {
 		
 	}
 
+
+	@Override
+	public String statusCheck(String type) {
+		
+		return CarDao.statusCheck(sqlSession,type);
+	}
+
 }

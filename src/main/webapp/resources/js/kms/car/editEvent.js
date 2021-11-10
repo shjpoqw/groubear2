@@ -37,6 +37,11 @@ var editEvent = function (event, element, view) {
             alert('일정명은 필수입니다.')
             return false;
         }
+        if (eventData.type ==null){
+        	alert('차종을 선택해주세요');
+        	return false;
+        }
+
 
        
         var startDate;

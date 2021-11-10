@@ -46,14 +46,17 @@ var newEvent = function (start, end, eventType) {
 
         if (eventData.start > eventData.end) {
             alert('끝나는 날짜가 앞설 수 없습니다.');
+            
+            console.log("title : "+eventData.title);
+            console.log("type : "+eventData.type);
             return false;
         }
 
-        if (eventData.일정명 === '') {
+        if (eventData.title == '') {
             alert('일정명은 필수입니다.');
             return false;
         }
-        if (eventData.구분 ===''){
+        if (eventData.type ==null){
         	alert('차종을 선택해주세요');
         	return false;
         }

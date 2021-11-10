@@ -14,4 +14,6 @@ public interface CarService {
 
 	void deleteReserve(ReserveCar rc);
 
+	String statusCheck(String type);
+
 }

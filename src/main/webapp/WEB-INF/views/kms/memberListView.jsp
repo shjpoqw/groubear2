@@ -9,8 +9,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 </head>
 <style>
+#pagingArea{width:fit-content;margin:auto;}
+    /* #pagingArea a{color:black} */
+a { color: #000; }
+a:link { color: #000; }
+a:visited { color: #000; }
+a { text-decoration:none } 
 .box{
-		width:800px;
+		width:75%;
 		height:500px;
 		margin:auto;
 		margin-top:50px;
@@ -29,7 +35,7 @@
 	}
 	
 	td {
-  		color: rgb(232,180,81);
+  		
   	}
 	table {
     	width: 100%;
@@ -54,36 +60,49 @@
   	}	
   	</style>
 <body>
+<jsp:include page="../common/menubar.jsp"/>
 <div class="box">
+
 		<br>
 		
 		<h1>직원 조회</h1>
 		<br>
 		
 		
-<DIV class='aside_menu'>
-  <FORM name='frm' method='GET' action='./list.bo'>
-    <ASIDE align = 'center'>
-      <SELECT name='type'> 
-        <OPTION value='userId'>이름</OPTION>
-        <OPTION value='BoardTitle'>제목</OPTION>
-      </SELECT>
-      <input type='text' name='search'>
-      <button type='submit'>검색</button>    
 
-    </ASIDE> 
-  </FORM>
-  <DIV class='menu_line' style='clear: both;'></DIV>
-</DIV>
+  <div class="content">
+		<div class="search">
+			<form>
+				<select name="searchDept"> 
+					<option value="">부서명</option>
+						<c:forEach var="dept" items="${dept}" >
+							<option value="${dept.deptCode}">${dept.deptName}</option>
+						</c:forEach>
+				</select> 
+				<select name="searchJob"> 
+					<option value="">직책명</option>
+						<c:forEach var="job" items="${job}" >
+							<option value="${job.jobCode}">${job.jobName}</option>
+						</c:forEach>
+				</select> 
+				
+				 <input type="text" name="search" placeholder="사원의 이름을 입력하세요" /> 
+				 <input class="btn-search" type="submit" value="검색" />
+			</form>
+		</div>
+</div>
+
+
 		
-		<table class="board"  align="center">
+		<table class="board" id="boardList"  align="center">
 			<thead>
 				<tr>
+					<th  width="7%">사번</th>
 					<th  width="7%">사원명</th>
 					<th width="6%">부서</th>
-					<th width="55%">직책</th>
+					<th width="7%">직책</th>
 					<th width="10%">입사 날짜</th>
-					<th width="7%">주소</th>
+					<th width="48%">날짜</th>
 				</tr>
 			<thead>
 	
@@ -91,6 +110,7 @@
 				
 				<c:forEach items="${ list }" var="member">
 	                    <tr>
+	                     	<td>${ member.empNO }</td>
 	                        <td>${ member.empName }</td>
 	                        <td>${ member.deptName }</td>
 	                        <td>${ member.jobName }</td>
@@ -109,20 +129,20 @@
                 <ul class="pagination">
                 	<c:choose>
                 		<c:when test="${ pi.currentPage ne 1 }">
-                			<li class="page-item"><a class="page-link" href="list.bo?currentPage=${ pi.currentPage-1 }">Previous</a></li>
+                			<a class="page-link" href="list.bo?currentPage=${ pi.currentPage-1 }">&lt;</a></li>
                 		</c:when>
                 		<c:otherwise>
-                			<li class="page-item disabled"><a class="page-link" href="">Previous</a></li>
+                			<a class="page-link" href="">&lt;	</a></li>
                 		</c:otherwise>
                 	</c:choose>
                 	
                     <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
                     	<c:choose>
 	                		<c:when test="${ pi.currentPage ne p }">
-                    			<li class="page-item"><a class="page-link" href="list.bo?currentPage=${ p }">${ p }</a></li>
+                    			<a class="page-link" href="list.bo?currentPage=${ p }">${ p }</a></li>
 	                		</c:when>
 	                		<c:otherwise>
-	                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
+	                			<a class="page-link" href="">${ p }</a></li>
 	                		</c:otherwise>
 	                	</c:choose>
                     </c:forEach>
@@ -130,10 +150,10 @@
                     
                     <c:choose>
                 		<c:when test="${ pi.currentPage ne pi.maxPage }">
-                			<li class="page-item"><a class="page-link" href="list.bo?currentPage=${ pi.currentPage+1 }">Next</a></li>
+                			<a class="page-link" href="list.bo?currentPage=${ pi.currentPage+1 }"> &gt;</a></li>
                 		</c:when>
                 		<c:otherwise>
-                			<li class="page-item disabled"><a class="page-link" href="list.bo?currentPage=${ pi.currentPage+1 }">Next</a></li>
+                			<a class="page-link" href="list.bo?currentPage=${ pi.currentPage+1 }"> &gt;</a></li>
                 		</c:otherwise>
                 	</c:choose>
                 </ul>
@@ -147,11 +167,15 @@
  <script>
     	$(function(){
     		$("#boardList tbody tr").click(function(){
-    			location.href="detail.mem?empNo=" + $(this).children().eq(0).text();
+    			
+    			
+    			
+    				location.href="detail.mem?empNo=" + $(this).children().eq(0).text();
+    			
+    			
     		});
     	});
     </script>
-
 	
 </body>
 </html>

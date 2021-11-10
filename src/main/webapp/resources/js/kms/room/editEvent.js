@@ -16,8 +16,8 @@ var editEvent = function (event, element, view) {
     editTitle.val(event.title);
     editStart.val(event.start.format('YYYY-MM-DD HH:mm'));
     editEnd.val(event.end.format('YYYY-MM-DD HH:mm'));
-    editType.val('01').prop("selected",true);
-    $('#edit-type').val('01').prop("selected",true);
+    editType.val(event.type);
+
     editDesc.val(event.description);
 
     
@@ -38,6 +38,11 @@ var editEvent = function (event, element, view) {
         if (editTitle.val() === '') {
             alert('일정명은 필수입니다.')
             return false;
+        }
+        
+        if (eventData.type ==null){
+        	alert('회의실을 선택해주세요');
+        	return false;
         }
 
        

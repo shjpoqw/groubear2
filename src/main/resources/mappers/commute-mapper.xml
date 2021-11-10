@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="commuteMapper">
+	
+	<resultMap id="commuteResultMap" type="Commute">
+		<id property="commuteNo" column="COMMUTE_NO"/>
+		<result property="commuteDate" column="COMMUTE_DATE"/>
+		<result property="worktimeStart" column="WORKTIME_START"/>
+		<result property="worktimeEnd" column="WORKTIME_END"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="jobName" column="JOB_NAME"/>
+		<result property="deptName" column="DEPT_NAME"/>
+	</resultMap>
+	
+	<resultMap id="leaveResultMap" type="Leave">
+		<id property="leaveNo" column="LEAVE_NO"/>
+		<result property="leaveOccurDate" column="LEAVE_OCCURDATE"/>
+		<result property="leaveEndDate" column="LEAVE_ENDDATE"/>
+		<result property="leaveUseDate" column="LEAVE_USEDATE"/>
+		<result property="leaveIsUse" column="LEAVE_ISUSE"/>
+		<result property="empNo" column="EMP_NO"/>
+		<result property="count" column="COUNT(*)"/>
+	</resultMap>
+	
+	
+	<select id="selectCommuteCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM COMMUTE
+		WHERE COMMUTE_DATE = TO_CHAR(SYSDATE, 'yyyy/MM/dd')
+		AND EMP_NO = #{eno}
+	</select>
+	
+	<insert id="insertStart" parameterType="_int">
+		INSERT INTO COMMUTE
+		VALUES (SEQ_COMMUTE_NO.NEXTVAL, TO_CHAR(SYSDATE, 'yyyy/MM/dd'), TO_CHAR(SYSDATE, 'hh24:mi'), NULL, #{eno})
+	</insert>
+	
+	<update id="updateEnd" parameterType="_int">
+		UPDATE COMMUTE
+		SET WORKTIME_END = TO_CHAR(SYSDATE, 'hh24:mi')
+		WHERE EMP_NO = #{eno}
+		AND COMMUTE_DATE = TO_CHAR(SYSDATE, 'yyyy/MM/dd')
+	</update>
+	
+	<select id="selectCommute" parameterType="_int" resultMap="commuteResultMap">
+		SELECT COMMUTE_NO, COMMUTE_DATE, WORKTIME_START, WORKTIME_END, C.EMP_NO, EMP_NAME, JOB_NAME, DEPT_NAME
+		FROM COMMUTE C
+		JOIN EMPLOYEE E ON C.EMP_NO = E.EMP_NO
+		JOIN JOB J ON E.JOB_CODE = J.JOB_CODE
+		JOIN DEPARTMENT D ON E.DEPT_CODE = D.DEPT_CODE
+		WHERE COMMUTE_DATE = TO_CHAR(SYSDATE, 'yyyy/MM/dd')
+		AND C.EMP_NO = #{eno}
+	</select>
+	
+	<select id="selectCommuteList" parameterType="hashmap" resultMap="commuteResultMap">
+		SELECT COMMUTE_NO, COMMUTE_DATE, WORKTIME_START, WORKTIME_END, C.EMP_NO, EMP_NAME, JOB_NAME, DEPT_NAME
+		FROM COMMUTE C
+		JOIN EMPLOYEE E ON C.EMP_NO = E.EMP_NO
+		JOIN JOB J ON E.JOB_CODE = J.JOB_CODE
+		JOIN DEPARTMENT D ON E.DEPT_CODE = D.DEPT_CODE
+		WHERE COMMUTE_DATE BETWEEN #{startDate} AND #{endDate}
+		AND C.EMP_NO = #{eno}
+	</select>
+	
+	<select id="selectCommuteAllList" parameterType="hashmap" resultMap="commuteResultMap">
+		SELECT COMMUTE_NO, COMMUTE_DATE, WORKTIME_START, WORKTIME_END, C.EMP_NO, EMP_NAME, JOB_NAME, DEPT_NAME
+		FROM COMMUTE C
+		JOIN EMPLOYEE E ON C.EMP_NO = E.EMP_NO
+		JOIN JOB J ON E.JOB_CODE = J.JOB_CODE
+		JOIN DEPARTMENT D ON E.DEPT_CODE = D.DEPT_CODE
+		WHERE COMMUTE_DATE BETWEEN #{startDate} AND #{endDate}
+	</select>
+	
+	<!-- Leave -->
+	<insert id="insertLeave" parameterType="_int">
+		INSERT INTO LEAVE
+		VALUES (SEQ_LEAVE_NO.NEXTVAL, TO_CHAR(SYSDATE, 'yyyy/MM/dd'), TO_CHAR(ADD_MONTHS(SYSDATE, 12), 'yyyy/MM/dd'), NULL, DEFAULT, #{empNo})
+	</insert>
+	
+	<select id="selectLeaveUseList" parameterType="_int" resultMap="leaveResultMap">
+		SELECT *
+		FROM LEAVE
+		WHERE LEAVE_ISUSE = 'Y'
+		AND EMP_NO = #{eno}
+	</select>
+	
+	<select id="selectLeaveCreateList" parameterType="_int" resultMap="leaveResultMap">
+		SELECT EMP_NO, LEAVE_OCCURDATE, LEAVE_ENDDATE, COUNT(*)
+		FROM LEAVE
+		WHERE LEAVE_ISUSE = 'N'
+		AND EMP_NO = #{eno}
+		GROUP BY EMP_NO, LEAVE_OCCURDATE, LEAVE_ENDDATE
+	</select>
+	
+	<update id="updateLeave" parameterType="hashmap">
+		<![CDATA[
+		UPDATE LEAVE
+		SET LEAVE_ISUSE = 'Y', LEAVE_USEDATE = #{leaveUseDate}
+		WHERE LEAVE_NO IN (SELECT LEAVE_NO
+		                  FROM (SELECT LEAVE_NO
+		                        FROM LEAVE
+		                        WHERE LEAVE_ISUSE = 'N'
+		                        AND EMP_NO = #{eno}
+		                        ORDER BY LEAVE_NO
+		                        )
+		                 WHERE ROWNUM <= 1
+		                )
+		                ]]>
+	</update>
+
+</mapper>
+

@@ -59,6 +59,15 @@ public class ApprovalDao {
 		return sqlSession.selectOne("approvalMapper.selectApproval", ano);
 	}
 
+	public int updateStatus(SqlSessionTemplate sqlSession, int ano, int status) {
+		// TODO Auto-generated method stub
+		Map map = new HashMap();
+		map.put("ano", ano);
+		map.put("status", status);
+		
+		return sqlSession.update("approvalMapper.updateStatus", map);
+	}
+
 	public ArrayList<Reply> selectReplyList(SqlSessionTemplate sqlSession, int ano) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("approvalMapper.selectReplyList", ano);
@@ -101,6 +110,7 @@ public class ApprovalDao {
 	}
 	
 	// Member 관련
+	/*
 	public ArrayList<Member> selectMemberList(SqlSessionTemplate sqlSession) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("approvalMapper.selectMemberList");
@@ -132,5 +142,6 @@ public class ApprovalDao {
 		
 		return sqlSession.selectOne("approvalMapper.selectWEmp", map);
 	}
+	*/
 
 }

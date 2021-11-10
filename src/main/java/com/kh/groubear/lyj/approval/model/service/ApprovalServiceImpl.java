@@ -65,7 +65,16 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public Approval selectApproval(int ano) {
 		return approvalDao.selectApproval(sqlSession, ano);
 	}
-
+	
+	@Override
+	public void updateStatus(int ano, int status) {
+		int result = approvalDao.updateStatus(sqlSession, ano, status);
+		
+		if(result < 0) {
+			throw new CommException("updateStatus 실패");
+		}
+	}
+	
 	@Override
 	public ArrayList<Reply> selectReplyList(int ano) {
 		return approvalDao.selectReplyList(sqlSession, ano);
@@ -112,6 +121,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 	}
 	
 	// Member 관련	
+	/*
 	@Override
 	public ArrayList<Member> selectMemberList() {
 		return approvalDao.selectMemberList(sqlSession);
@@ -131,5 +141,6 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public MemberView selectWEmp(int ano, int wno) {
 		return approvalDao.selectWEmp(sqlSession, ano, wno);
 	}
+	*/
 
 }

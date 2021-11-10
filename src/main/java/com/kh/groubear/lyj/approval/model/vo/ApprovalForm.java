@@ -13,10 +13,10 @@ import lombok.ToString;
 @ToString
 public class ApprovalForm {
 	
-	int approvalFormNo;
-	String approvalFormName;
-	String approvalFormContent;
-	String approvalCatCode;
-	String approvalCatName;
+	private int approvalFormNo;
+	private String approvalFormName;
+	private String approvalFormContent;
+	private String approvalCatCode;
+	private String approvalCatName;
 
 }

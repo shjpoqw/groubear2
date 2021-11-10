@@ -25,6 +25,8 @@ public interface ApprovalService {
 	
 	Approval selectApproval(int ano);
 
+	void updateStatus(int ano, int status);
+
 	int insertReply(Reply r);
 
 	ArrayList<Reply> selectReplyList(int ano);
@@ -40,6 +42,7 @@ public interface ApprovalService {
 	void updateApproval(Approval a);
 	
 	// Member 관련
+	/*
 	ArrayList<Member> selectMemberList();
 
 	MemberView selectMEmp(int ano, int mNo);
@@ -47,5 +50,6 @@ public interface ApprovalService {
 	MemberView selectFEmp(int ano, int fno);
 
 	MemberView selectWEmp(int ano, int wno);
+	*/
 	
 }

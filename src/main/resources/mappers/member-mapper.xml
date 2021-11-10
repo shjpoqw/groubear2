@@ -59,8 +59,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="loginMember" parameterType="Member" resultMap="memberResultSet">
 		
 		select * from employee
-		where emp_id=#{empId} and emp_yn='N'
-		
+		where emp_id=#{empId} 
+		and emp_yn='N'
 	</select>
 	
 	<insert id="insertMember" parameterType="Member">
@@ -69,12 +69,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		#{salary}, SYSDATE,#{address},default,#{jobCode},#{deptCode})
 	</insert>
 	
-	
+	<!-- 이거죠 ? 
 	<update id="updateMember" parameterType="Member">
 		update employee
 		set email=#{email},  phone=#{phone}, address=#{address}, modify_date=SYSDATE
 		where   emp_id=#{empId}
 	</update>
+	-->
+	<update id="updateMember" parameterType="Member">
+      update employee
+      	set email=#{email},  phone=#{phone}, address=#{address}
+      where   emp_id=#{empId}
+   </update>
 	
 	<delete id="deleteMember" parameterType="string">
 		update employee
@@ -130,5 +136,106 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SET ORIGIN_NAME=#{originName}, CHANGE_NAME=#{changeName}
 		WHERE EMP_NO=#{empNO}
 	</update>
+		
+	<select id="selectList" resultMap="memberViewResultSet">
+		select *
+		from employee e
+		left outer join job j on (e.job_code=j.job_code)	
+		left outer join department d on (e.dept_code=d.dept_code)	
+		where emp_yn='N'	
+	</select>
+	
+	<select id="searchList" parameterType="hashmap" resultMap="memberViewResultSet">
+	
+		select *
+		from employee e
+		left outer join job j on (e.job_code=j.job_code)	
+		left outer join department d on (e.dept_code=d.dept_code)	
+		where emp_yn='N'
+		<if test="job != ''">
+    		AND j.job_code=#{job}
+    	</if>
+		<if test="dept != ''">
+    		AND d.dept_code=#{dept}
+    	</if>
+    	<if test="emp != ''">
+    		AND e.emp_name=#{emp}
+    	</if>	
+	</select>
+	
+	<select id="selectMember" parameterType="int" resultMap="memberViewResultSet">
+		select * 
+		from employee e
+		left outer join job j on (e.job_code=j.job_code)	
+		left outer join department d on (e.dept_code=d.dept_code)	
+		where emp_yn='N'
+		and emp_no=#{empNO}
+		
+	</select>
+	
+	<update id="updateMember2" parameterType="Member">
+		update employee
+		set dept_code=#{deptCode},  job_code=#{jobCode}, salary=#{salary}
+		where   emp_no=#{empNO}
+	</update>
+
+	<update id="deleteMember2" parameterType="string">
+		update employee
+		set emp_yn='Y'
+		where emp_id=#{empId}
+	</update>
+	<select id="adminLogin" parameterType="Member" resultMap="memberResultSet">
+		
+		select * from employee
+		where emp_id=#{empId} 
+		
+	</select>
+	
+	<!-- approval commute 관련 -->
+   <select id="selectMemberList" resultMap="memberViewResultSet">
+      SELECT *
+      FROM EMPLOYEE E
+      JOIN DEPARTMENT D ON E.DEPT_CODE = D.DEPT_CODE
+      JOIN JOB J ON E.JOB_CODE = J.JOB_CODE
+      WHERE EMP_YN = 'N'
+   </select>
+   
+   <select id="selectMEmp" parameterType="hashmap" resultMap="memberViewResultSet">
+      SELECT *
+      FROM EMPLOYEE E
+      JOIN JOB J ON E.JOB_CODE = J.JOB_CODE
+      JOIN DEPARTMENT D ON E.DEPT_CODE = D.DEPT_CODE
+      JOIN APPROVAL A ON E.EMP_NO = A.APPROVAL_M_NO
+      WHERE A.APPROVAL_NO = #{ano}
+      AND A.APPROVAL_M_NO = #{mno}
+   </select>
+   
+   <select id="selectFEmp" parameterType="hashmap" resultMap="memberViewResultSet">
+      SELECT *
+      FROM EMPLOYEE E
+      JOIN JOB J ON E.JOB_CODE = J.JOB_CODE
+      JOIN DEPARTMENT D ON E.DEPT_CODE = D.DEPT_CODE
+      JOIN APPROVAL A ON E.EMP_NO = A.APPROVAL_F_NO
+      WHERE A.APPROVAL_NO = #{ano}
+      AND A.APPROVAL_F_NO = #{fno}
+   </select>
+   
+   <select id="selectWEmp" parameterType="hashmap" resultMap="memberViewResultSet">
+      SELECT *
+      FROM EMPLOYEE E
+      JOIN JOB J ON E.JOB_CODE = J.JOB_CODE
+      JOIN DEPARTMENT D ON E.DEPT_CODE = D.DEPT_CODE
+      JOIN APPROVAL A ON E.EMP_NO = A.WRITER_NO
+      WHERE A.APPROVAL_NO = #{ano}
+      AND A.WRITER_NO = #{wno}
+   </select>
+   
+   <select id="selectProfile" parameterType="_int" resultMap="empAttachmentResultSet">
+      SELECT *
+      FROM EMP_ATTACHMENT
+      WHERE EMP_NO=#{empNO}
+     </select>
+     
+     
 </mapper>
 

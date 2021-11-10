@@ -159,6 +159,8 @@ button, input, optgroup, select, textarea {
 
 <body id="page-top">
 
+<body id="page-top">
+
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -166,7 +168,7 @@ button, input, optgroup, select, textarea {
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="main.p">
                 <div class="sidebar-brand-icon rotate-n-15" style="width:50px; height:50px;">
                   	<img  src="${pageContext.request.contextPath}/resources/images/common/undraw_profile_1.svg">
                                            
@@ -179,7 +181,7 @@ button, input, optgroup, select, textarea {
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="main.p">
                    
                     <span>Home</span></a>
             </li>
@@ -205,10 +207,10 @@ button, input, optgroup, select, textarea {
                 <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         
-                        <a class="collapse-item" href="#">문서 작성</a>
-                        <a class="collapse-item" href="#">임시 저장함</a>
-						<a class="collapse-item" href="#">상신 문서함</a>
-						<a class="collapse-item" href="#">결재 문서함</a>
+                        <a class="collapse-item" href="formList.ep">문서 작성</a>
+                        <a class="collapse-item" href="tempSentList.ep">임시 저장함</a>
+						<a class="collapse-item" href="sentList.ep">상신 문서함</a>
+						<a class="collapse-item" href="sentList.ep">결재 문서함</a>
                     </div>
                 </div>
             </li>
@@ -225,10 +227,10 @@ button, input, optgroup, select, textarea {
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="#">출/퇴근 기록</a>
-                        <a class="collapse-item" href="#">나의 근태현황</a>
-                        <a class="collapse-item" href="#">연차 내역</a>
-                        <a class="collapse-item" href="#">전사 근태현황</a>
+                        <a class="collapse-item" href="recordForm.cm">출/퇴근 기록</a>
+                        <a class="collapse-item" href="myRecord.cm">나의 근태현황</a>
+                        <a class="collapse-item" href="leaveMyRecord.lv">연차 내역</a>
+                        <a class="collapse-item" href="allRecord.cm">전사 근태현황</a>
                     </div>
                 </div>
             </li>
@@ -245,10 +247,8 @@ button, input, optgroup, select, textarea {
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         
-                        <a class="collapse-item" href="#">출/퇴근 기록</a>
-                        <a class="collapse-item" href="#">나의 근태현황</a>
-                        <a class="collapse-item" href="#">연차 내역</a>
-                        <a class="collapse-item" href="#">전사 근태현황</a>
+                        <a class="collapse-item" href="list.mem">직원 조회</a>
+                       
                     </div>
                 </div>
             </li>
@@ -266,10 +266,7 @@ button, input, optgroup, select, textarea {
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                     
-                         	
- 						<a class="collapse-item" data-remote="addModal.room" data-toggle="modal" data-target="#myModal">회의실 예약</a>
-                        <!--    <a class="collapse-item" href="addModal.room" data-toggle="modal" data-target="#myModal">회의실 예약</a>-->
-                        <!--  <button data-remote="addModal.room" data-toggle="modal" data-target="#myModal" >회의실 예약</button>-->
+                        <a class="collapse-item" href="roomView.re">회의실 예약</a>
                         <a class="collapse-item" href="carView.re">차량 예약</a>
                     </div>
                 </div>
@@ -288,7 +285,7 @@ button, input, optgroup, select, textarea {
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                        
-                        <a class="collapse-item" href="#">개인 일정</a>
+                        <a class="collapse-item" href="calendarList.cal">개인 일정</a>
                         <a class="collapse-item" href="#">그룹 일정</a>
                         
                     </div>
@@ -316,8 +313,8 @@ button, input, optgroup, select, textarea {
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="#">사원 조회</a>
-                        <a class="collapse-item" href="#">개인 주소록</a>
+                        <a class="collapse-item" href="publicList.ct">사원 조회</a>
+                        <a class="collapse-item" href="contactList.ct">개인 주소록</a>
                     
                     </div>
                 </div>
@@ -326,7 +323,7 @@ button, input, optgroup, select, textarea {
 
  	<!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="messengerHome.msg">
                     <span style="display:inline-block; width:20px; height:20px;">
                   		<img  src="${pageContext.request.contextPath}/resources/images/common/undraw_profile_1.svg">                 
                 	</span>
@@ -335,7 +332,7 @@ button, input, optgroup, select, textarea {
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="list.sns">
                     <span style="display:inline-block; width:20px; height:20px;">
                   		<img  src="${pageContext.request.contextPath}/resources/images/common/undraw_profile_1.svg">                 
                 	</span>
@@ -524,28 +521,27 @@ button, input, optgroup, select, textarea {
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"> ${sessionScope.loginUser.empName}</span>
+                                <c:if test="${!empty sessionScope.profile.originName }">
                                 <img class="img-profile rounded-circle"
-                                    src="${pageContext.request.contextPath}/resources/images/common/undraw_profile.svg">
+                                	src="${ pageContext.servletContext.contextPath }/resources/profile_files/${sessionScope.profile.changeName}"/>
+                                </c:if>
+                                <c:if test="${empty sessionScope.profile.originName}">
+                                <img class="img-profile rounded-circle"
+                                    src="${pageContext.request.contextPath}/resources/images/common/member.png">
+                                </c:if>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="myPage.me">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
+                                  	  마이페이지
                                 </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
-                                </a>
+                                
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                             	       로그아웃
                                 </a>
                             </div>
                         </li>
@@ -553,7 +549,6 @@ button, input, optgroup, select, textarea {
                     </ul>
 
                 </nav>
-                <!-- End of Topbar -->
 	<!-- 여기에 넣어라 -->
 		<div class="container">
 		
@@ -680,6 +675,7 @@ button, input, optgroup, select, textarea {
     </div>
     <!-- End of Page Wrapper -->
 
+  
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
@@ -744,29 +740,8 @@ button, input, optgroup, select, textarea {
 		src="<%=request.getContextPath()%>/resources/js/kms/car/etcSetting.js"></script>
 	<script
 		src="<%=request.getContextPath()%>/resources/js/common/bootstrap.bundle.min.js"></script>
-	<script type="text/javascript">
-		$(document).ready(function(){
-			$('#myModal').on('show.bs.modal',function(e){
-				console.log("실행");
-				var button = $(e.relatedTarget);
-				var modal = $(this);
-				
-				modal.find('.modal-content').load(button.data("remote"));
-			});
-			
-		});
-	</script>
-	<!-- 모달 -->
-	<div class="modal fade" id="myModal">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<!-- 외부 jsp -->
-				
-			</div>
-		</div>	
-	</div>
-	
-	
+
+
 </body>
 
 </html>

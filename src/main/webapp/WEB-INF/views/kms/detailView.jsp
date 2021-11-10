@@ -45,7 +45,9 @@
 	height: 100%;
 	object-fit:cover;
 	}
-	
+	.content{
+		margin-left:30px;
+	}
 
 	</style>
 	

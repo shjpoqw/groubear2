@@ -8,8 +8,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="empName" column="EMP_NAME" />
 		<result property="stateMessageNo" column="STATE_MESSAGE_NO" />
 		<result property="message" column="MESSAGE" />
+		<result property="originName" column="ORIGIN_NAME" />
+		<result property="changeName" column="CHANGE_NAME" />
 	</resultMap>
-	
+
 	<resultMap id="stateMessageResultSet" type="StateMessage">
 		<id property="stateMessageNo" column="STATE_MESSAGE_NO" />
 		<result property="message" column="MESSAGE" />
@@ -17,26 +19,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="originName" column="ORIGIN_NAME" />
 		<result property="changeName" column="CHANGE_NAME" />
 	</resultMap>
-	
-	<resultMap id="messengerResultSet" type="Messenger">
-		<id property="messengerNo" column="MESSENGER_NO" />
-		<result property="title" column="TITLE" />
-		<result property="pwd" column="PWD" />
-		<result property="status" column="STATUS" />
-		<result property="empNO" column="EMP_NO" />
-		<result property="lastDate" column="LAST_DATE" />
-	</resultMap>
-	
+
+
 	<resultMap id="chatResultSet" type="Chat">
 		<id property="chatNo" column="CHAT_NO" />
 		<result property="message" column="MESSAGE" />
 		<result property="createDate" column="CREATE_DATE" />
 		<result property="empNO" column="EMP_NO" />
 		<result property="toEmpNo" column="TO_EMP_NO" />
+		<result property="chatread" column="CHATREAD" />
 	</resultMap>
-	
-	
-	
+
+	<resultMap id="chatViewResultSet" type="ChatView">
+		<id property="chatNo" column="CHAT_NO" />
+		<result property="message" column="MESSAGE" />
+		<result property="createDate" column="CREATE_DATE" />
+		<result property="empNO" column="EMP_NO" />
+		<result property="toEmpNo" column="TO_EMP_NO" />
+		<result property="chatread" column="CHATREAD" />
+		<result property="empName" column="EMP_NAME" />
+		<result property="toEmpName" column="TO_EMP_NAME" />
+	</resultMap>
+
+	<resultMap id="chatReadResultSet" type="chatRead">
+		<id property="empNO" column="EMP_NO" />
+		<result property="toEmpNo" column="TO_EMP_NO" />
+		<result property="count" column="COUNT" />
+	</resultMap>
+
 	<select id="memberList" parameterType="hashmap"
 		resultMap="empMsgResultSet">
 		SELECT *
@@ -51,70 +61,72 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE EMP_NO = ${empNO}
 	</select>
 	<update id="updateStateMessage" parameterType="StateMessage">
-		UPDATE STATE_MESSAGE
+		UPDATE
+		STATE_MESSAGE
 		SET MESSAGE = '${message}'
 		WHERE EMP_NO = ${empNO}
 	</update>
-	
-	<select id="selectMsgList" parameterType="hashmap"
-		resultMap="messengerResultSet">
-		SELECT *
-		FROM MESSENGER
-		WHERE TITLE LIKE '${query2}'
-		AND STATUS = 'Y'
-		AND EMP_NO = ${empNO}
-		ORDER BY TITLE
-	</select>
-	
-	<select id="msgList" parameterType="hashmap"
-		resultMap="messengerResultSet">
-		SELECT *
-		FROM MESSENGER
-		WHERE TITLE LIKE '${query3}'
-		AND STATUS = 'Y'
-		ORDER BY TITLE
-	</select>
-	
-	<insert id="insertMsg" parameterType="Messenger">
-		INSERT INTO MESSENGER
-		VALUES(MESSENGER_SEQ.NEXTVAL, #{title}, #{pwd}, DEFAULT, #{empNO} , DEFAULT)
-	</insert>
-	
+
 	<insert id="insertStateMessage" parameterType="StateMessage">
-		INSERT INTO STATE_MESSAGE
+		INSERT INTO
+		STATE_MESSAGE
 		VALUES(STATE_MESSAGE_SEQ.NEXTVAL, #{message},#{empNO})
 	</insert>
-	
-	<select id="chatList" parameterType="hashmap"
-		resultMap="chatResultSet">
-		SELECT *
-		FROM CHAT 
-		WHERE ((EMP_NO = #{empNO}) AND TO_EMP_NO = #{toEmpNo} 
-		OR (EMP_NO =#{toEmpNo} AND = #{emp_NO}))
-		AND CHAT_NO > #{chatNo}
-		ORDER BY CREATE_DATE
-	</select>
-	
-	<select id="chatListRecent" parameterType="hashmap"
-		resultMap="chatResultSet">
-		SELECT *
-		FROM CHAT 
-		WHERE ((EMP_NO = #{emp_NO}) AND TO_EMP_NO = #{toEmpNo} 
-		OR (EMP_NO =#{toEmpNo} AND = #{empNO}))
-		AND CHAT_NO > (SELECT MAX(CHAT_NO) - #{number} FROM CHAT )
-		ORDER BY CREATE_DATE
-	</select>
-	
-	<insert id="transmit" parameterType="hashmap">
-		INSERT INTO CHAT
-		VALUES(CHAT_SEQ.NEXTVAL, #{message}, DEFAULT, #{empNO}, #{toEmpNo})
-	</insert>
-	
+
+
+
 	<select id="selectEmp" parameterType="_int"
 		resultMap="empMsgResultSet">
 		SELECT *
 		FROM EMPLOYEE_MSG
 		WHERE EMP_NO = #{toEmpNo}
+	</select>
+
+	<select id="getChatListById" parameterType="hashmap"
+		resultMap="chatViewResultSet">
+		SELECT *
+		FROM CHAT_VIEW WHERE(EMP_NO = #{empNO} AND TO_EMP_NO
+		=#{toEmpNo})
+		OR (TO_EMP_NO =#{toEmpNo} AND EMP_NO = #{empNO})
+		AND
+		CHAT_NO > #{chatNo}
+		ORDER BY CREATE_DATE
+	</select>
+
+	<select id="getChatListByRecent" parameterType="hashmap"
+		resultMap="chatViewResultSet">
+		SELECT *
+		FROM CHAT_VIEW WHERE(EMP_NO = #{empNO} AND TO_EMP_NO
+		=#{toEmpNo})
+		OR (EMP_NO =#{toEmpNo} AND TO_EMP_NO = #{empNO})
+		AND
+		CHAT_NO > (SELECT MAX(CHAT_NO) - #{number} FROM CHAT_VIEW
+		WHERE(EMP_NO
+		= #{empNO} AND TO_EMP_NO =#{toEmpNo}) OR (EMP_NO = #{toEmpNo} AND
+		TO_EMP_NO =#{empNO}))
+		ORDER BY CREATE_DATE
+	</select>
+
+	<insert id="submit" parameterType="hashmap">
+		INSERT INTO CHAT
+		VALUES(CHAT_SEQ.NEXTVAL, #{message}, DEFAULT, #{empNO}, #{toEmpNo},
+		DEFAULT)
+	</insert>
+
+	<update id="readChat" parameterType="hashmap">
+		UPDATE CHAT
+		SET CHATREAD = 1
+		WHERE (EMP_NO = #{toEmpNo} AND TO_EMP_NO = #{empNO})
+	</update>
+
+	<select id="getUnreadChat" parameterType="_int"
+		resultMap="chatReadResultSet">
+		SELECT A.EMP_NO,B.TO_EMP_NO, COUNT(*) COUNT
+		FROM EMPLOYEE_MSG A
+		LEFT JOIN (SELECT * FROM CHAT WHERE TO_EMP_NO = 101) B ON B.EMP_NO =
+		A.EMP_NO
+		WHERE B.CHATREAD = 0
+		GROUP BY A.EMP_NO, B.TO_EMP_NO
 	</select>
 </mapper>
 

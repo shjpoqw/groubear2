@@ -121,7 +121,8 @@ public class MemberController {
    public String updateMember(@ModelAttribute Member m, HttpServletRequest request, @RequestParam("post") String post,
          @RequestParam("address1") String address1, @RequestParam("address2") String address2,
          @RequestParam(value = "profile", required = false) MultipartFile profile, Model model) throws Exception {
-      System.out.println("======= profile " + profile);
+      
+	   System.out.println("======= profile " + profile);
       if (!profile.equals("") || profile != null) {
 
          EmpAttachment file = memberService.selectProfile(m.getEmpNO());

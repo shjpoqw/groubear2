@@ -39,6 +39,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="chatread" column="CHATREAD" />
 		<result property="empName" column="EMP_NAME" />
 		<result property="toEmpName" column="TO_EMP_NAME" />
+		<result property="changeName" column="CHANGE_NAME" />
+		<result property="toChangeName" column="TO_CHANGE_NAEE" />
 	</resultMap>
 
 	<resultMap id="chatReadResultSet" type="chatRead">
@@ -122,11 +124,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getUnreadChat" parameterType="_int"
 		resultMap="chatReadResultSet">
 		SELECT A.EMP_NO,B.TO_EMP_NO, COUNT(*) COUNT
-		FROM EMPLOYEE_MSG A
-		LEFT JOIN (SELECT * FROM CHAT WHERE TO_EMP_NO = 101) B ON B.EMP_NO =
+		FROM EMPLOYEE_MSG
+		A
+		LEFT JOIN (SELECT * FROM CHAT WHERE TO_EMP_NO = #{empNO}) B ON B.EMP_NO =
 		A.EMP_NO
 		WHERE B.CHATREAD = 0
 		GROUP BY A.EMP_NO, B.TO_EMP_NO
+	</select>
+
+	<select id="getChatListAllByRecent" parameterType="hashmap"
+		resultMap="chatViewResultSet">
+		SELECT *
+		FROM CHAT_VIEW WHERE(EMP_NO = #{empNO} AND TO_EMP_NO
+		=#{toEmpNo})
+		OR (EMP_NO =#{toEmpNo} AND TO_EMP_NO = #{empNO})
+		OR (EMP_NO
+		= #{toEmpNo} AND
+		TO_EMP_NO =#{empNO})
+		ORDER BY CREATE_DATE
+	</select>
+	
+	<select id="getChatList" parameterType="_int"
+		resultType="_int" >
+		SELECT *
+		FROM CHAT_VIEW
+		WHERE EMP_NO = #{empNO}
+		
 	</select>
 </mapper>
 

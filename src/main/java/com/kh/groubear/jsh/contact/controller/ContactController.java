@@ -27,7 +27,8 @@ public class ContactController {
 	@RequestMapping("publicList.ct")
 	public String publicList(@RequestParam(value = "p", required = false, defaultValue = "1") int p,
 			@RequestParam(value = "d", required = false, defaultValue = "") String d,
-			@RequestParam(value = "q", required = false, defaultValue = "") String q, Model model) {
+			@RequestParam(value = "q", required = false, defaultValue = "") String q
+			, Model model) {
 
 		ArrayList<Department> dept = memberService.selectDept();
 		String department = "%" + d + "%";
@@ -60,7 +61,6 @@ public class ContactController {
 
 		map.put("page", page);
 		map.put("query", query);
-		System.out.println("준비");
 		ArrayList<Contact> list = contactService.selectList(map);
 		
 		int count = contactService.countContact();

@@ -149,21 +149,28 @@
 	 		selectCreateList();
 			
 			$("#sendBtn").click(function(){
-	    		
-	    		$.ajax({
-					url:"update.lv",
-					type:"post",
-					data:{leaveUseDate:$("#leaveUseDate").val().replaceAll('-', '/'),
-					      eno:"${loginUser.empNO}"},
-					success:function(){
-						selectUseList();
-						
-						$("#useModal").hide();
-						
-					},error:function(){
-						console.log("연차 사용 ajax 통신 실패");
-					}
-				});
+				
+				if(isUseDay() == true) {
+					
+					$.ajax({
+						url:"update.lv",
+						type:"post",
+						data:{leaveUseDate:$("#leaveUseDate").val().replaceAll('-', '/'),
+						      eno:"${loginUser.empNO}"},
+						success:function(){
+							selectUseList();
+							selectCreateList();
+							
+							$("#useModal").hide();
+							
+						},error:function(){
+							console.log("연차 사용 ajax 통신 실패");
+						}
+					});
+					
+				} else {					
+					alert("연차 사용일을 확인하세요.");					
+				}
 				
 			});
 		});
@@ -219,6 +226,37 @@
 					console.log("생성내역 조회 ajax 통신 실패");
 				}
 			});
+		}
+		
+		function leadingZeros(n, digits) {
+		    var zero = '';
+		    n = n.toString();
+
+		    if (n.length < digits) {
+		        for (i = 0; i < digits - n.length; i++)
+		            zero += '0';
+		    }
+		    return zero + n;
+		}
+		
+		function isUseDay(){
+			var leaveUseDate = document.getElementById("leaveUseDate").value;
+			var now = new Date();
+
+			if(leaveUseDate){
+			  now = leadingZeros(now.getFullYear(), 4) + '-' +
+			    	leadingZeros(now.getMonth() + 1, 2) + '-' +
+			    	leadingZeros(now.getDate(), 2);
+			  
+			  console.log("leaveUseDate : " + leaveUseDate);
+			  console.log("now : " + now);
+			  
+			  if(leaveUseDate < now){
+				return false;
+			  } else {
+				return true;
+			  }
+			}
 		}
     </script>
 

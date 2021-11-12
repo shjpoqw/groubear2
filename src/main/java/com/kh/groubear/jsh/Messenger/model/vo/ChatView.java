@@ -20,6 +20,8 @@ public class ChatView {
 	private int chatread;
 	private String empName;
 	private String toEmpName;
+	private String changeName;
+	private String toChangeName;
 	public ChatView() {
 		// TODO Auto-generated constructor stub
 	}

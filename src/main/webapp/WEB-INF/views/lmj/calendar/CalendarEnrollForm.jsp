@@ -8,8 +8,10 @@
 <title>일정추가</title>
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
 
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
 
 <link rel="stylesheet"  type="text/css" href="<%=request.getContextPath()%>/resources/css/lmj/jquery.datetimepicker.css">
@@ -19,43 +21,75 @@
 
 </head>
 <body>
-<div class="group" id="enrollForm">
-	<div class="group-head">
-		<h1 class="zTree-h1">일정추가</h1>
-	</div>
-	<div class="group-body">
-	<form id="enrollFormData">
-		<div class="top">
-			<input class="subject" id="calendarTitle" type="text" name="calendarTitle" placeholder="제목을 입력해주세요">
-		</div>
-		<div class="domain">
-			<h3 class="zTree-h3">시작</h3>
-		</div>
-		<div class="domain">
-			<input class="date" id="startDate" type="text" name="startDate">
-		</div>
-		<div class="domain">
-			<h3 class="zTree-h3">종료</h3>
-		</div>
-		<div class="domain">
-			<input class="date" id="endDate" type="text" name="endDate">
-		</div>
-		<div class="domain">
-			<h3 class="zTree-h3">내용</h3>
-		</div>
-		<div class="domain">
-			<textarea class="content" id="calendarContent" name="calendarContent"  rows="5" cols="20" placeholder="100글자까지 입력가능합니다"></textarea>
+
+
+<div class="row" id="enrollForm">
+    <div class="col-md-4 col-md-offset-4">
+      <form class="form-horizontal" role="form" id="enrollFormData">
+        <fieldset>
+
+          <!-- Form Name -->
+          <legend style="align:center">일정등록</legend>
 			
-		</div>
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="textinput">일정제목</label>
+            <div class="col-sm-10">
+              <input class="subject" id="calendarTitle" type="text" name="calendarTitle" placeholder="제목을 입력해주세요" class="form-control">
+            </div>
+          </div>
+
+        
+
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="textinput">시작</label>
+            <div class="col-sm-4">
+              <input class="date" id="startDate" type="text" name="startDate" class="form-control">
+            </div>
+
+            <label class="col-sm-2 control-label" for="textinput">종료</label>
+            <div class="col-sm-4">
+              <input class="date" id="endDate" type="text" name="endDate" class="form-control">
+            </div>
+          </div>
+
+
 		
-		<div class="domain">
-			<input  class="empNo" id="empNo" type="text" name="empNo" value="${loginUser.empNO }" style="display:none">
-		</div>
-		
-	</form>
-		<button class="ok-button" type="button" onclick="click_ok();">확인</button>
-	</div>
-</div>
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="textinput">일정내용</label>
+            <div class="col-sm-10">
+              <textarea class="content" id="calendarContent" name="calendarContent"  rows="5" cols="20" placeholder="100글자까지 입력가능합니다"></textarea>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="textinput"></label>
+            <div class="col-sm-10">
+              <input  class="empNo" id="empNo" type="text" name="empNo" value="${loginUser.empNO }" style="display:none">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <div class="pull-right">
+                <button type="submit" class="btn btn-default">Cancel</button>
+                <button type="submit" class="btn btn-primary" onclick="click_ok();">등록하기</button>
+              </div>
+            </div>
+          </div>
+
+        </fieldset>
+      </form>
+    </div><!-- /.col-lg-12 -->
+</div><!-- /.row -->
+
+
+
+
+
+
 
 <script>
 	$.fn.serializeObject = function(){
@@ -99,9 +133,12 @@
 <script>
 	$(function(){
 		$('.date').datetimepicker({
-			lang:'kr',
+			
+			
 			format:"Y-m-d H:i",
-			inline:true
+			inline:true,
+			
+			
 		});
 	});
 	

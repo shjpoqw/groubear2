@@ -106,11 +106,11 @@
 		            		</tr>
 		            		<tr>
 		            			<th><label for="dueDate">마감일</label></th>
-		            			<td><input type="date" name="dueDate" id="dueDate" value=${ a.dueDate } ></td>
+		            			<td><input type="date" name="dueDate" id="dueDate" value=${ a.dueDate } required></td>
 		            		</tr>
 		            		<tr>
 		            			<th><label for="preservedYears">보존년한</label></th>
-		            			<td><input type="text" name="preservedYears" id="preservedYears" value="${ a.preservedYears }">년</td>
+		            			<td><input type="text" name="preservedYears" id="preservedYears" value="${ a.preservedYears }" required>년</td>
 		            		</tr>
 		            		<tr>
 		            			<th><label for="content">내용</label></th>
@@ -179,6 +179,58 @@
 			
 			$("#updateForm").submit();
 		}
+		
+		function leadingZeros(n, digits) {
+		    var zero = '';
+		    n = n.toString();
+
+		    if (n.length < digits) {
+		        for (i = 0; i < digits - n.length; i++)
+		            zero += '0';
+		    }
+		    return zero + n;
+		}
+		
+		function isUseDayEnd(){
+			var dueDate = document.getElementById("dueDate").value;
+			var now = new Date();
+
+			if(dueDate){
+			  now = leadingZeros(now.getFullYear(), 4) + '-' +
+			    	leadingZeros(now.getMonth() + 1, 2) + '-' +
+			    	leadingZeros(now.getDate(), 2);
+			  
+			  console.log("dueDate : " + dueDate);
+			  console.log("now : " + now);
+			  
+			  if(dueDate < now){
+				return false;
+			  }
+			}
+		}
+		
+		function check(){
+			const fName = document.getElementById("fName");
+			const fNo = document.getElementById("fNo");
+			const mNo = document.getElementById("mNo");
+	        const dueDate = document.getElementById("dueDate");
+	        
+	        if(fNo.value == "" || fNo.value.length == 0){
+                alert("최종 결재자는 필수 항목입니다.");
+                fName.focus();
+                return false;
+	        } else if(mNo.value == "" || mNo.value.length == 0){
+	        	var val = null;
+	        	mNo.setAttribute('value', val);
+            } else if(isUseDayEnd() == false){
+            	alert("마감일이 현재 날짜보다 빠를 수 없습니다.");
+            	dueDate.focus();
+                return false;
+            } else{
+            	return true;
+            }
+	    }
+		
 	</script>
 
 </body>

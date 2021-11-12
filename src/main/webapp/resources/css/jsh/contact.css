@@ -52,6 +52,7 @@ a {
 }
 .table thead tr th {
     border-bottom: 2px solid #e7ebee;
+    text-align: center;
 }
 .table tbody tr td:first-child {
     font-size: 1.125em;
@@ -62,6 +63,7 @@ a {
     vertical-align: middle;
     border-top: 1px solid #e7ebee;
     padding: 12px 8px;
+    text-align: center;
 }
 a:hover{
 text-decoration:none;

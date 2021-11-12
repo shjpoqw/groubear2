@@ -46,9 +46,7 @@ var newEvent = function (start, end, eventType) {
 
         if (eventData.start > eventData.end) {
             alert('끝나는 날짜가 앞설 수 없습니다.');
-            
-            console.log("title : "+eventData.title);
-            console.log("type : "+eventData.type);
+ 
             return false;
         }
 
@@ -61,9 +59,6 @@ var newEvent = function (start, end, eventType) {
         	return false;
         }
 
-        
-
-      
 
         $("#calendar").fullCalendar('renderEvent', eventData, true);
         eventModal.find('input, textarea').val('');
@@ -84,14 +79,8 @@ var newEvent = function (start, end, eventType) {
             },
             success: function () {
             	
-            	console.log("성공");
-            	
-                
-             
-                           },
-            error:function(request,status,error){
-            	console.log("실패 : "+"error : "+error);
-               }
+            	 alert('추가 되었습니다.');
+            	 }
              
 
         });

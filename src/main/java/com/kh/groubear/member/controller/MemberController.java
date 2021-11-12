@@ -2,11 +2,13 @@ package com.kh.groubear.member.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -23,15 +25,12 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.kh.groubear.common.Pagination;
 import com.kh.groubear.common.exception.CommException;
 import com.kh.groubear.member.model.service.MemberService;
 import com.kh.groubear.member.model.vo.Department;
 import com.kh.groubear.member.model.vo.EmpAttachment;
 import com.kh.groubear.member.model.vo.Job;
 import com.kh.groubear.member.model.vo.Member;
-import com.kh.groubear.member.model.vo.MemberView;
-import com.kh.groubear.member.model.vo.PageInfo;
 
 @SessionAttributes("loginUser") // Model에 loginUser 라는 키값으로 객체가 추가되면 자동으로 세션에 추가되는 어노테이션 (응답 페이지에 응답할 데이터가 있는 경우 3번)
 @Controller
@@ -95,9 +94,28 @@ public class MemberController {
 	
 	
 	@RequestMapping("login.me")
-	   public String loginMember(Member m, HttpServletRequest request, Model model) throws Exception {
+	   public String loginMember(Member m, HttpServletRequest request, Model model,HttpServletResponse response) throws Exception {
 
 	      Member loginUser = memberService.loginMember(bCryptPasswordEncoder, m);
+	      
+	   
+		  	if(loginUser == null) {
+				//아이디 X
+		  		response.setContentType("text/html; charset=UTF-8");
+		         PrintWriter out = response.getWriter();
+		         out.println("<script>alert('존재 하지 않는 아이디입니다.'); history.go(-1); </script>");
+		         out.flush();
+		         
+			}
+	      
+		  	if(!bCryptPasswordEncoder.matches(m.getEmpPwd(), loginUser.getEmpPwd())) {
+		  		response.setContentType("text/html; charset=UTF-8");
+		         PrintWriter out = response.getWriter();
+		         out.println("<script>alert('패스워드가 틀렸습니다.'); history.go(-1);</script>");
+		         out.flush();
+		        
+			}
+	      
 	      EmpAttachment profile = memberService.selectProfile(loginUser.getEmpNO());
 	      HttpSession session = request.getSession();
 	      session.setAttribute("profile", profile);

@@ -40,6 +40,7 @@ public class SnsController {
 		ArrayList<Sns> list = snsService.selectList();
 		System.out.println("@@@@@@controller list @@@@@@"+list);
 		model.addAttribute("list",list);
+	
 
 		return "lmj/sns/SnsListView";
 		
@@ -124,7 +125,8 @@ public class SnsController {
 	
 	
 	@RequestMapping("delete.sns")
-	public String deleteSns(int sno, String fileName, HttpServletRequest request) {
+	public String deleteSns(int sno , String fileName, HttpServletRequest request) {
+		
 		
 		snsService.deleteSns(sno);
 		
@@ -132,8 +134,8 @@ public class SnsController {
 			
 			deleteFile(fileName, request);
 		}
-		
-		return "redirect:list.sns";
+		System.out.println("delete sno^^^^^^^^^^^^^^^^^^^^^^^^^^^^^" + sno);
+		return "lmj/sns/SnsListView";
 
 	}
 

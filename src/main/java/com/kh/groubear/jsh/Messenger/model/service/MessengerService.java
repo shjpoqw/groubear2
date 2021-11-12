@@ -34,5 +34,9 @@ public interface MessengerService {
 
 	ArrayList<ChatRead> getUnreadChat(int empNO);
 
+	ArrayList<ChatView> getChatListAllByRecent(HashMap<String, Object> map);
+
+	ArrayList<Integer> getChatList(int empNO);
+
 
 }

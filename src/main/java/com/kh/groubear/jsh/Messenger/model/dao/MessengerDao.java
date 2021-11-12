@@ -77,6 +77,16 @@ public class MessengerDao {
 		return (ArrayList)sqlSession.selectList("messengerMapper.getUnreadChat", empNO);
 	}
 
+	public ArrayList<ChatView> getChatListAllByRecent(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("messengerMapper.getChatListAllByRecent", map);
+	}
+
+	public ArrayList<Integer> getChatList(SqlSessionTemplate sqlSession, int empNO) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("messengerMapper.getChatList", empNO);
+	}
+
 	
 
 }

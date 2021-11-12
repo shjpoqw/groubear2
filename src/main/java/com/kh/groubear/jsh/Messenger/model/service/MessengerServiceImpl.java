@@ -87,4 +87,16 @@ public class MessengerServiceImpl implements MessengerService {
 		return result;
 	}
 
+	@Override
+	public ArrayList<ChatView> getChatListAllByRecent(HashMap<String, Object> map) {
+		ArrayList<ChatView> chatList = messengerDao.getChatListAllByRecent(sqlSession, map);
+		return chatList;
+	}
+
+	@Override
+	public ArrayList<Integer> getChatList(int empNO) {
+		ArrayList<Integer> chatList = messengerDao.getChatList(sqlSession, empNO);
+		return chatList;
+	}
+
 }

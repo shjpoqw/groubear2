@@ -18,16 +18,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	</resultMap>
 	
-	<select id="selectList" parameterType="hashmap" resultMap="ContactResultSet">
-		SELECT *
+	<select id="selectList" parameterType="hashmap" 
+	resultMap="ContactResultSet">
+		SELECT  *
 		FROM (
-			SELECT ROWNUM NUM, B.*
+			SELECT ROWNUM NUM, A.*
 			FROM (SELECT *
 				FROM CONTACT
 				WHERE NAME LIKE #{query}
 				AND STATUS='Y'
-				
-				ORDER BY NAME) B
+				ORDER BY NAME) A
 			)
 		WHERE NUM BETWEEN 1 + (#{page} - 1 ) * 10 AND #{page} * 10
 	</select>

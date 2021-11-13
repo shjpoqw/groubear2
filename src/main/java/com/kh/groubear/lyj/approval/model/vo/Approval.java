@@ -15,21 +15,21 @@ import lombok.ToString;
 @ToString
 public class Approval {
 	
-	private int approvalNo;
-	private String approvalTitle;
-	private String approvalContent;
-	private String writtenDate;
-	private String dueDate;
-	private int preservedYears;
-	private int approvalFormNo;
-	private String approvalFormName;
-	private int approvalMNo;
-	private int approvalFNo;
-//	private String approvalMName;
-//	private String approvalFName;
-	private int writerNo;
-	private String writerName;
-	private int status;
-	private String tempSave;
+	int approvalNo;
+	String approvalTitle;
+	String approvalContent;
+	String writtenDate;
+	String dueDate;
+	int preservedYears;
+	int approvalFormNo;
+	String approvalFormName;
+	int approvalMNo;
+	int approvalFNo;
+//	String approvalMName;
+//	String approvalFName;
+	int writerNo;
+	String writerName;
+	int status;
+	String tempSave;
 	
 }

@@ -13,46 +13,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="snsDate" column="SNS_DATE"/>
 		<result property="empNo" column="EMP_NO"/>
 		<result property="snsStatus" column="SNS_STATUS"/>
-		<collection property="snsFile" resultMap="AttechmentResultSet"/>
-		<collection property="emp" resultMap="MemberResultSet"/>
+	
 	</resultMap>
 	
-	<resultMap id="AttechmentResultSet" type="Attechment">
-		
-		<id property="snsFileNo" column = "SNS_FILE_NO"/>
-		<result property="originFile" column="SNS_ORIGIN_NAME"/>
-		<result property="changeFile" column="SNS_CHANGE_NAME"/>
-		<result property="snsNo" column="SNS_NO"/>
-		
-	</resultMap>
 	
-	<resultMap id="MemberResultSet" type="Member">
-		
-		<id property="empNO" column="EMP_NO"/>
-		<result property="empName" column="EMP_NAME"/>
-		<result property="empId" column="EMP_ID"/>
-		<result property="empNum" column="EMP_NUM"/>
-		<result property="empPwd" column="EMP_PWD"/>
-		<result property="email" column="EMAIL"/>
-		<result property="phone" column="PHONE"/>
-		<result property="salary" column="SALARY"/>
-		<result property="hireDate" column="HIRE_DATE"/>
-		<result property="address" column="ADDRESS"/>
-		<result property="empYN" column="EMP_YN"/>
-		<result property="jobCode" column="JOB_CODE"/>
-		<result property="deptCode" column="DEPT_CODE"/>
-		
-	</resultMap>
 	
 	
 	<select id="selectList" resultMap="SnsResultSet">
-		SELECT a.SNS_NO,a.SNS_LCOUNT, a.SNS_TITLE, a.SNS_CONTENT, a.SNS_DATE, a.EMP_NO ,a.SNS_STATUS, b.SNS_FILE_NO,b.SNS_ORIGIN_NAME, b.SNS_CHANGE_NAME, c.EMP_NAME
-		FROM SNS a
-		LEFT JOIN SNS_ATTECHMENT b ON a.SNS_NO = b.SNS_NO
-		LEFT JOIN EMPLOYEE c ON a.EMP_NO = c.EMP_NO
+		SELECT *
+		FROM SNS
 		WHERE SNS_STATUS = 'Y'
-		ORDER BY a.SNS_NO DESC
-		
+		ORDER BY SNS_NO DESC
 	</select>
 	
 	<insert id="insert" parameterType="Sns">

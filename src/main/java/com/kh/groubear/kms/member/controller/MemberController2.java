@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.kh.groubear.common.Pagination;
 import com.kh.groubear.member.model.service.MemberService;
 import com.kh.groubear.member.model.vo.Department;
+import com.kh.groubear.member.model.vo.EmpAttachment;
 import com.kh.groubear.member.model.vo.Job;
 import com.kh.groubear.member.model.vo.Member;
 import com.kh.groubear.member.model.vo.MemberView;
@@ -73,7 +74,9 @@ public class MemberController2 {
 			HttpSession session, HttpServletResponse response) throws Exception {
 		ArrayList<Department> dept = memberService.selectDept();
 		ArrayList<Job> job = memberService.selectJob();
-		
+		EmpAttachment profile = memberService.selectProfile(empNo);
+
+	    
 		m = (Member)session.getAttribute("loginUser");
 		
 
@@ -89,9 +92,11 @@ public class MemberController2 {
 			 
 		}
 		MemberView mv = memberService.selectMember(empNo);
+		
 		model.addAttribute("job", job);
 		model.addAttribute("dept", dept);
 		model.addAttribute("member",mv);
+		model.addAttribute("profile", profile);
 		
 		return "kms/detailView";
 	}

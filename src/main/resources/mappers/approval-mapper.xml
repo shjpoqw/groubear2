@@ -11,10 +11,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="writtenDate" column="WRITTEN_DATE"/>
 		<result property="dueDate" column="DUE_DATE"/>
 		<result property="preservedYears" column="PRESERVED_YEARS"/>
-		<result property="approvalFormNo" column="APPROVAL_FORM_NO"/>
 		<result property="approvalFormName" column="APPROVAL_FORM_NAME"/>
-		<result property="approvalMNo" column="APPROVAL_M_NO"/>
-		<result property="approvalFNo" column="APPROVAL_F_NO"/>
+		<result property="approvalMNo" column="APPROVER_M_NO"/>
+		<result property="approvalFNo" column="APPROVER_F_NO"/>
 		<result property="writerNo" column="WRITER_NO"/>
 		<result property="writerName" column="WRITER_NAME"/>
 		<result property="status" column="STATUS"/>
@@ -32,14 +31,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<id property="replyNo" column="REPLY_NO"/>
 		<result property="replyContent" column="REPLY_CONTENT"/>
 		<result property="refApprovalNo" column="REF_ANO"/>
-		<result property="replyWriterNo" column="REPLY_WRITER_NO"/>
 		<result property="replyWriterName" column="REPLY_WRITER_NAME"/>
 		<result property="createDate" column="CREATE_DATE"/>
 		<result property="status" column="STATUS"/>
 	</resultMap>
 	
 	<!-- Member Start -->
-	<!-- 
 	<resultMap id="memberResultSet" type="Member">
 		<id property="empNO" column="EMP_NO"/>
 		<result property="empName" column="EMP_NAME"/>
@@ -83,7 +80,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="deptName" column="DEPT_NAME" />
 		<result property="jobName" column="JOB_NAME" />
 	</resultMap>
-	 -->
 	<!-- Member End -->
 	
 	
@@ -107,7 +103,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="insertApproval" parameterType="Approval">
 		INSERT INTO APPROVAL
-		VALUES (SEQ_APPROVAL_NO.NEXTVAL, #{approvalTitle}, #{approvalContent}, SYSDATE, #{dueDate}, #{preservedYears}, #{approvalFormNo}, #{approvalMNo}, #{approvalFNo}, #{writerNo}, DEFAULT, #{tempSave})
+		VALUES (SEQ_APPROVAL_NO.NEXTVAL, #{approvalTitle}, #{approvalContent}, SYSDATE, #{dueDate}, #{preservedYears}, #{approvalFormNo}, #{approvalMNo}, #{approvalFNo}, #{writerNo}, DEFAULT, #{TempSent})
 	</insert>
 	
 	<select id="selectSentListCount" resultType="_int">
@@ -118,18 +114,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="selectSentList" parameterType="_int" resultMap="approvalResultMap">
-		SELECT APPROVAL_NO, APPROVAL_TITLE, APPROVAL_CONTENT, WRITTEN_DATE, DUE_DATE, PRESERVED_YEARS, A.APPROVAL_FORM_NO, APPROVAL_FORM_NAME, APPROVAL_M_NO, APPROVAL_F_NO, WRITER_NO, C.EMP_NAME AS WRITER_NAME, DEPT_NAME, STATUS
+		SELECT APPROVAL_NO, APPROVAL_TITLE, APPROVAL_CONTENT, WRITTEN_DATE, DUE_DATE, PRESERVED_YEARS, APPROVAL_FORM_NAME, APPROVER_M_NO, APPROVER_F_NO, WRITER_NO, C.EMP_NAME AS WRITER_NAME, DEPT_NAME, STATUS
 		FROM APPROVAL A
 		JOIN APPROVAL_FORM B ON A.APPROVAL_FORM_NO = B.APPROVAL_FORM_NO
 		JOIN EMPLOYEE C ON A.WRITER_NO = C.EMP_NO
 		JOIN DEPARTMENT D ON C.DEPT_CODE = D.DEPT_CODE
 		WHERE WRITER_NO = #{eno}
 		AND TEMP_SAVE = 'N'
-		ORDER BY A.APPROVAL_NO DESC
 	</select>
 	
 	<select id="selectApproval" parameterType="_int" resultMap="approvalResultMap">
-		SELECT APPROVAL_NO, APPROVAL_TITLE, APPROVAL_CONTENT, WRITTEN_DATE, DUE_DATE, PRESERVED_YEARS, A.APPROVAL_FORM_NO, APPROVAL_FORM_NAME, APPROVAL_M_NO, APPROVAL_F_NO, WRITER_NO, C.EMP_NAME AS WRITER_NAME, DEPT_NAME, STATUS
+		SELECT APPROVAL_NO, APPROVAL_TITLE, APPROVAL_CONTENT, WRITTEN_DATE, DUE_DATE, PRESERVED_YEARS, APPROVAL_FORM_NAME, APPROVER_M_NO, APPROVER_F_NO, WRITER_NO, C.EMP_NAME AS WRITER_NAME, DEPT_NAME, STATUS
 		FROM APPROVAL A
 		JOIN APPROVAL_FORM B ON A.APPROVAL_FORM_NO = B.APPROVAL_FORM_NO
 		JOIN EMPLOYEE C ON A.WRITER_NO = C.EMP_NO
@@ -137,14 +132,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE APPROVAL_NO = #{ano}
 	</select>
 	
-	<update id="updateStatus" parameterType="hashmap">
-		UPDATE APPROVAL
-		SET STATUS=#{status}
-		WHERE APPROVAL_NO=#{ano}
-	</update>
-	
 	<select id="selectReplyList" parameterType="_int" resultMap="replyResultMap">
-		SELECT REPLY_NO, REPLY_CONTENT, REPLY_WRITER_NO, EMP_NAME AS REPLY_WRITER_NAME, CREATE_DATE, STATUS
+		SELECT REPLY_NO, REPLY_CONTENT, EMP_NAME AS REPLY_WRITER_NAME, CREATE_DATE, STATUS
 		FROM APPROVAL_REPLY A
 		JOIN EMPLOYEE E ON A.REPLY_WRITER_NO = E.EMP_NO
 		WHERE REF_ANO=#{ano}
@@ -159,19 +148,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectReceivedListCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM APPROVAL
-		WHERE APPROVAL_M_NO = #{eno} OR APPROVAL_F_NO = #{eno}
+		WHERE APPROVER_M_NO = #{eno} OR APPROVER_F_NO = #{eno}
 		AND TEMP_SAVE = 'N'
 	</select>
 	
 	<select id="selectReceivedList" parameterType="_int" resultMap="approvalResultMap">
-		SELECT APPROVAL_NO, APPROVAL_TITLE, APPROVAL_CONTENT, WRITTEN_DATE, DUE_DATE, PRESERVED_YEARS, A.APPROVAL_FORM_NO, APPROVAL_FORM_NAME, APPROVAL_M_NO, APPROVAL_F_NO, WRITER_NO, C.EMP_NAME AS WRITER_NAME, DEPT_NAME, STATUS
+		SELECT APPROVAL_NO, APPROVAL_TITLE, APPROVAL_CONTENT, WRITTEN_DATE, DUE_DATE, PRESERVED_YEARS, APPROVAL_FORM_NAME, APPROVER_M_NO, APPROVER_F_NO, WRITER_NO, C.EMP_NAME AS WRITER_NAME, DEPT_NAME, STATUS
 		FROM APPROVAL A
 		JOIN APPROVAL_FORM B ON A.APPROVAL_FORM_NO = B.APPROVAL_FORM_NO
 		JOIN EMPLOYEE C ON A.WRITER_NO = C.EMP_NO
 		JOIN DEPARTMENT D ON C.DEPT_CODE = D.DEPT_CODE
-		WHERE APPROVAL_M_NO = #{eno} OR APPROVAL_F_NO = #{eno}
+		WHERE APPROVER_M_NO = #{eno} OR APPROVER_F_NO = #{eno}
 		AND TEMP_SAVE = 'N'
-		ORDER BY A.APPROVAL_NO DESC
 	</select>
 	
 	<select id="selectTempSentListCount" resultType="_int">
@@ -182,27 +170,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="selectTempSentList" parameterType="_int" resultMap="approvalResultMap">
-		SELECT APPROVAL_NO, APPROVAL_TITLE, APPROVAL_CONTENT, WRITTEN_DATE, DUE_DATE, PRESERVED_YEARS, A.APPROVAL_FORM_NO, APPROVAL_FORM_NAME, APPROVAL_M_NO, APPROVAL_F_NO, WRITER_NO, C.EMP_NAME AS WRITER_NAME, DEPT_NAME, STATUS
+		SELECT APPROVAL_NO, APPROVAL_TITLE, APPROVAL_CONTENT, WRITTEN_DATE, DUE_DATE, PRESERVED_YEARS, APPROVAL_FORM_NAME, APPROVER_M_NO, APPROVER_F_NO, WRITER_NO, C.EMP_NAME AS WRITER_NAME, DEPT_NAME, STATUS
 		FROM APPROVAL A
 		JOIN APPROVAL_FORM B ON A.APPROVAL_FORM_NO = B.APPROVAL_FORM_NO
 		JOIN EMPLOYEE C ON A.WRITER_NO = C.EMP_NO
 		JOIN DEPARTMENT D ON C.DEPT_CODE = D.DEPT_CODE
 		WHERE WRITER_NO = #{eno}
 		AND TEMP_SAVE = 'Y'
-		ORDER BY A.APPROVAL_NO DESC
 	</select>
 	
 	<update id="updateApproval" parameterType="Approval">
 		UPDATE APPROVAL
 		SET APPROVAL_TITLE=#{approvalTitle}, APPROVAL_CONTENT=#{approvalContent},
 			WRITTEN_DATE=SYSDATE, DUE_DATE=#{dueDate}, PRESERVED_YEARS=#{preservedYears},
-			APPROVAL_FORM_NO=#{approvalFormNo}, APPROVAL_M_NO=#{approvalMNo}, APPROVAL_F_NO=#{approvalFNo},
+			APPROVAL_FORM_NO=#{approvalFormNo}, APPROVER_M_NO=#{approvalMNo}, APPROVER_F_NO=#{approvalFNo},
 			TEMP_SAVE=#{tempSave}
 		WHERE APPROVAL_NO=#{approvalNo}
 	</update>
 	
 	<!-- Member 관련 -->
-	<!-- 
 	<select id="selectMemberList" resultMap="memberViewResultSet">
 		SELECT *
 		FROM EMPLOYEE E
@@ -216,9 +202,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM EMPLOYEE E
 		JOIN JOB J ON E.JOB_CODE = J.JOB_CODE
 		JOIN DEPARTMENT D ON E.DEPT_CODE = D.DEPT_CODE
-		JOIN APPROVAL A ON E.EMP_NO = A.APPROVAL_M_NO
+		JOIN APPROVAL A ON E.EMP_NO = A.APPROVER_M_NO
 		WHERE A.APPROVAL_NO = #{ano}
-		AND A.APPROVAL_M_NO = #{mno}
+		AND A.APPROVER_M_NO = #{mno}
 	</select>
 	
 	<select id="selectFEmp" parameterType="hashmap" resultMap="memberViewResultSet">
@@ -226,9 +212,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM EMPLOYEE E
 		JOIN JOB J ON E.JOB_CODE = J.JOB_CODE
 		JOIN DEPARTMENT D ON E.DEPT_CODE = D.DEPT_CODE
-		JOIN APPROVAL A ON E.EMP_NO = A.APPROVAL_F_NO
+		JOIN APPROVAL A ON E.EMP_NO = A.APPROVER_F_NO
 		WHERE A.APPROVAL_NO = #{ano}
-		AND A.APPROVAL_F_NO = #{fno}
+		AND A.APPROVER_F_NO = #{fno}
 	</select>
 	
 	<select id="selectWEmp" parameterType="hashmap" resultMap="memberViewResultSet">
@@ -240,7 +226,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE A.APPROVAL_NO = #{ano}
 		AND A.WRITER_NO = #{wno}
 	</select>
-	 -->
 
 </mapper>
 

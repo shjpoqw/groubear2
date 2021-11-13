@@ -21,7 +21,7 @@ public class Chat {
 	private Date createDate;
 	private int empNO;
 	private int toEmpNo;
-	private int chatread;
+	
 	public Chat() {
 		// TODO Auto-generated constructor stub
 	}

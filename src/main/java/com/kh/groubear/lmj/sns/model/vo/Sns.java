@@ -2,8 +2,6 @@ package com.kh.groubear.lmj.sns.model.vo;
 
 import java.sql.Date;
 
-import com.kh.groubear.member.model.vo.Member;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,8 +23,7 @@ public class Sns {
 	//private String snsWriter;
 	private int empNo;
 	private String snsStatus;
-	private Attechment snsFile;
-	private Member emp;
+	private String snsFile;
 	
 	
 	

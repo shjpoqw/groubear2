@@ -77,7 +77,7 @@
                         <a class="collapse-item" href="formList.ep">문서 작성</a>
                         <a class="collapse-item" href="tempSentList.ep">임시 저장함</a>
 						<a class="collapse-item" href="sentList.ep">상신 문서함</a>
-						<a class="collapse-item" href="sentList.ep">결재 문서함</a>
+						<a class="collapse-item" href="receivedList.ep">결재 문서함</a>
                     </div>
                 </div>
             </li>
@@ -97,7 +97,9 @@
                         <a class="collapse-item" href="recordForm.cm">출/퇴근 기록</a>
                         <a class="collapse-item" href="myRecord.cm">나의 근태현황</a>
                         <a class="collapse-item" href="leaveMyRecord.lv">연차 내역</a>
-                        <a class="collapse-item" href="allRecord.cm">전사 근태현황</a>
+                       	<c:if test="${ loginUser.empId eq 'admin' }">
+                           <a class="collapse-item" href="allRecord.cm">전사 근태현황</a>
+                        </c:if>
                     </div>
                 </div>
             </li>
@@ -153,7 +155,6 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                        
                         <a class="collapse-item" href="calendarList.cal">개인 일정</a>
-                        <a class="collapse-item" href="#">그룹 일정</a>
                         
                     </div>
                 </div>

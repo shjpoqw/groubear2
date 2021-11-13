@@ -6,9 +6,9 @@ import java.util.HashMap;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.kh.groubear.jsh.Messenger.model.vo.ChatRead;
-import com.kh.groubear.jsh.Messenger.model.vo.ChatView;
+import com.kh.groubear.jsh.Messenger.model.vo.Chat;
 import com.kh.groubear.jsh.Messenger.model.vo.MemberMsg;
+import com.kh.groubear.jsh.Messenger.model.vo.Messenger;
 import com.kh.groubear.jsh.Messenger.model.vo.StateMessage;
 import com.kh.groubear.member.model.vo.Member;
 
@@ -32,59 +32,40 @@ public class MessengerDao {
 		return sqlSession.update("messengerMapper.updateStateMessage", stateMessage);
 	}
 
+	public ArrayList<Messenger> msgList(SqlSessionTemplate sqlSession, HashMap<String, Object> map3) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("messengerMapper.msgList", map3);
+	}
 
-
+	public int insertMsg(SqlSessionTemplate sqlSession, Messenger insertMsg) {
+		return sqlSession.insert("messengerMapper.insertMsg", insertMsg);
+	}
 
 	public int insertStateMessage(SqlSessionTemplate sqlSession, StateMessage stateMessage) {
 		return sqlSession.insert("messengerMapper.insertStateMessage", stateMessage);
 	}
 
+	public ArrayList<Messenger> selectMsgList(SqlSessionTemplate sqlSession, HashMap<String, Object> map2) {
+		return (ArrayList) sqlSession.selectList("messengerMapper.selectMsgList", map2);
+	}
 
+	public ArrayList<Chat> chatList(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		return (ArrayList) sqlSession.selectList("messengerMapper.chatList", map);
+	}
 
+	public ArrayList<Chat> chatListRecent(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return (ArrayList) sqlSession.selectList("messengerMapper.chatListRecent", map);
+	}
 
-
+	public int transmit(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("messengerMapper.transmit", map);
+	}
 
 	public MemberMsg selectEmp(SqlSessionTemplate sqlSession, int toEmpNo) {
 		// TODO Auto-generated method stub
 		return (MemberMsg)sqlSession.selectOne("messengerMapper.selectEmp", toEmpNo);
-	}
-
-	public ArrayList<ChatView> getChatListById(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("messengerMapper.getChatListById", map);
-	}
-
-	public ArrayList<ChatView> getChatListByRecent(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("messengerMapper.getChatListByRecent", map);
-	}
-
-	public int submit(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
-		return sqlSession.insert("messengerMapper.submit", map);
-	}
-
-	public int readChat(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
-		return sqlSession.update("messengerMapper.readChat", map);
-	}
-
-
-
-
-	public ArrayList<ChatRead> getUnreadChat(SqlSessionTemplate sqlSession, int empNO) {
-		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("messengerMapper.getUnreadChat", empNO);
-	}
-
-	public ArrayList<ChatView> getChatListAllByRecent(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("messengerMapper.getChatListAllByRecent", map);
-	}
-
-	public ArrayList<Integer> getChatList(SqlSessionTemplate sqlSession, int empNO) {
-		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("messengerMapper.getChatList", empNO);
 	}
 
 	

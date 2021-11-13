@@ -19,9 +19,10 @@ public class Calendar {
 	private String calendarTitle;
 	private String calendarContent;
 	private Date calendarDate;
-	private String startDate;
-	private String endDate;
-	private int empNo;
+	private Date startDate;
+	private Date endDate;
+	private String calendarWriter;
+	private int groupNo;
 	private String calendarStatus;
 	
 	

@@ -59,13 +59,9 @@ public class MemberServiceImpl implements MemberService {
 			loginUser =  memberDao.loginMember(sqlSession, m);
 		}
 		
-		if(loginUser == null) {
-			throw new CommException("loginUser 확인");
-		}
+	
 		
-		if(!bCryptPasswordEncoder.matches(m.getEmpPwd(), loginUser.getEmpPwd())) {
-			throw new CommException("암호 불일치!!!");
-		}
+		
 		
 		return loginUser;
 	}

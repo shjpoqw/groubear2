@@ -17,9 +17,7 @@ var calendar = $('#calendar').fullCalendar({
   selectable                : true,
   weekNumberCalculation     : "ISO",
   eventLimit                : true,
-  views                     : { 
-                                month : { eventLimit : 12 } // 한 날짜에 최대 이벤트 12개, 나머지는 + 처리됨
-                              },
+  views                     : { month : { eventLimit : 12 } },
   eventLimitClick           : 'week', //popover
   navLinks                  : true, //실제 사용시 현재 날짜로 수정
   timeFormat                : 'HH:mm',
@@ -105,16 +103,11 @@ var calendar = $('#calendar').fullCalendar({
         end   : moment(end).format('YYYY-MM-DD')
       },
       success: function (response) {
-    	  console.log("됨");
-    	  console.log(response);
         var fixedDate = response.map(function (array) {
           return array;
         });
         callback(fixedDate);
-      },
-      error:function(request,status,error){
-      	console.log("실패");
-         }
+      }
       
     });
   },

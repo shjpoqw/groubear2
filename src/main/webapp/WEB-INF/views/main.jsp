@@ -13,7 +13,10 @@
 
 <body width="100%" height="100%">
     <form action="login.me" method="post" class="loginForm">
-      <h2>Login</h2>
+      <div  style="display:inline-block; width:100px; height:100px; align:center">
+      	<img  src="${pageContext.request.contextPath}/resources/images/common/groubear3.png" style="width:100px; height:100px;">
+                                           
+      </div>
       <div class="idForm">
         <input type="text" class="empId" name="empId" placeholder="ID">
       </div>
@@ -25,7 +28,7 @@
       </button>
     
       <div class="bottomText">
-        Don't you have ID? <a href="enrollForm.me">sign up</a>
+       <a href="enrollForm.me" style="color:#AF8971">sign up</a>
       </div>
     </form>
   </body>

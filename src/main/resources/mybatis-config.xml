@@ -30,7 +30,7 @@
 	    <typeAlias type="com.kh.groubear.jsh.Messenger.model.vo.MemberMsg" alias="MemberMsg"/>
 	    <typeAlias type="com.kh.groubear.jsh.Messenger.model.vo.StateMessage" alias="StateMessage"/>
 	    <typeAlias type="com.kh.groubear.jsh.Messenger.model.vo.ChatRead" alias="ChatRead"/>
-		
+		<typeAlias type="com.kh.groubear.jsh.contact.model.vo.Contact" alias="Contact"/>
 		
 		<typeAlias type="com.kh.groubear.kms.room.model.vo.ReserveRoom" alias="ReserveRoom"/>
 		<typeAlias type="com.kh.groubear.kms.car.model.vo.ReserveCar" alias="ReserveCar"/>

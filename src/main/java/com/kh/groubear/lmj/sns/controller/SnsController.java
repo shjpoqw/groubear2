@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -123,9 +124,9 @@ public class SnsController {
 		return mv;
 	}
 	
-	
-	@RequestMapping("delete.sns")
-	public String deleteSns(int sno , String fileName, HttpServletRequest request) {
+	@ResponseBody
+	@RequestMapping(value = "/delete.sns", method=RequestMethod.POST)
+	public int deleteSns(int sno , String fileName, HttpServletRequest request) {
 		
 		
 		snsService.deleteSns(sno);
@@ -135,7 +136,7 @@ public class SnsController {
 			deleteFile(fileName, request);
 		}
 		System.out.println("delete sno^^^^^^^^^^^^^^^^^^^^^^^^^^^^^" + sno);
-		return "lmj/sns/SnsListView";
+		return sno;
 
 	}
 
@@ -208,7 +209,7 @@ public class SnsController {
 				
 	}
 	
-	
+	@ResponseBody
 	@RequestMapping("rinsert.sns")
 	public String insertReply(Reply r) {
 		

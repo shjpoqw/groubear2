@@ -35,13 +35,22 @@ public class CalendarController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/addCalendar", method=RequestMethod.POST)
-	public Map<Object, Object> addCalendar(@RequestBody Calendar cal ){
-		Map<Object, Object> map = new HashMap<Object, Object>();
+	public Map<Object,Object>  addCalendar(@RequestBody Calendar cal){
 		
-		System.out.println("^^^^^^^^^^^^^^^^controller Map : " + map);
-		System.out.println("^^^^^^^^^^^^^^^^controller cal : " + cal);
+		
+		Map<Object, Object>map = new HashMap<Object, Object>();
+		
+		
+		System.out.println("******************calendar controller 도착888888888888888888888");
+		
+		
+		
+		System.out.println("^^^^^^^^^^^^^^^^controller Map : " + cal);
+		
 		
 		calendarService.addCalendar(cal);
+		
+		
 		
 		return map;
 		
@@ -73,14 +82,17 @@ public class CalendarController {
 		return mv;
 	}
 	
-	@RequestMapping("delete.cal")
-	public String deleteSns(int cno,  HttpServletRequest request) {
+	@ResponseBody
+	@RequestMapping(value = "/delete.cal", method=RequestMethod.POST)
+	public int deleteSns(int cno,  HttpServletRequest request) {
+		
+		System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&"+cno);
 		
 		calendarService.deleteCalendar(cno);
 		
 		
 		
-		return "redirect:calendarList.cal";
+		return cno;
 
 	}
 	

@@ -9,8 +9,7 @@
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
 
@@ -23,7 +22,7 @@
 <body>
 
 
-<div class="row" id="enrollForm">
+<div class="row" id="enrollForm" style="">
     <div class="col-md-4 col-md-offset-4">
       <form class="form-horizontal" role="form" id="enrollFormData">
         <fieldset>
@@ -35,23 +34,30 @@
           <div class="form-group">
             <label class="col-sm-2 control-label" for="textinput">일정제목</label>
             <div class="col-sm-10">
+            <br>
               <input class="subject" id="calendarTitle" type="text" name="calendarTitle" placeholder="제목을 입력해주세요" class="form-control">
             </div>
           </div>
 
-        
+        	<br>
 
           <!-- Text input-->
-          <div class="form-group">
+          <div class="form-group" style="display:flex">
+          
+          
+          
             <label class="col-sm-2 control-label" for="textinput">시작</label>
             <div class="col-sm-4">
-              <input class="date" id="startDate" type="text" name="startDate" class="form-control">
+              <input class="date" type="text" name="startDate" class="form-control" style="margin-left:-10px">
             </div>
 
-            <label class="col-sm-2 control-label" for="textinput">종료</label>
-            <div class="col-sm-4">
-              <input class="date" id="endDate" type="text" name="endDate" class="form-control">
+            <label class="col-sm-2 control-label" for="textinput" style="margin-left:20px">종료</label>
+            <div class="col-sm-4" style="margin-left:80px;" >
+              <input class="date"  type="text" name="endDate" class="form-control" >
             </div>
+            
+            
+            
           </div>
 
 
@@ -75,7 +81,7 @@
             <div class="col-sm-offset-2 col-sm-10">
               <div class="pull-right">
                 <button type="submit" class="btn btn-default">Cancel</button>
-                <button type="submit" class="btn btn-primary" onclick="click_ok();">등록하기</button>
+                <button type="button" class="btn btn-primary" onclick="click_ok();">등록하기</button>
               </div>
             </div>
           </div>
@@ -84,9 +90,6 @@
       </form>
     </div><!-- /.col-lg-12 -->
 </div><!-- /.row -->
-
-
-
 
 
 
@@ -115,17 +118,26 @@
 	function click_ok(){
 		 var enrollFormData = 
 	JSON.stringify($('form#enrollFormData').serializeObject());
-		 
+			alert(enrollFormData);
 		 $.ajax({
 			 data : enrollFormData,
 			 url : "addCalendar",
 			 type : "POST",
 			 dataType : "json",
 			 contentType : "application/json; charset=UTF-8",
-			 success : function(data){
+			 error : function(){
+				 alert("error");
 				 opener.parent.location.reload();
-					window.close();
+				 window.close();
+			 },
+			 success : function(data){
+				alert("success"); 
+				 opener.parent.location.reload();
+				 window.close();
 			 }
+			 
+			
+			
 		 });
 	};
 </script>
@@ -134,10 +146,9 @@
 	$(function(){
 		$('.date').datetimepicker({
 			
-			
+			language : 'ko',
 			format:"Y-m-d H:i",
 			inline:true,
-			
 			
 		});
 	});

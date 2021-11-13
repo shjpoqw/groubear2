@@ -214,24 +214,33 @@ html, body { height: 100%;}
 					<input type="hidden" name="fileName" value="${ a.changeFile }"> 
 				</form>
 				
-                <input type="button" onclick="postFormSubmit();" value="삭제">
+				<c:if test="${  loginUser.empNO == s.empNo }">
+                <button type="button" onclick="deleteSns();" >게시글 삭제</button>
+                
                 
                 <script>
-					function postFormSubmit(){
-						var postForm = $("#postForm");
-						
-						
-							postForm.attr("action", "delete.sns");
-						
-					
-						postForm.submit();
-						window.close();
-					}
-					
-					
-					
-				</script>
+                	function deleteSns(){
+                		var data = $("#postForm").serialize();
                 
+                		
+                		$.ajax({
+                			type : 'post',
+                			url : "delete.sns",
+                			data : data,
+                			dataType : 'json',
+                			
+                			success : function(data){
+                				
+                				opener.parent.location.reload();
+               					window.close();
+                			}
+                		});
+                	};
+                </script>
+                
+                
+                
+                 </c:if>
               </div>
 
               <ul class="img-comment-list"><table id="replyArea" class="table" align="center">
@@ -241,7 +250,7 @@ html, body { height: 100%;}
 	                        <th colspan="2" style="width:75%">
 	                            <textarea class="form-control" id="replyContent" rows="2" style="resize:none; width:100%"></textarea>
 	                        </th>
-	                        <th style="vertical-align: middle"><button class="btn btn-secondary" id="addReply">등록하기</button></th>
+	                        <th style="vertical-align: middle"><button class="btn btn-secondary" id="addReply" type="button">등록하기</button></th>
                         </c:if>
                         <c:if test="${ empty loginUser }">
                         	<th colspan="2" style="width:75%">
@@ -250,9 +259,7 @@ html, body { height: 100%;}
 	                        <th style="vertical-align: middle"><button class="btn btn-secondary" disabled>등록하기</button></th>
                         </c:if>
                     </tr>
-                    <tr>
-                       <td colspan="3">댓글 (<span id="rcount">0</span>) </td> 
-                    </tr>
+                    
                 </thead>
                 <tbody>
                 
@@ -278,6 +285,7 @@ html, body { height: 100%;}
 						  SnsNo:sno,
 						  replyWriter:"${loginUser.empName}"},
 					success:function(result){
+						
 						if(result > 0){
 							$("#replyContent").val("");
 							selectReplyList();
@@ -304,7 +312,8 @@ html, body { height: 100%;}
 			data:{sno:sno},
 			type:"get",
 			success:function(list){
-				$("#rcount").text(list.length);
+				
+				
 				
 				var value="";
 				$.each(list, function(i, obj){
@@ -319,6 +328,8 @@ html, body { height: 100%;}
 								 "<td>" + obj.ReplyContent + "</td>" + 
 								 "<td>" + obj.ReplyDate + "</td>" +
 						 "</tr>";
+						 
+						 
 				});
 				$("#replyArea tbody").html(value);
 			},error:function(){

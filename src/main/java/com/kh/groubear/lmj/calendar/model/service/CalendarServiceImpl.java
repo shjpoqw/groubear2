@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.groubear.lmj.calendar.model.dao.CalendarDao;
 import com.kh.groubear.lmj.calendar.model.vo.Calendar;
-import com.kh.groubear.lmj.sns.model.vo.Sns;
+
 
 
 
@@ -46,6 +46,7 @@ public class CalendarServiceImpl implements CalendarService{
 	@Override
 	public void deleteCalendar(int cno) {
 		int result = calendarDao.deleteCalendar(sqlSession,cno);
+		
 		
 	}
 }
